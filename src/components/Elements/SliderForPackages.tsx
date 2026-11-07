@@ -64,13 +64,13 @@ export default function SliderForPackages({
   //next btn function
   const handleNextSlide = (event: any) => {
     event.stopPropagation();
-    sliderRef.current.slickNext();
+    sliderRef.current?.slickNext();
   };
 
   //previous btn function
   const handlePrevSlide = (event: any) => {
     event.stopPropagation();
-    sliderRef.current.slickPrev();
+    sliderRef.current?.slickNext();
   };
 
   // Test by applying styles directly
