@@ -119,6 +119,7 @@ export default function Hero() {
         <Image
           className="object-cover brightness-75 bg-gray-800"
           src="/images/hero-bg.jpg"
+          alt=""
           fill
           priority
         />
