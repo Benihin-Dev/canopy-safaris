@@ -116,9 +116,9 @@ export default function Hero() {
         </div>
       </div>
       <div className=" absolute w-full  h-full top-0 left-0 z-0">
-<Image
-  className="object-cover brightness-75 bg-gray-800"
-  src="/images/hero-bg.jpg"
+        <Image
+          className="object-cover brightness-75 bg-gray-800"
+          src="/images/hero-bg.jpg"
           fill
           priority
         />
