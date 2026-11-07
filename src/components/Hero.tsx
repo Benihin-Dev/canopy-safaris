@@ -29,8 +29,8 @@ export default function Hero() {
     "Escape the Noise and Reconnect with Nature. ",
   ];
   return (
-    <section className=" w-full overflow-hidden relative">
-      <div className="relative w-full sm:w-11/12 lg:max-w-350 mx-auto px-5 sm:px-0 py-32 md:pb-10 sm:pt-28  z-20">
+    <section className="relative flex min-h-screen w-full items-center overflow-hidden">
+      <div className="relative z-20 mx-auto w-full px-5 py-32 sm:w-11/12 sm:px-0 lg:max-w-350">
         <div className=" w-full flex items-center sm:items-start">
           <div className=" w-full sm:w-8/12 md:w-7/12 lg:w-full lg:max-w-130 xl:max-w-170">
             <div className=" w-full flex items-center justify-center gap-5 font-poppins">
