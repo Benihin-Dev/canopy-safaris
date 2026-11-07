@@ -116,10 +116,9 @@ export default function Hero() {
         </div>
       </div>
       <div className=" absolute w-full  h-full top-0 left-0 z-0">
-        <Image
-          className="object-cover blur-[2px] bg-gray-800"
-          src="/images/bgds1.png"
-          alt="bg image"
+<Image
+  className="object-cover brightness-75 bg-gray-800"
+  src="/images/hero-bg.jpg"
           fill
           priority
         />
