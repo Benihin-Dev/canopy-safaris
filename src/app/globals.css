@@ -1,26 +1,116 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-canopy-deep: #0e291c;
+  --color-canopy-mid: #143927;
+  --color-canopy-line: #3f5c46;
+  --color-sand: #efe8d7;
+  --color-sand-dim: #e2d8c0;
+  --color-ink: #171f16;
+  --color-gold: #c69a4e;
+  --color-gold-soft: #e0c184;
+  --color-clay: #a05f3b;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-canopy-deep: var(--color-canopy-deep);
+  --color-canopy-mid: var(--color-canopy-mid);
+  --color-canopy-line: var(--color-canopy-line);
+  --color-sand: var(--color-sand);
+  --color-sand-dim: var(--color-sand-dim);
+  --color-ink: var(--color-ink);
+  --color-gold: var(--color-gold);
+  --color-gold-soft: var(--color-gold-soft);
+  --color-clay: var(--color-clay);
+  --font-fraunces: var(--font-fraunces);
+  --font-manrope: var(--font-manrope);
+  --font-playfairDisplay: var(--font-playfairDisplay);
+  --font-poppins: var(--font-poppins);
+  --font-libertinus_Math: var(--font-libertinus_Math);
+  --font-caveat: var(--font-caveat);
+  --font-geologica: var(--font-geologica);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-fraunces), sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-manrope), serif;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-canopy-deep);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+.marquee {
+  animation: scroll-left 30s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.upDownAnimation {
+  animation: upDown 3s ease-in-out infinite;
+}
+
+@keyframes upDown {
+  0% {
+    transform: translateY(0%);
+  }
+
+  50% {
+    transform: translateY(-8%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.leftRightAnimation {
+  animation: leftRight 3s ease-in-out infinite;
+}
+
+@keyframes leftRight {
+  0% {
+    transform: translateX(0%);
+  }
+
+  50% {
+    transform: translateX(-28%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
