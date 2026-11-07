@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { PiPhoneThin } from "react-icons/pi";
 import { IoMenu, IoClose } from "react-icons/io5";
 import YellowBtn from "./Elements/YellowBtn";
@@ -36,7 +37,7 @@ export default function NavBar() {
           }`}
         >
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <Image
               className="size-11 object-contain"
               src="/images/logo.png"
@@ -48,7 +49,7 @@ export default function NavBar() {
             <span className="font-libertinus_Math text-2xl font-semibold">
               Canofy
             </span>
-          </a>
+          </Link>
 
           {/* Desktop menu */}
           <nav className="hidden items-center gap-1 lg:flex">
