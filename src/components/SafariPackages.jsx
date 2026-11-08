@@ -48,36 +48,46 @@ const HOLD_MS = 5000;
 
 export default function SafariPackages() {
   const [active, setActive] = useState(0);
-  const [prev, setPrev] = useState(null);
   const [paused, setPaused] = useState(false);
   const touchX = useRef(null);
 
   const goTo = (i) => {
-    if (i === active) return;
-    setPrev(active);
-    setActive(i);
+    if (i !== active) setActive(i);
   };
   const next = () => goTo((active + 1) % packages.length);
   const back = () => goTo((active - 1 + packages.length) % packages.length);
 
-  // where each card sits: centre, leaving to the left, or waiting on the right
+  // offset: 0 = centre, 1 = right, last = left, others = hidden behind
   const cardStyle = (i) => {
-    if (i === active)
+    const n = packages.length;
+    const offset = (i - active + n) % n;
+
+    if (offset === 0)
       return {
         transform: "translateX(0) rotateY(0deg) scale(1)",
-        opacity: 1,
-        zIndex: 2,
+        filter: "brightness(1)",
+        zIndex: 3,
         pointerEvents: "auto",
       };
-    if (i === prev)
+    if (offset === 1)
       return {
-        transform: "translateX(-60%) rotateY(75deg) scale(0.85)",
-        opacity: 0,
-        zIndex: 1,
-        pointerEvents: "none",
+        transform: "translateX(108%) rotateY(-35deg) scale(0.85)",
+        filter: "brightness(0.5)",
+        zIndex: 2,
+        pointerEvents: "auto",
+        cursor: "pointer",
+      };
+    if (offset === n - 1)
+      return {
+        transform: "translateX(-108%) rotateY(35deg) scale(0.85)",
+        filter: "brightness(0.5)",
+        zIndex: 2,
+        pointerEvents: "auto",
+        cursor: "pointer",
       };
     return {
-      transform: "translateX(60%) rotateY(-75deg) scale(0.85)",
+      transform: "translateX(0) rotateY(0deg) scale(0.6)",
+      filter: "brightness(0.3)",
       opacity: 0,
       zIndex: 0,
       pointerEvents: "none",
@@ -109,7 +119,7 @@ export default function SafariPackages() {
         >
           {/* Stage: all cards share one grid cell so the height stays steady */}
           <div
-            className="grid overflow-hidden py-2"
+            className="grid py-2"
             style={{ perspective: "1400px" }}
           >
             {packages.map((p, i) => (
@@ -117,6 +127,7 @@ export default function SafariPackages() {
                 key={p.title}
                 aria-hidden={i !== active}
                 style={cardStyle(i)}
+                onClick={() => i !== active && goTo(i)}
                 className="col-start-1 row-start-1 w-full rounded-lg border border-[#b9a98f] bg-[#e8dccb] p-5 text-[#2b1d10] transition-all duration-1000 ease-in-out motion-reduce:transition-none will-change-transform"
               >
                 {/* Image + badge */}
