@@ -47,7 +47,7 @@ const packages = [
 const HOLD_MS = 4500; // how long the centre card stays
 const RADIUS = 3.0; // circle size, in card widths. Bigger = bigger circle
 const STEP = 20; // degrees between two neighbouring cards
-const SIDE_SCALE = 0.88; // side card size
+const SIDE_SCALE = 0.90; // side card size
 
 const rad = (deg) => (deg * Math.PI) / 180;
 
