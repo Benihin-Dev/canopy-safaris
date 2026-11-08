@@ -44,7 +44,7 @@ const packages = [
 ];
 
 /* ----- tweak the look here ----- */
-const HOLD_MS = 5000; // how long the centre card stays
+const HOLD_MS = 4500; // how long the centre card stays
 const SIDE_GAP = 0.99; // side card distance (1 = one card width)
 const SIDE_DEPTH = -120; // how far back the side cards sit (px)
 const SIDE_TILT = 20; // door-like tilt (deg)
