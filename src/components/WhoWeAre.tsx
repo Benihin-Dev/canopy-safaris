@@ -94,8 +94,8 @@ export default function WhoWeAre() {
             Sri Lanka&apos;s Safari Experts
           </h2>
           <p className=" pt-2 text-[#5A4636] font-poppins text-xl xl:pr-10">
-            Welcome to The Canofy, where nature, adventure and genuine hospitality come together to create meaningful 
-            and unforgettable wildlife experiences across Sri Lanka.
+            At The Canofy, we bring together a passion for wildlife, authentic nature experiences 
+            and genuine hospitality to create unforgettable safari journeys across Sri Lanka.
           </p>
           <div className=" w-full grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
             {features.map((item, i) => {
