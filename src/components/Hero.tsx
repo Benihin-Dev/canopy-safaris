@@ -77,18 +77,11 @@ const safariStats = [
               </span>
             </h1>
 
-            {/* 04 Supporting tagline */}
-            <p
-              className={`${dmSans.className} mt-6 text-base font-medium text-[#F1EDE4] sm:text-[19px]`}
-            >
-              Your Extraordinary Safari Begins with The Canofy.
-            </p>
-
             {/* 05 Description */}
             <p
               className={`${dmSans.className} mx-auto mt-3 max-w-xl text-[15px] font-normal leading-[1.7] text-[#D5DCD4] sm:text-[17px] md:mx-0`}
             >
-              Experience private safari journeys through Yala with expert local
+              Experience private safari journeys through Kumana with expert local
               guides. Discover leopards, elephants and sloth bears while
               exploring the wonders of the wilderness.
             </p>
