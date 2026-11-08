@@ -3,118 +3,84 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   IoArrowForward,
-  IoCalendarOutline,
-  IoCallOutline,
-  IoCameraOutline,
-  IoLocationOutline,
-  IoShieldCheckmarkOutline,
-  IoSpeedometerOutline,
-  IoTimeOutline,
+  IoCheckmarkCircleOutline,
 } from "react-icons/io5";
 
-/* Add a `price` (for example "$25") to any card and it shows next to the title. */
-const rentals = [
+/* Replace this placeholder content with your own.
+   Add a `price` (for example "$25") to show it next to the title. */
+const items = [
   {
-    ribbon: "Most Popular Rental",
-    badge: "1 - 3 Days",
-    title: "Scooter Rental",
-    sub: "Pick-up 8:00 AM  ·  Flexible return",
-    desc: "A light, easy scooter for short getaways. Ideal for beach hopping, town visits and quick trips to nearby parks.",
-    img: "/images/rentals/scooter-short.jpg",
-    features: [
-      { icon: IoShieldCheckmarkOutline, text: "Helmet & basic insurance included" },
-      { icon: IoSpeedometerOutline, text: "Full tank on pick-up" },
-    ],
-    cta: "Book Scooter",
+    ribbon: "Ribbon text one",
+    badge: "Badge",
+    title: "Card title one",
+    sub: "Small line under the title",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+    img: "/images/stack/one.jpg",
+    features: ["First feature line", "Second feature line"],
+    cta: "Book now",
     href: "#",
   },
   {
-    ribbon: "Best For Long Stays",
-    badge: "5+ Days",
-    title: "Scooter Long Rental",
-    sub: "Pick-up 8:00 AM  ·  Weekly discount",
-    desc: "Take your time exploring the island. A reliable scooter for five days or more, with a better rate the longer you stay.",
-    img: "/images/rentals/scooter-long.jpg",
-    features: [
-      { icon: IoCalendarOutline, text: "Lower daily rate for long stays" },
-      { icon: IoCallOutline, text: "24/7 roadside support" },
-    ],
-    cta: "Book Long Rental",
+    ribbon: "Ribbon text two",
+    badge: "Badge",
+    title: "Card title two",
+    sub: "Small line under the title",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+    img: "/images/stack/two.jpg",
+    features: ["First feature line", "Second feature line"],
+    cta: "Book now",
     href: "#",
   },
   {
-    ribbon: "Local Favourite",
-    badge: "Tuk Tuk",
-    title: "Tuk Tuk Rental",
-    sub: "Pick-up 8:00 AM  ·  Per day",
-    desc: "Drive your own tuk tuk the Sri Lankan way. A fun, open-air ride with a short briefing before you set off.",
-    img: "/images/rentals/tuktuk-rental.jpg",
-    features: [
-      { icon: IoShieldCheckmarkOutline, text: "Quick driving briefing included" },
-      { icon: IoLocationOutline, text: "Suggested routes & map" },
-    ],
-    cta: "Book Tuk Tuk",
+    ribbon: "Ribbon text three",
+    badge: "Badge",
+    title: "Card title three",
+    sub: "Small line under the title",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+    img: "/images/stack/three.jpg",
+    features: ["First feature line", "Second feature line"],
+    cta: "Book now",
     href: "#",
   },
   {
-    ribbon: "Day Trip Special",
-    badge: "Full Day",
-    title: "Tuk Tuk to Kudumbigala",
-    sub: "Pick-up 6:00 AM  ·  With driver",
-    desc: "Hire a tuk tuk with a local driver to Kudumbigala. Quiet forest roads, the old monastery and time to take it all in.",
-    img: "/images/rentals/tuktuk-kudumbigala.jpg",
-    features: [
-      { icon: IoTimeOutline, text: "Early start, back by evening" },
-      { icon: IoCameraOutline, text: "Photo stops on request" },
-    ],
-    cta: "Hire To Kudumbigala",
-    href: "#",
-  },
-  {
-    ribbon: "Wildlife Run",
-    badge: "Full Day",
-    title: "Tuk Tuk to Kumana",
-    sub: "Pick-up 5:30 AM  ·  With driver",
-    desc: "An easy ride to the edge of Kumana with an experienced driver. Great for combining with a morning safari.",
-    img: "/images/rentals/tuktuk-kumana.jpg",
-    features: [
-      { icon: IoLocationOutline, text: "Drop-off at the park gate" },
-      { icon: IoCallOutline, text: "Driver waits for your return" },
-    ],
-    cta: "Hire To Kumana",
+    ribbon: "Ribbon text four",
+    badge: "Badge",
+    title: "Card title four",
+    sub: "Small line under the title",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+    img: "/images/stack/four.jpg",
+    features: ["First feature line", "Second feature line"],
+    cta: "Book now",
     href: "#",
   },
 ];
 
-const N = rentals.length;
+const N = items.length;
 const STEP_VH = 70; // how much scrolling each card change takes
 const AUTO_MS = 5000; // idle time before the next card comes in
 const LOOP = true; // after the last card, fade back to the first
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const easeOut = (t) => 1 - Math.pow(1 - t, 3);
 
-/* Card 1 is already in place. After that they alternate: 2nd from the
-   right, 3rd from the bottom, 4th from the right, and so on. */
-const fromRight = (i) => i % 2 === 1;
-
-function cardTransform(i, x) {
+/* x = scroll position in card steps (0 = first card, N-1 = last card).
+   Every card comes in from the right. While the next card lands on top,
+   this one fades out and shrinks a little. At rest only one card shows. */
+function cardState(i, x) {
   const enter = i === 0 ? 1 : easeOut(clamp(x - (i - 1)));
-  const depth = clamp(x - i, 0, 2); // how far behind the newest card
-  const out = (1 - enter) * 115;
-  const move = fromRight(i)
-    ? `translate3d(${out}%, 0, 0)`
-    : `translate3d(0, ${out}%, 0)`;
+  const leave = easeOut(clamp(x - i));
+  const tx = (1 - enter) * 110 - leave * 6;
   return {
-    transform: `${move} scale(${1 - depth * 0.05})`,
-    filter: `brightness(${1 - depth * 0.15})`,
-    opacity: 0.25 + 0.75 * enter, // fades in while it slides
+    transform: `translate3d(${tx}%, 0, 0) scale(${1 - leave * 0.06})`,
+    opacity: (0.3 + 0.7 * enter) * (1 - leave),
+    filter: `brightness(${1 - leave * 0.2})`,
+    pointerEvents: enter > 0.5 && leave < 0.5 ? "auto" : "none",
   };
 }
 
-export default function RentalShowcase() {
+export default function StackShowcase() {
   const sectionRef = useRef(null);
-  const cardRefs = useRef([]);
   const stageRef = useRef(null);
+  const cardRefs = useRef([]);
   const hoverRef = useRef(false);
   const [active, setActive] = useState(0);
 
@@ -137,10 +103,11 @@ export default function RentalShowcase() {
 
       cardRefs.current.forEach((card, i) => {
         if (!card) return;
-        const s = cardTransform(i, x);
+        const s = cardState(i, x);
         card.style.transform = s.transform;
-        card.style.filter = s.filter;
         card.style.opacity = s.opacity;
+        card.style.filter = s.filter;
+        card.style.pointerEvents = s.pointerEvents;
       });
       setActive(Math.round(x));
     };
@@ -210,16 +177,15 @@ export default function RentalShowcase() {
           {/* ---------- Left: stays in place ---------- */}
           <div className="w-full">
             <p className="font-poppins text-xs font-semibold uppercase tracking-[0.25em] text-[#a15f21]">
-              Rent &amp; hire
+              Your small heading
             </p>
             <h2 className="font-libertinus_Math text-4xl sm:text-5xl lg:text-6xl leading-[1.05] font-medium text-[#2b1d10] pt-2">
-              Ride your own
-              <span className="block text-[#a15f21]">adventure</span>
+              Your big heading
+              <span className="block text-[#a15f21]">second line</span>
             </h2>
             <p className="hidden md:block font-poppins text-sm leading-7 text-[#5b4733] pt-5 max-w-md">
-              Scooters for a few days or a few weeks, and tuk tuks with or
-              without a driver. Pick the ride that fits your trip and we will
-              have it ready for you.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
+              tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
             </p>
 
             <a
@@ -239,7 +205,7 @@ export default function RentalShowcase() {
                 {String(N).padStart(2, "0")}
               </span>
               <div className="flex gap-2">
-                {rentals.map((r, i) => (
+                {items.map((r, i) => (
                   <span
                     key={r.title}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
@@ -252,15 +218,15 @@ export default function RentalShowcase() {
             </div>
           </div>
 
-          {/* ---------- Right: cards slide in one by one ---------- */}
+          {/* ---------- Right: cards land on top, the old one fades out ---------- */}
           <div
-  ref={stageRef}
-  onMouseEnter={() => (hoverRef.current = true)}
-  onMouseLeave={() => (hoverRef.current = false)}
-  className="relative w-full grid overflow-hidden rounded-3xl p-2 -m-2 transition-opacity duration-300"
->
-            {rentals.map((r, i) => {
-              const s = cardTransform(i, 0);
+            ref={stageRef}
+            onMouseEnter={() => (hoverRef.current = true)}
+            onMouseLeave={() => (hoverRef.current = false)}
+            className="relative w-full grid overflow-hidden rounded-3xl p-2 -m-2 transition-opacity duration-300"
+          >
+            {items.map((r, i) => {
+              const s = cardState(i, 0);
               return (
                 <article
                   key={r.title}
@@ -270,8 +236,9 @@ export default function RentalShowcase() {
                     gridArea: "1 / 1",
                     zIndex: i + 1,
                     transform: s.transform,
-                    filter: s.filter,
                     opacity: s.opacity,
+                    filter: s.filter,
+                    pointerEvents: s.pointerEvents,
                     willChange: "transform, opacity",
                   }}
                   className="w-full overflow-hidden rounded-2xl border border-[#c9a36a] bg-[#fffaf2] shadow-[0_20px_40px_-18px_rgba(97,61,29,0.45)]"
@@ -305,7 +272,6 @@ export default function RentalShowcase() {
                       {r.price && (
                         <span className="font-libertinus_Math text-2xl font-semibold text-[#a15f21] whitespace-nowrap">
                           {r.price}
-                          <span className="font-poppins text-xs font-normal text-[#5b4733]"> /day</span>
                         </span>
                       )}
                     </div>
@@ -315,9 +281,9 @@ export default function RentalShowcase() {
                     </p>
 
                     <ul className="space-y-1.5 pt-4 font-poppins text-xs text-[#5b4733]">
-                      {r.features.map(({ icon: Icon, text }) => (
+                      {r.features.map((text) => (
                         <li key={text} className="flex items-center gap-2">
-                          <Icon className="size-4 shrink-0 text-[#e77b2a]" />
+                          <IoCheckmarkCircleOutline className="size-4 shrink-0 text-[#e77b2a]" />
                           {text}
                         </li>
                       ))}
