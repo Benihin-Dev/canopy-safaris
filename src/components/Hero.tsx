@@ -1,25 +1,16 @@
 "use client";
 import React from "react";
 import { GiJeep } from "react-icons/gi";
-import { PiMedalThin, PiUser, PiShieldCheckThin } from "react-icons/pi";
 import YellowBtn from "./Elements/YellowBtn";
 import Image from "next/image";
 
 export default function Hero() {
-  const safariHighlights = [
-    {
-      name: "Safety & Wildlife Tracking Record",
-      icon: <PiShieldCheckThin className=" size-5 text-white" />,
-    },
-    {
-      name: "5+ Years of Experience",
-      icon: <PiMedalThin className=" size-5 text-white" />,
-    },
-    {
-      name: "Local Guides & Authentic Experience",
-      icon: <PiUser className=" size-5 text-white" />,
-    },
-  ];
+const safariStats = [
+  { value: "98%", label: "Guest Satisfaction" },
+  { value: "15+", label: "Years Of Experience" },
+  { value: "1,000+", label: "Safari Tours" },
+  { value: "90%", label: "Leopard Sighting" },
+];
   const sentences = [
     "An Exclusive Luxury Safari Experience.",
     "Seamless Comfort, Calm, and Curated Adventure.",
@@ -30,7 +21,7 @@ export default function Hero() {
   ];
   return (
     <section className="relative flex min-h-screen w-full items-center overflow-hidden">
-      <div className="relative z-20 mx-auto w-full px-5 py-32 sm:w-11/12 sm:px-0 lg:max-w-350">
+      <div className="relative z-20 mx-auto w-full px-5 pt-32 pb-44 sm:w-11/12 sm:px-0 lg:max-w-350">
         <div className=" w-full flex items-center sm:items-start">
           <div className=" w-full sm:w-8/12 md:w-7/12 lg:w-full lg:max-w-130 xl:max-w-170">
             <div className=" w-full flex items-center justify-center gap-5 font-poppins">
@@ -65,19 +56,20 @@ export default function Hero() {
             </div>
           </div>
         </div>
-        <div className=" w-full h-20 mt-20 md:flex md:items-center md:justify-between gap-10">
-          {safariHighlights.map((item, i) => (
-            <div
-              key={i}
-              className=" flex items-center md:justify-center gap-2 font-poppins text-xs"
-            >
-              <div className=" p-1.5 bg-gray-100/20 backdrop-blur-2xl  rounded-full">
-                {item.icon}
-              </div>
-              <p className=" text-white">{item.name}</p>
-            </div>
-          ))}
-        </div>
+<div className="mt-16 grid w-full grid-cols-2 overflow-hidden rounded-2xl border border-white/30 bg-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl md:grid-cols-4">
+  {safariStats.map((item, i) => (
+    <div
+      key={i}
+      className={`px-6 py-5 font-poppins text-white border-white/20
+        ${i % 2 !== 0 ? "border-l" : ""}
+        ${i >= 2 ? "border-t md:border-t-0" : ""}
+        ${i !== 0 ? "md:border-l" : ""}`}
+    >
+      <p className="font-serif text-3xl font-semibold">{item.value}</p>
+      <p className="mt-1 text-xs text-white/80">{item.label}</p>
+    </div>
+  ))}
+</div>
       </div>
       <div className=" w-full z-30 pointer-events-none absolute bottom-0 left-0 scale-y-50 md:scale-y-80 translate-y-1/4 md:translate-y-1/8">
         <div className=" w-full flex items-center ">
