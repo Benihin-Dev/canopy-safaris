@@ -45,21 +45,22 @@ const packages = [
 
 /* ----- tweak the look here ----- */
 const HOLD_MS = 4500; // how long the centre card stays
-const SIDE_GAP = 0.99; // side card distance (1 = one card width)
-const SIDE_DEPTH = -120; // how far back the side cards sit (px)
-const SIDE_TILT = 20; // door-like tilt (deg)
+const RADIUS = 2.2; // circle size, in card widths. Bigger = bigger circle
+const STEP = 28; // degrees between two neighbouring cards
 const SIDE_SCALE = 0.88; // side card size
-const FAR_GAP = 1.5; // where cards wait, off to the sides
 
-const centerTransform = "translate3d(0,0,0) rotateY(0deg) scale(1)";
-const sideTransform = (dir) =>
-  `translate3d(calc(var(--sp-w) * ${dir * SIDE_GAP}), 0, ${SIDE_DEPTH}px) rotateY(${dir * SIDE_TILT}deg) scale(${SIDE_SCALE})`;
-const farTransform = (dir) =>
-  `translate3d(calc(var(--sp-w) * ${dir * SIDE_GAP * FAR_GAP}), 0, ${SIDE_DEPTH * 2}px) rotateY(${dir * SIDE_TILT}deg) scale(0.7)`;
+const rad = (deg) => (deg * Math.PI) / 180;
+
+/* every card sits on a circle: o = 0 centre, ±1 sides, ±2 waiting */
 const transformFor = (o) => {
-  const a = Math.abs(o);
+  const a = Math.min(Math.abs(o), 2);
+  if (a === 0) return "translate3d(0,0,0) rotateY(0deg) scale(1)";
   const d = Math.sign(o);
-  return a === 0 ? centerTransform : a === 1 ? sideTransform(d) : farTransform(d);
+  const ang = a * STEP;
+  const x = RADIUS * Math.sin(rad(ang)) * d;
+  const z = -RADIUS * (1 - Math.cos(rad(ang)));
+  const s = a === 1 ? SIDE_SCALE : 0.7;
+  return `translate3d(calc(var(--sp-w) * ${x}), 0, calc(var(--sp-w) * ${z})) rotateY(${d * ang}deg) scale(${s})`;
 };
 
 const css = `
