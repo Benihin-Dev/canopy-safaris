@@ -37,7 +37,7 @@ export default function Wave() {
           preserveAspectRatio="none"
           className={`absolute bottom-0 left-0 h-full w-[200%] ${layer.cls}`}
         >
-          <path d={layer.d} fill="#fffef8" fillOpacity={layer.opacity} />
+          <path d={layer.d} fill="#e7e7db" fillOpacity={layer.opacity} />
         </svg>
       ))}
     </div>
