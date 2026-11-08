@@ -1,101 +1,118 @@
 import React from "react";
-import Heading from "./Elements/Heading";
-import Image from "next/image";
-import Divider from "./Elements/Divider";
+import {
+  PiJeep,
+  PiJeepThin,
+  PiScooter,
+  PiScooterThin,
+  PiMapPinLine,
+  PiPhone,
+} from "react-icons/pi";
+import YellowBtn from "./Elements/YellowBtn";
+import VideoFrame from "./Elements/VideoFrame";
 
 export default function About() {
-  return (
-    <section className=" w-full relative overflow-hidden pt-16">
-      <div className=" w-full relative -translate-y-16 translate-x-10 rotate-180 z-10">
-        <Divider />
-      </div>
-      <div className=" w-full sm:w-11/12 lg:max-w-350 mx-auto px-5 sm:px-0 lg:flex items-center justify-center gap-5 relative z-10">
-        <div className=" w-full lg:w-7/12 xl:w-1/2 lg:pr-10">
-          <div className=" lg:w-fit">
-            <Heading
-              title="About"
-              textColor="text-[#000000]"
-              lineColor="from-[#000000]"
-            />
-          </div>
-          <h1 className=" font-libertinus_Math  text-5xl w-full text-center lg:text-left md:text-4xl  font-medium mt-2">
-            The Canofy Safari
-          </h1>
+  const services = [
+    {
+      title: "Safari Jeep Tours",
+      text: "Kumana and Yala safaris with experienced drivers and wildlife guides.",
+      icon: <PiJeepThin className="size-11 text-canopy-line" />,
+    },
+    {
+      title: "Scooter Rentals",
+      text: "Rent a scooter and explore Sri Lanka at your own pace.",
+      icon: <PiScooterThin className="size-11 text-canopy-line" />,
+    },
+  ];
 
-          <div className=" w-full flex items-center justif y-center gap-2 my-5">
-            <div className=" h-10 border border-red-400 hidden lg:block"></div>
-            <h2 className=" w-1/2 mx-auto lg:mx-0 text-black lg:w-2/3 font-poppins font-medium text-center lg:text-left">
-              Rooted in Sri Lanka's wilderness, crafted for your next adventure.
-            </h2>
+  return (
+    <section
+      id="about"
+      className="relative w-full scroll-mt-20 overflow-hidden bg-[#e7e7db] py-20 lg:py-28"
+    >
+      <div className="mx-auto grid w-full items-center gap-16 px-5 sm:w-11/12 sm:px-0 lg:max-w-350 lg:grid-cols-2 lg:gap-10">
+        {/* Left: video space with floating cards */}
+        <div className="relative mx-auto w-full max-w-md px-4 sm:px-0">
+          {/* dashed arch behind the video */}
+          <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-t-[999px] rounded-b-4xl border-2 border-dashed border-canopy-line/50"></div>
+
+          {/* ===== VIDEO GOES HERE: set src to "/videos/about.mp4" once uploaded ===== */}
+          <VideoFrame />
+
+          {/* floating card: jeep */}
+          <div className="absolute bottom-10 -left-2 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-xl sm:-left-10">
+            <div className="rounded-full bg-[#ffcd09] p-2">
+              <PiJeep className="size-6" />
+            </div>
+            <div className="font-poppins">
+              <p className="text-sm font-semibold">Safari Jeep</p>
+              <p className="text-xs text-ink/60">Kumana &amp; Yala</p>
+            </div>
           </div>
-          <div className=" w-20 border border-red-400 lg:hidden mx-auto -translate-y-3 block"></div>
-          <p className=" font-poppins  text-xs leading-4.5 lg:text-justify text-center">
-            Welcome to The Canofy, where nature, adventure, and heartfelt
-            hospitality come together to create unforgettable safari and camping
-            experiences in Sri Lanka. We specialize in Kumana and Yala National
-            Park safaris and mobile camping experiences. Our experienced drivers
-            and knowledgeable wildlife guides bring first-hand knowledge of the
-            landscapes, wildlife, and local ecosystems we explore.
-          </p>
-          <p className=" font-poppins text-xs leading-4 text-center lg:text-justify mt-3">
-            Our goal is not simply to show you wildlife, but to help you truly
-            experience Sri Lanka&apos;s wilderness—the early morning calls of
-            birds, the thrill of spotting elephants and leopards, and the
-            peaceful moments under the open sky at camp. Every safari and
-            camping night is thoughtfully designed to combine comfort,
-            adventure, and discovery. Choose The Canofy, and journey with us
-            into the heart of Sri Lanka&apos;s wild beauty.
-          </p>
+
+          {/* floating card: scooter */}
+          <div className="absolute top-24 -right-2 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-xl sm:-right-10">
+            <div className="rounded-full bg-canopy-deep p-2 text-white">
+              <PiScooter className="size-6" />
+            </div>
+            <div className="font-poppins">
+              <p className="text-sm font-semibold">Scooter Rent</p>
+              <p className="text-xs text-ink/60">Ride your way</p>
+            </div>
+          </div>
         </div>
-        <div className=" w-full lg:w-5/12 xl:w-1/2  ">
-          <div className=" w-full aspect-square rounded-full lg:-translate-y-1/12  xl:-translate-y-1/10  scale-75 lg:scale-105 xl:scale-85 flex items-center justify-center relative overflow-hidden">
-            <div
-              className="w-11/12 absolute z-10 aspect-square rounded-full flex items-center justify-center"
-              style={{
-                background: `repeating-conic-gradient(
-      white 2deg 6deg,
-      transparent 6deg 14deg
-    )`,
-                WebkitMask:
-                  "radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 5px))",
-                mask: "radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px))",
-              }}
-            ></div>
-            <div className="  w-[87%] border-8 border-dotted border-white aspect-square rounded-full flex items-center justify-center relative z-10">
-              <div className="  w-[98%] border-8 border-dotted border-white aspect-square rounded-full flex items-center justify-center">
-                <div className="  w-[87%] border-8 border-dotted border-white aspect-square rounded-full flex items-center justify-center">
-                  <div className="  w-[98%] border-8 border-dotted border-white aspect-square rounded-full flex items-center justify-center"></div>
-                </div>
+
+        {/* Right: content */}
+        <div className="w-full lg:pl-10">
+          <p className="font-poppins text-base font-medium text-canopy-line">
+            Explore Sri Lanka
+          </p>
+          <h2 className="mt-2 font-libertinus_Math text-4xl leading-tight text-canopy-deep md:text-5xl">
+            Sri Lanka&apos;s Wild Side, by{" "}
+            <span className="font-caveat text-5xl text-clay md:text-6xl">
+              Safari Jeep
+            </span>{" "}
+            &amp; Scooter
+          </h2>
+          <p className="mt-6 max-w-xl font-poppins text-sm leading-7 text-ink/70">
+            Welcome to The Canofy, where nature, adventure and heartfelt
+            hospitality come together. We run Kumana and Yala National Park
+            safaris and mobile camping, and we rent scooters so you can explore
+            the island freely. Our experienced drivers and wildlife guides know
+            the landscapes, the wildlife and the local ecosystems first-hand.
+          </p>
+
+          <div className="mt-8 grid max-w-xl gap-8 sm:grid-cols-2">
+            {services.map((item, i) => (
+              <div key={i}>
+                {item.icon}
+                <h3 className="mt-3 font-poppins text-base font-semibold text-canopy-deep">
+                  {item.title}
+                </h3>
+                <p className="mt-1 font-poppins text-sm leading-6 text-ink/70">
+                  {item.text}
+                </p>
               </div>
-            </div>
-            <div className=" absolute top-0 left-0 w-full h-full ">
-              <Image
-                className="object-cover"
-                src="/images/aboutRound.png"
-                alt="bg image"
-                fill
-                priority
-              />
-            </div>
+            ))}
+          </div>
+
+          <div className="mt-10 flex flex-wrap items-center gap-6">
+            <YellowBtn text="More About Us" btnHeight="py-3" />
+            <a
+              href="tel:+94754540123"
+              className="flex items-center gap-2 font-poppins text-sm font-medium text-canopy-deep"
+            >
+              <PiPhone className="size-5" />
+              +94 754540123
+            </a>
+          </div>
+
+          <div className="mt-8 flex items-center gap-2 font-poppins text-sm font-semibold text-canopy-line">
+            <PiMapPinLine className="size-6" />
+            Kumana, Yala and more of Sri Lanka&apos;s wild places.
           </div>
         </div>
-      </div>
-      <div className=" w-full absolute top-0 left-0 h-full z-0">
-        <div className=" w-full relative h-full scale-x-[-1] xl:-translate-y-10">
-          <Image
-            className="object-cover"
-            src="/images/aboutBG1.png"
-            alt="bg image"
-            fill
-            priority
-          />
-          <div className=" w-full h-full absolute top-0 left-0 bg-[#c5b49c77]"></div>
-          {/* <div className=" w-full h-full absolute top-0 left-0 bg-[#ffe77da7]"></div> */}
-        </div>
-      </div>
-      <div className=" w-full relative  xl:-translate-y-10">
-        <Divider />
       </div>
     </section>
   );
 }
+
