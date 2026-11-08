@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Playfair_Display, DM_Sans } from "next/font/google";
+import { Playfair_Display, DM_Sans, Cinzel } from "next/font/google";
 import YellowBtn from "./Elements/YellowBtn";
 import Image from "next/image";
 
@@ -14,6 +14,12 @@ const playfair = Playfair_Display({
 const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  weight: ["600"],
   display: "swap",
 });
 
