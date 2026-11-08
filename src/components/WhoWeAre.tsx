@@ -81,14 +81,20 @@ export default function WhoWeAre() {
             <h1 className=" font-caveat text-3xl font-semibold text-[#B5651D]">
               Who we are
             </h1>
-            <Image
-              className=" object-contain -translate-y-3 leftRightAnimation translate-x-1"
-              src="/images/title-shape.webp"
-              alt="bg image"
-              width={30}
-              height={30}
-              priority
-            />
+<span
+  aria-hidden="true"
+  className="inline-block size-7.5 bg-[#D9822B] -translate-y-3 leftRightAnimation translate-x-1"
+  style={{
+    WebkitMaskImage: "url(/images/title-shape.webp)",
+    maskImage: "url(/images/title-shape.webp)",
+    WebkitMaskRepeat: "no-repeat",
+    maskRepeat: "no-repeat",
+    WebkitMaskSize: "contain",
+    maskSize: "contain",
+    WebkitMaskPosition: "center",
+    maskPosition: "center",
+  }}
+/>
           </div>
           <h2 className=" text-5xl text-[#2B1D14] pt-2 font-geologica font-bold">
             Sri Lanka&apos;s Safari Experts
