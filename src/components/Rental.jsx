@@ -216,7 +216,7 @@ export default function PeekShowcase() {
       style={{ height: `calc(100svh + ${(N - 1) * STEP_VH}svh)` }}
     >
       <div className="sticky top-0 h-svh w-full flex items-center">
-        <div className="w-full sm:w-11/12 lg:max-w-350 mx-auto px-5 sm:px-0 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,460px)] lg:grid-cols-[minmax(0,1fr)_minmax(0,480px)] items-center gap-6 md:gap-12 lg:gap-24">
+        <div className="w-full sm:w-11/12 lg:max-w-350 mx-auto px-5 sm:px-0 grid grid-cols-1 md:grid-cols-[minmax(0,400px)_minmax(0,460px)] lg:grid-cols-[minmax(0,460px)_minmax(0,480px)] justify-center items-center gap-6 md:gap-10 lg:gap-14">
           {/* ---------- Left: stays in place ---------- */}
           <div className="w-full">
             <p className="font-poppins text-xs font-semibold uppercase tracking-[0.25em] text-[#a15f21]">
