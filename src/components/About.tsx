@@ -75,8 +75,8 @@ export default function About() {
           </h2>
           <p className="mt-6 max-w-xl font-poppins text-sm leading-7 text-ink/70">
             Welcome to The Canofy, where nature, adventure and heartfelt
-            hospitality come together. We run Kumana and Yala National Park
-            safaris and mobile camping, and we rent scooters so you can explore
+            hospitality come together. We run Kumana National Park
+            safaris*, and we rent scooters so you can explore
             the island freely. Our experienced drivers and wildlife guides know
             the landscapes, the wildlife and the local ecosystems first-hand.
           </p>
