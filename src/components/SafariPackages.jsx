@@ -46,8 +46,8 @@ const packages = [
 /* ----- tweak the look here ----- */
 const HOLD_MS = 5000; // how long the centre card stays
 const SIDE_GAP = 1.03; // side card distance (1 = one card width)
-const SIDE_DEPTH = -120; // how far back the side cards sit (px)
-const SIDE_TILT = 28; // door-like tilt (deg)
+const SIDE_DEPTH = -20; // how far back the side cards sit (px)
+const SIDE_TILT = 18; // door-like tilt (deg)
 const SIDE_SCALE = 0.88; // side card size
 
 const css = `
@@ -62,7 +62,7 @@ const css = `
   --sp-btn:#1f1f22;
   --sp-btn-hover:#2e2e33;
 }
-.sp-stage{width:100%;padding:70px 0;perspective:1400px;perspective-origin:50% 50%;display:grid;touch-action:pan-y;cursor:grab;user-select:none}
+.sp-stage{width:100%;padding:70px 0;perspective:900px;perspective-origin:50% 50%;display:grid;touch-action:pan-y;cursor:grab;user-select:none}
 .sp-stage.sp-dragging{cursor:grabbing}
 
 .sp-card{
