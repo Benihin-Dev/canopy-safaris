@@ -58,9 +58,9 @@ const safariStats = [
           <div className="w-full text-center sm:w-10/12 md:text-left lg:max-w-170 xl:max-w-190">
             {/* 01 Small top heading */}
             <p
-              className={`${dmSans.className} text-[11px] font-semibold uppercase tracking-[3px] text-[#D6B47B] sm:text-[13px]`}
+               className={`${cinzel.className} text-[11px] font-semibold uppercase tracking-[3px] text-[#D6B47B] sm:text-[13px]`}
             >
-              Exclusive adventures in the wild
+              Exclusive adventures in Kumana
             </p>
 
             {/* 02 + 03 Main heading */}
