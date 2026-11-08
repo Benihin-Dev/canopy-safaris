@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const packages = [
@@ -44,16 +44,28 @@ const packages = [
 ];
 
 /* ----- tweak the look here ----- */
-const HOLD_MS = 5000; // how long the centre card stays
-const SIDE_GAP = 0.90; // side card distance (1 = one card width)
-const SIDE_DEPTH = -20; // how far back the side cards sit (px)
-const SIDE_TILT = 18; // door-like tilt (deg)
+const HOLD_MS = 4500; // how long the centre card stays
+const SIDE_GAP = 1.03; // side card distance (1 = one card width)
+const SIDE_DEPTH = -120; // how far back the side cards sit (px)
+const SIDE_TILT = 28; // door-like tilt (deg)
 const SIDE_SCALE = 0.88; // side card size
+const FAR_GAP = 1.5; // where cards wait, off to the sides
+
+const centerTransform = "translate3d(0,0,0) rotateY(0deg) scale(1)";
+const sideTransform = (dir) =>
+  `translate3d(calc(var(--sp-w) * ${dir * SIDE_GAP}), 0, ${SIDE_DEPTH}px) rotateY(${dir * SIDE_TILT}deg) scale(${SIDE_SCALE})`;
+const farTransform = (dir) =>
+  `translate3d(calc(var(--sp-w) * ${dir * SIDE_GAP * FAR_GAP}), 0, ${SIDE_DEPTH * 2}px) rotateY(${dir * SIDE_TILT}deg) scale(0.7)`;
+const transformFor = (o) => {
+  const a = Math.abs(o);
+  const d = Math.sign(o);
+  return a === 0 ? centerTransform : a === 1 ? sideTransform(d) : farTransform(d);
+};
 
 const css = `
 .sp-root{
   --sp-w:min(540px,78vw);
-  --sp-dur:.75s;
+  --sp-dur:1.1s;
   --sp-ease:cubic-bezier(.22,.8,.22,1);
   --sp-card-bg:#121212;
   --sp-card-border:rgba(255,255,255,.07);
@@ -133,25 +145,24 @@ export default function SafariPackages() {
     prevOffset.current = offsets;
   });
 
-  const cardStyle = (o, wrapped) => {
-    const abs = Math.abs(o);
-    const dir = Math.sign(o);
-    let transform;
-    if (abs === 0) {
-      transform = "translate3d(0,0,0) rotateY(0deg) scale(1)";
-    } else if (abs === 1) {
-      transform = `translate3d(calc(var(--sp-w) * ${dir * SIDE_GAP}), 0, ${SIDE_DEPTH}px) rotateY(${dir * SIDE_TILT}deg) scale(${SIDE_SCALE})`;
-    } else {
-      transform = `translate3d(calc(var(--sp-w) * ${dir * SIDE_GAP * 1.6}), 0, ${SIDE_DEPTH * 2}px) rotateY(${dir * SIDE_TILT}deg) scale(0.7)`;
-    }
-    return {
-      transform,
-      // a card wrapping from one end to the other jumps while invisible
-      transition: wrapped
-        ? "opacity var(--sp-dur) var(--sp-ease), filter var(--sp-dur) var(--sp-ease)"
-        : undefined,
-    };
-  };
+  const cardRefs = useRef([]);
+
+  /* a card coming round from the hidden side starts off-screen,
+     then swings in like a door, at the same speed as the others */
+  useLayoutEffect(() => {
+    offsets.forEach((o, i) => {
+      const el = cardRefs.current[i];
+      if (!el) return;
+      if (Math.abs(o - prevOffset.current[i]) > 2) {
+        el.style.transition =
+          "opacity var(--sp-dur) var(--sp-ease), filter var(--sp-dur) var(--sp-ease)";
+        el.style.transform = transformFor(Math.sign(o) * 2);
+        void el.offsetWidth;
+        el.style.transition = "";
+        el.style.transform = transformFor(o);
+      }
+    });
+  }, [current]);
 
   /* autoplay: stays HOLD_MS, then moves on, loops forever */
   useEffect(() => {
@@ -212,15 +223,17 @@ export default function SafariPackages() {
           const o = offsets[i];
           const abs = Math.abs(o);
           const pos = abs === 0 ? "center" : abs === 1 ? "side" : "far";
-          const wrapped = Math.abs(o - prevOffset.current[i]) > 2;
 
           return (
             <article
               key={p.title}
+              ref={(el) => {
+                cardRefs.current[i] = el;
+              }}
               className="sp-card"
               data-pos={pos}
               aria-hidden={pos !== "center"}
-              style={cardStyle(o, wrapped)}
+              style={{ transform: transformFor(o) }}
               onClick={() => {
                 if (pos === "side" && !moved.current) goTo(i);
               }}
