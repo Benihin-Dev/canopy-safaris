@@ -1,8 +1,21 @@
 "use client";
-import React from "react";
-import { GiJeep } from "react-icons/gi";
+import React, { useEffect, useState } from "react";
+import { Playfair_Display, DM_Sans } from "next/font/google";
 import YellowBtn from "./Elements/YellowBtn";
 import Image from "next/image";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["500"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
 
 export default function Hero() {
 const safariStats = [
@@ -11,50 +24,84 @@ const safariStats = [
   { value: "1,000+", label: "Safari Tours" },
   { value: "90%", label: "Leopard Sighting" },
 ];
-  const sentences = [
-    "An Exclusive Luxury Safari Experience.",
-    "Seamless Comfort, Calm, and Curated Adventure.",
-    "Escape the Noise and Reconnect with Nature. ",
-    "An Exclusive Luxury Safari Experience.",
-    "Seamless Comfort, Calm, and Curated Adventure.",
-    "Escape the Noise and Reconnect with Nature. ",
-  ];
+  const [typed, setTyped] = useState("");
+
+  useEffect(() => {
+    const full = "Into the Wild.";
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let i = 0;
+    let timer: ReturnType<typeof setInterval> | undefined;
+    const start = setTimeout(() => {
+      timer = setInterval(() => {
+        i = reduce ? full.length : i + 1;
+        setTyped(full.slice(0, i));
+        if (i >= full.length) clearInterval(timer);
+      }, 90);
+    }, 500);
+    return () => {
+      clearTimeout(start);
+      if (timer) clearInterval(timer);
+    };
+  }, []);
+  
   return (
     <section className="relative flex min-h-screen w-full items-center overflow-hidden">
       <div className="relative z-20 mx-auto w-full px-5 pt-32 pb-44 sm:w-11/12 sm:px-0 lg:max-w-350">
         <div className=" w-full flex items-center sm:items-start">
-          <div className=" w-full sm:w-8/12 md:w-7/12 lg:w-full lg:max-w-130 xl:max-w-170">
-            <div className=" w-full flex items-center justify-center gap-5 font-poppins">
-              <div className=" w-12 h-0.5 rounded-r-4xl bg-linear-to-l from-[#0e291c] to-transparent"></div>
-              <p className=" uppercase text-sm text-center sm:text-base text-white">
-                Exclusive adventures in the wild
-              </p>
-              <div className=" w-12  h-0.5 rounded-l-4xl bg-linear-to-r from-[#0e291c] to-transparent"></div>
-            </div>
-            <h1 className=" pt-4 text-7xl md:text-5xl xl:text-5xl xl:scale-y-150 py-10 md:translate-y-1/7 xl:translate-y-1/5 text-center text-white font-bold md:text-left font-serif">
-              Your Next Great Safari Await With{" "}
-              <span className="  ">The Canofy</span>
+          
+          <div className="w-full text-center sm:w-10/12 md:text-left lg:max-w-170 xl:max-w-190">
+            {/* 01 Small top heading */}
+            <p
+              className={`${dmSans.className} text-[11px] font-semibold uppercase tracking-[3px] text-[#D6B47B] sm:text-[13px]`}
+            >
+              Exclusive adventures in the wild
+            </p>
+
+            {/* 02 + 03 Main heading */}
+            <h1
+              className={`${playfair.className} mt-5 font-medium leading-[1.1]`}
+            >
+              <span className="block text-[40px] text-[#F7F3E9] sm:text-5xl md:text-[52px] lg:text-[64px]">
+                Beyond the Ordinary.
+              </span>
+              <span className="sr-only">Into the Wild.</span>
+              <span
+                aria-hidden="true"
+                className="relative mt-1 inline-block text-[44px] italic text-[#D6B47B] sm:text-[54px] md:text-[58px] lg:text-[72px]"
+              >
+                <span className="invisible">Into the Wild.</span>
+                <span className="absolute left-0 top-0 whitespace-nowrap">
+                  {typed}
+                  <span className="typing-cursor" />
+                </span>
+              </span>
             </h1>
-            <div className="relative w-full overflow-hidden mt-4 font-sans font-thin text-sm">
-              <div className="marquee flex w-max">
-                {sentences.map((skill, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center text-[#ffffff] whitespace-nowrap"
-                  >
-                    {skill}
-                    <GiJeep className={` size-6 mx-5 scale-x-[-1]`} />
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className=" w-full flex items-center justify-center md:justify-start gap-2 mt-5">
+
+            {/* 04 Supporting tagline */}
+            <p
+              className={`${dmSans.className} mt-6 text-base font-medium text-[#F1EDE4] sm:text-[19px]`}
+            >
+              Your Extraordinary Safari Begins with The Canofy.
+            </p>
+
+            {/* 05 Description */}
+            <p
+              className={`${dmSans.className} mx-auto mt-3 max-w-xl text-[15px] font-normal leading-[1.7] text-[#D5DCD4] sm:text-[17px] md:mx-0`}
+            >
+              Experience private safari journeys through Yala with expert local
+              guides. Discover leopards, elephants and sloth bears while
+              exploring the wonders of the wilderness.
+            </p>
+
+            {/* Buttons (unchanged, just more spacing) */}
+            <div className="mt-8 flex w-full items-center justify-center gap-2 md:justify-start">
               <YellowBtn text="Plan Your Safari" />
               <button className=" px-5 py-1.5 text-xs font-semibold border border-gray-50 text-gray-50 cursor-pointer rounded-full hover:bg-[#e3b600] duration-300 transition-all">
                 Explore Tours
               </button>
             </div>
           </div>
+          
         </div>
 <div className="mt-16 grid w-full grid-cols-2 overflow-hidden rounded-2xl border border-white/30 bg-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl md:grid-cols-4">
   {safariStats.map((item, i) => (
@@ -116,6 +163,7 @@ const safariStats = [
           priority
           sizes="100vw"
         />
+        <div className="absolute inset-0 bg-linear-to-r from-black/60 via-black/30 to-transparent" />
       </div>      
     </section>
   );
