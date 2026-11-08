@@ -102,15 +102,15 @@ const safariStats = [
           </div>
           
         </div>
-<div className="mt-16 grid w-full grid-cols-2 overflow-hidden rounded-2xl border border-white/30 bg-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl md:grid-cols-4">
-  {safariStats.map((item, i) => (
-    <div
-      key={i}
-      className={`px-6 py-5 font-poppins text-white border-white/20
-        ${i % 2 !== 0 ? "border-l" : ""}
-        ${i >= 2 ? "border-t md:border-t-0" : ""}
-        ${i !== 0 ? "md:border-l" : ""}`}
-    >
+        <div className="mt-16 grid w-full grid-cols-2 overflow-hidden rounded-2xl border border-white/30 bg-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl md:grid-cols-4">
+         {safariStats.map((item, i) => (
+        <div
+         key={i}
+         className={`px-6 py-5 font-poppins text-white border-white/20
+         ${i % 2 !== 0 ? "border-l" : ""}
+         ${i >= 2 ? "border-t md:border-t-0" : ""}
+         ${i !== 0 ? "md:border-l" : ""}`}
+        >
       <p className="font-serif text-3xl font-semibold">{item.value}</p>
       <p className="mt-1 text-xs text-white/80">{item.label}</p>
     </div>
