@@ -1,10 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import {
-  IoArrowForward,
-  IoCheckmarkCircleOutline,
-} from "react-icons/io5";
+import { IoArrowForward, IoCheckmarkCircleOutline } from "react-icons/io5";
 
 /* Replace this placeholder content with your own.
    Add a `price` (for example "$25") to show it next to the title. */
@@ -15,7 +12,7 @@ const items = [
     title: "Card title one",
     sub: "Small line under the title",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/stack/one.jpg",
+    img: "/images/peek/one.jpg",
     features: ["First feature line", "Second feature line"],
     cta: "Book now",
     href: "#",
@@ -26,7 +23,7 @@ const items = [
     title: "Card title two",
     sub: "Small line under the title",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/stack/two.jpg",
+    img: "/images/peek/two.jpg",
     features: ["First feature line", "Second feature line"],
     cta: "Book now",
     href: "#",
@@ -37,7 +34,7 @@ const items = [
     title: "Card title three",
     sub: "Small line under the title",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/stack/three.jpg",
+    img: "/images/peek/three.jpg",
     features: ["First feature line", "Second feature line"],
     cta: "Book now",
     href: "#",
@@ -48,7 +45,7 @@ const items = [
     title: "Card title four",
     sub: "Small line under the title",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/stack/four.jpg",
+    img: "/images/peek/four.jpg",
     features: ["First feature line", "Second feature line"],
     cta: "Book now",
     href: "#",
@@ -56,33 +53,77 @@ const items = [
 ];
 
 const N = items.length;
+
+/* ----- tweak the look here ----- */
 const STEP_VH = 70; // how much scrolling each card change takes
 const AUTO_MS = 5000; // idle time before the next card comes in
 const LOOP = true; // after the last card, fade back to the first
+const PEEK_X = 62; // how far right the waiting card sits (% of card width)
+const PEEK_TILT = 34; // door tilt of the waiting card (deg)
+const PEEK_SCALE = 0.88; // size of the waiting card
+const PEEK_OPACITY = 0.6; // how faded the waiting card is (1 = not faded)
+const PEEK_BRIGHT = 0.6; // how dark the waiting card is (1 = normal)
+
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const easeOut = (t) => 1 - Math.pow(1 - t, 3);
 
 /* x = scroll position in card steps (0 = first card, N-1 = last card).
-   Every card comes in from the right. While the next card lands on top,
-   this one fades out and shrinks a little. At rest only one card shows. */
+   o = how far this card is from the main spot:
+     o = 0  -> main card, clear
+     o = 1  -> next card, waiting on the right, tilted and faded
+     o = 2  -> hidden behind it
+     o < 0  -> old card, stays in place and fades out */
 function cardState(i, x) {
-  const enter = i === 0 ? 1 : easeOut(clamp(x - (i - 1)));
-  const leave = easeOut(clamp(x - i));
-  const tx = (1 - enter) * 110 - leave * 6;
+  const o = clamp(i - x, -1, 2);
+  let tx, rot, scale, opacity, bright;
+
+  if (o <= 0) {
+    const t = easeOut(-o);
+    tx = -t * 3;
+    rot = 0;
+    scale = 1 - t * 0.06;
+    opacity = 1 - t;
+    bright = 1 - t * 0.2;
+  } else if (o <= 1) {
+    const e = 1 - easeOut(1 - o); // 0 at the main spot, 1 at the right
+    tx = e * PEEK_X;
+    rot = e * PEEK_TILT;
+    scale = 1 - e * (1 - PEEK_SCALE);
+    opacity = 1 - e * (1 - PEEK_OPACITY);
+    bright = 1 - e * (1 - PEEK_BRIGHT);
+  } else {
+    const t = o - 1;
+    tx = PEEK_X + t * 25;
+    rot = PEEK_TILT;
+    scale = PEEK_SCALE - t * 0.08;
+    opacity = PEEK_OPACITY * (1 - t);
+    bright = PEEK_BRIGHT;
+  }
+
   return {
-    transform: `translate3d(${tx}%, 0, 0) scale(${1 - leave * 0.06})`,
-    opacity: (0.3 + 0.7 * enter) * (1 - leave),
-    filter: `brightness(${1 - leave * 0.2})`,
-    pointerEvents: enter > 0.5 && leave < 0.5 ? "auto" : "none",
+    transform: `translate3d(${tx}%, 0, 0) rotateY(${rot}deg) scale(${scale})`,
+    opacity,
+    filter: `brightness(${bright})`,
+    zIndex: o >= 0 ? Math.round(20 - o * 5) : Math.round(10 + o * 5),
+    pointerEvents: o > -0.5 && o < 1.5 ? "auto" : "none",
   };
 }
 
-export default function StackShowcase() {
+export default function PeekShowcase() {
   const sectionRef = useRef(null);
   const stageRef = useRef(null);
   const cardRefs = useRef([]);
   const hoverRef = useRef(false);
   const [active, setActive] = useState(0);
+
+  // scroll the page so that card `i` is the main one
+  const scrollToCard = (i) => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const top = window.scrollY + el.getBoundingClientRect().top;
+    const total = el.offsetHeight - window.innerHeight;
+    window.scrollTo({ top: top + (i / (N - 1)) * total, behavior: "smooth" });
+  };
 
   useEffect(() => {
     let raf = 0;
@@ -107,6 +148,7 @@ export default function StackShowcase() {
         card.style.transform = s.transform;
         card.style.opacity = s.opacity;
         card.style.filter = s.filter;
+        card.style.zIndex = s.zIndex;
         card.style.pointerEvents = s.pointerEvents;
       });
       setActive(Math.round(x));
@@ -166,10 +208,11 @@ export default function StackShowcase() {
 
   return (
     /* No ancestor of this section may use overflow-hidden/auto, or sticky
-       stops working. Use overflow-clip on a parent if you need to clip. */
+       stops working. overflow-x-clip is fine and stops a sideways scrollbar
+       from the waiting card. */
     <section
       ref={sectionRef}
-      className="relative w-full bg-[#f0eee5]"
+      className="relative w-full bg-[#f0eee5] overflow-x-clip"
       style={{ height: `calc(100svh + ${(N - 1) * STEP_VH}svh)` }}
     >
       <div className="sticky top-0 h-svh w-full flex items-center">
@@ -218,12 +261,13 @@ export default function StackShowcase() {
             </div>
           </div>
 
-          {/* ---------- Right: cards land on top, the old one fades out ---------- */}
+          {/* ---------- Right: clear card, next card waiting on the right ---------- */}
           <div
             ref={stageRef}
             onMouseEnter={() => (hoverRef.current = true)}
             onMouseLeave={() => (hoverRef.current = false)}
-            className="relative w-full grid overflow-hidden rounded-3xl p-2 -m-2 transition-opacity duration-300"
+            className="relative w-full grid transition-opacity duration-300"
+            style={{ perspective: "1400px" }}
           >
             {items.map((r, i) => {
               const s = cardState(i, 0);
@@ -232,9 +276,16 @@ export default function StackShowcase() {
                   key={r.title}
                   ref={(el) => (cardRefs.current[i] = el)}
                   aria-hidden={i !== active}
+                  /* clicking the waiting card brings it forward */
+                  onClickCapture={(e) => {
+                    if (i === active) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    scrollToCard(i);
+                  }}
                   style={{
                     gridArea: "1 / 1",
-                    zIndex: i + 1,
+                    zIndex: s.zIndex,
                     transform: s.transform,
                     opacity: s.opacity,
                     filter: s.filter,
