@@ -81,9 +81,9 @@ const safariStats = [
             <p
               className={`${dmSans.className} mx-auto mt-3 max-w-xl text-[15px] font-normal leading-[1.7] text-[#D5DCD4] sm:text-[17px] md:mx-0`}
             >
-              Experience private safari journeys through Kumana with expert local
-              guides. Discover leopards, elephants and sloth bears while
-              exploring the wonders of the wilderness.
+              Experience exclusive safari journeys through Kumana with knowledgeable local guides. 
+              Explore the wilderness, encounter remarkable wildlife and discover the natural beauty of Sri Lanka, 
+              from majestic elephants to elusive leopards and sloth bears.
             </p>
 
             {/* Buttons (unchanged, just more spacing) */}
