@@ -16,7 +16,7 @@ export default function WhoWeAre() {
     {
       title: "Customized Jeeps",
       description:
-        "Experience the wilderness in our comfortable, open-air safari jeeps, offering a smooth and immersive way to discover wildlife.",
+        "Explore wildlife in our comfortable open-air safari jeeps for a smooth, immersive wilderness experience.",
       icon: GiJeep,
     },
     {
@@ -28,7 +28,7 @@ export default function WhoWeAre() {
     {
       title: "Expert Naturalists",
       description:
-        "Guided by experienced naturalists with in-depth field knowledge, making every safari journey informative and memorable.",
+        "Experienced naturalists bringing expert field knowledge to every memorable safari journey.",
       icon: TbCertificate2,
     },
   ];
@@ -94,9 +94,8 @@ export default function WhoWeAre() {
             Sri Lanka&apos;s Safari Experts
           </h2>
           <p className=" pt-2 text-[#5A4636] font-poppins text-xl xl:pr-10">
-            Welcome to The Canofy — where nature, adventure, and heartfelt
-            hospitality meet to create unforgettable safari experiences across
-            Sri Lanka.
+            Welcome to The Canofy, where nature, adventure and genuine hospitality come together to create meaningful 
+            and unforgettable wildlife experiences across Sri Lanka.
           </p>
           <div className=" w-full grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
             {features.map((item, i) => {
