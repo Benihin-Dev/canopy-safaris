@@ -54,7 +54,7 @@ export default function SliderForTestimonial() {
           <span className="-rotate-6 rounded-full border border-[#f59e0b] px-4 py-1 font-['Inter'] text-xs italic text-[#f59e0b]">
             TESTIMONIAL
           </span>
-          <h2 className="font-['Bebas_Neue'] text-5xl uppercase leading-none tracking-wide text-white md:text-7xl">
+          <h2 className="font-bebas text-5xl uppercase leading-none tracking-wide text-white md:text-7xl">
             Real story from <br className="hidden md:block" />
             our organic clients
           </h2>
