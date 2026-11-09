@@ -8,7 +8,7 @@ import { PiArrowUpRight } from "react-icons/pi";
 const WHATSAPP = "94XXXXXXXXX";
 const wa = (msg) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 
-/* The 4 round shapes. Put these photos in /public/images/ */
+/* The 4 round shapes (photos go in /public/images/) */
 const petals = [
   { label: "Kumana Safari", src: "/images/petal-kumana.jpg", pos: "left-1/2 top-0 -translate-x-1/2" },
   { label: "Hiking", src: "/images/petal-hiking.jpg", pos: "right-0 top-1/2 -translate-y-1/2" },
@@ -20,36 +20,30 @@ export default function TravelCtaBanner() {
   return (
     <section
       className="relative w-full overflow-hidden lg:h-[441px]"
-      style={{ "--accent": "#D9822B" }}
+      style={{ "--main": "#4DA528", "--accent": "#D9822B" }}
     >
-      {/* background photo */}
-      <Image
-        src="/images/cta-bg.jpg"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover"
-        priority={false}
-      />
-      {/* dark navy fade on the left, like the reference */}
+      {/* background photo + dark navy fade on the left */}
+      <Image src="/images/cta-bg.jpg" alt="" fill sizes="100vw" className="object-cover" />
       <div className="absolute inset-0 bg-linear-to-r from-[#0a1b2a] via-[#0a1b2a]/70 to-transparent" />
 
-      <div className="relative z-10 mx-auto flex h-full max-w-[1400px] flex-col items-center justify-between gap-6 px-6 py-12 lg:flex-row lg:py-0 lg:pl-[18%] lg:pr-10">
-        {/* ---------- left: text + buttons ---------- */}
-        <div className="w-full max-w-[600px] text-center lg:text-left">
-          <p
-            className="text-[26px] text-[#4fb12b]"
-            style={{ fontFamily: "'Dancing Script','Brush Script MT',cursive", fontStyle: "italic" }}
-          >
-            Explore the world
-          </p>
+      {/* same structure as the template: container > row > col-7 (text) + col-5 (image) */}
+      <div className="relative z-10 mx-auto grid h-full w-full max-w-[1200px] grid-cols-1 items-center gap-6 px-6 py-12 lg:grid-cols-12 lg:py-0">
+        {/* ---------- col-7: text + buttons ---------- */}
+        <div className="text-center lg:col-span-7 lg:text-left">
+          <div className="mb-8">
+            <span
+              className="mb-3 block text-[28px] text-[var(--main)] md:text-[34px]"
+              style={{ fontFamily: "'Dancing Script','Brush Script MT',cursive", fontStyle: "italic" }}
+            >
+              Explore the world
+            </span>
+            <h2 className="text-4xl font-semibold leading-[1.15] text-white md:text-5xl">
+              Ready To Travel With Real Adventure &amp; Enjoy Natural
+            </h2>
+          </div>
 
-          <h2 className="mt-3 text-4xl font-semibold leading-[1.15] text-white md:text-5xl">
-            Ready To Travel With Real Adventure &amp; Enjoy Natural
-          </h2>
-
-          <div className="mt-8 flex items-center justify-center gap-4 lg:justify-start">
-            {/* round WhatsApp button (replaces the green play button) */}
+          <div className="relative flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+            {/* round WhatsApp button (was the green play button) */}
             <a
               href={wa("Hi, I have a question.")}
               target="_blank"
@@ -60,7 +54,7 @@ export default function TravelCtaBanner() {
               <FaWhatsapp className="size-9" />
             </a>
 
-            {/* booking button */}
+            {/* booking button (was the "Contact us at" pill) */}
             <a
               href={wa("Hi, I'd like to make a booking.")}
               target="_blank"
@@ -70,30 +64,43 @@ export default function TravelCtaBanner() {
               Booking
               <PiArrowUpRight className="size-5 transition group-hover:rotate-12" />
             </a>
+
+            {/* hand-drawn arrow pointing at the shapes (the template's vector2.png) */}
+            <svg
+              aria-hidden
+              viewBox="0 0 90 60"
+              className="pointer-events-none absolute -right-24 -top-6 hidden h-14 w-24 text-white lg:block"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M4 6 C 2 24, 14 40, 26 34 C 36 28, 28 14, 18 22 C 8 32, 30 52, 62 46" />
+              <path d="M52 38 L 64 46 L 50 53" />
+            </svg>
           </div>
         </div>
 
-        {/* ---------- right: 4 round shapes ---------- */}
-        <div className="relative h-[460px] w-[460px] shrink-0 origin-center scale-[.62] -my-20 sm:scale-[.8] sm:-my-12 lg:my-0 lg:scale-[.85] xl:scale-100">
-          {petals.map(({ label, src, pos }) => (
-            <div key={label} className={`absolute ${pos}`}>
-              {/* rotated square = round shape with one pointed corner facing the centre */}
-              <div
-                className="relative size-[160px] rotate-45 overflow-hidden border-[5px] border-white bg-white shadow-xl"
-                style={{ borderRadius: "50% 50% 0 50%" }}
-              >
-                {/* counter-rotate the photo so it stands upright */}
-                <div className="absolute left-1/2 top-1/2 size-[150%] -translate-x-1/2 -translate-y-1/2 -rotate-45">
-                  <Image src={src} alt={label} fill sizes="240px" className="object-cover" />
+        {/* ---------- col-5: the 4 round shapes ---------- */}
+        <div className="flex justify-center lg:col-span-5 lg:justify-end">
+          <div className="relative h-[460px] w-[460px] shrink-0 scale-[.62] -my-20 sm:scale-[.8] sm:-my-12 lg:my-0 lg:scale-[.85] xl:scale-100">
+            {petals.map(({ label, src, pos }) => (
+              <div key={label} className={`absolute ${pos}`}>
+                <div
+                  className="relative size-[160px] rotate-45 overflow-hidden border-[5px] border-white bg-white shadow-xl"
+                  style={{ borderRadius: "50% 50% 0 50%" }}
+                >
+                  <div className="absolute left-1/2 top-1/2 size-[150%] -translate-x-1/2 -translate-y-1/2 -rotate-45">
+                    <Image src={src} alt={label} fill sizes="240px" className="object-cover" />
+                  </div>
                 </div>
+                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-black/55 px-3 py-1 text-[13px] font-semibold text-white backdrop-blur-sm">
+                  {label}
+                </span>
               </div>
-
-              {/* label (outside the rotation so the text is straight) */}
-              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-black/55 px-3 py-1 text-[13px] font-semibold text-white backdrop-blur-sm">
-                {label}
-              </span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
