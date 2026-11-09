@@ -156,7 +156,7 @@ export default function PeekShowcase() {
             Your small heading
           </p>
           <h2 className="font-libertinus_Math text-4xl sm:text-5xl lg:text-6xl leading-[1.05] font-medium text-[#2b1d10] pt-2">
-            Your big heading
+            Scooter Rentals
             <span className="block text-[#a15f21]">second line</span>
           </h2>
           <p className="hidden md:block font-poppins text-sm leading-7 text-[#5b4733] pt-5 max-w-md">
