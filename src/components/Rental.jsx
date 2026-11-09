@@ -149,7 +149,7 @@ export default function PeekShowcase() {
   return (
     /* overflow-x-clip stops a sideways scrollbar from the side cards. */
     <section className="relative w-full min-h-svh flex items-center bg-[#f0eee5] overflow-x-clip py-14">
-      <div className="w-full sm:w-11/12 lg:max-w-350 mx-auto px-5 sm:px-0 grid grid-cols-1 md:grid-cols-[minmax(0,520px)_minmax(0,1fr)] items-center gap-6 md:gap-x-18">
+      <div className="w-full sm:w-11/12 lg:max-w-350 mx-auto px-5 sm:px-0 grid grid-cols-1 md:grid-cols-[minmax(0,450px)_minmax(0,1fr)] items-center gap-6 md:gap-x-18">
         {/* ---------- Left: stays in place ---------- */}
         <div className="w-full min-w-0">
           <p className="font-poppins text-xs font-semibold uppercase tracking-[0.25em] text-[#a15f21]">
