@@ -113,14 +113,11 @@ export default function SliderForTestimonial() {
             dots={false}
             arrows={false}
             infinite
-            fade
-            speed={900}
-            cssEase="ease-in-out"
+            speed={500}
             slidesToShow={1}
             slidesToScroll={1}
             autoplay
             autoplaySpeed={6000}
-            pauseOnHover
           >
             {reviews.map((r, i) => (
               <div key={i}>
