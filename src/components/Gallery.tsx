@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Bebas_Neue } from "next/font/google";
@@ -70,24 +71,27 @@ export default function Gallery() {
 
   return (
     <section className="relative w-full overflow-hidden bg-[#1a1410] py-16">
+      
       {/* header */}
-<h2 className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-white sm:text-6xl xl:text-7xl`}>
-  <span className="mr-4 inline-block -rotate-[8deg] rounded-full border border-[#f59e0b] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#f59e0b]">
-    Gallery
-  </span>
-  <span className="sm:whitespace-nowrap">See our travel</span>
-  <br />
-  Photography
-</h2>
+      <div className="mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-[1400px]">
+        <h2 className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-white sm:text-6xl xl:text-7xl`}>
+          <span className="mr-4 inline-block -rotate-[8deg] rounded-full border border-[#f59e0b] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#f59e0b]">
+            Gallery
+          </span>
+          <span className="sm:whitespace-nowrap">See our travel</span>
+          <br />
+          Photography
+        </h2>
 
-<div className="flex items-center gap-3">
-  <span className={`${bebas.className} text-7xl leading-none text-[#f59e0b] xl:text-8xl`}>
-    10K<span className="text-5xl xl:text-6xl">+</span>
-  </span>
-  <span className={`${bebas.className} text-xl uppercase leading-tight tracking-wide text-gray-400`}>
-    Successfully <br /> placed visited
-  </span>
-</div>
+        <div className="flex items-center gap-3">
+          <span className={`${bebas.className} text-7xl leading-none text-[#f59e0b] xl:text-8xl`}>
+            10K<span className="text-5xl xl:text-6xl">+</span>
+          </span>
+          <span className={`${bebas.className} text-xl uppercase leading-tight tracking-wide text-gray-400`}>
+            Successfully <br /> placed visited
+          </span>
+        </div>
+      </div>
 
       {/* curved, auto-scrolling panel (full width) */}
       <div
