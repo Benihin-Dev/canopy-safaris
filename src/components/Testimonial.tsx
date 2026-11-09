@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
-import { FaStar, FaQuoteLeft, FaChevronUp } from "react-icons/fa";
+import { FaStar, FaQuoteLeft } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
 
 // TODO: replace these placeholders with REAL guest reviews and photos.
@@ -187,15 +187,6 @@ export default function SliderForTestimonial() {
                 <GoArrowLeft className="size-5 rotate-180" />
               </button>
             </div>
-
-            <button
-              type="button"
-              aria-label="Scroll to top"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="flex size-10 cursor-pointer items-center justify-center rounded-full border border-[#f59e0b] text-[#f59e0b] transition-all hover:bg-[#f59e0b] hover:text-[#1a1410]"
-            >
-              <FaChevronUp className="size-4" />
-            </button>
           </div>
         </div>
       </div>
