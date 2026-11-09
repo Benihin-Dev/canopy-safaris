@@ -4,7 +4,7 @@ import Image from "next/image";
 import Heading from "./Elements/Heading";
 
 /* ---------- put your photos here (public/images/gallery/...) ---------- */
-const make = (folder, n) =>
+const make = (folder: string, n: number) =>
   Array.from({ length: n }, (_, i) => `/images/gallery/${folder}/${i + 1}.jpg`);
 
 const galleries = [
@@ -26,8 +26,8 @@ export default function Gallery() {
   const [active, setActive] = useState(0);
   const [itemW, setItemW] = useState(300);
 
-  const wrapRef = useRef(null);
-  const itemRefs = useRef([]);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const offset = useRef(0);
   const paused = useRef(false);
 
@@ -55,7 +55,7 @@ export default function Gallery() {
     let raf = 0;
     let last = performance.now();
 
-    const frame = (now) => {
+    const frame = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
       if (!paused.current && !reduce) offset.current += SPEED * dt;
@@ -141,7 +141,7 @@ export default function Gallery() {
               sizes="(min-width:1024px) 20vw, (min-width:640px) 33vw, 85vw"
               className="object-cover"
               draggable={false}
-              onError={(e) => (e.currentTarget.style.display = "none")}
+              onError={(e) => ((e.currentTarget as HTMLImageElement).style.display = "none")}
             />
           </div>
         ))}
