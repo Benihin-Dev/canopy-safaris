@@ -113,8 +113,9 @@ export default function SliderForTestimonial() {
             dots={false}
             arrows={false}
             infinite
+            fade
             speed={900}
-            cssEase="cubic-bezier(0.22, 1, 0.36, 1)"
+            cssEase="ease-in-out"
             slidesToShow={1}
             slidesToScroll={1}
             autoplay
