@@ -9,9 +9,9 @@ const images = Array.from({ length: 8 }, (_, i) => `/images/gallery/travel/${i +
 const SPEED = 45;        // px per second (left to right)
 const GAP = 8;          // px between photos
 const MAX_TILT = 12;      // deg, outer photos turn toward the centre
-const DEPTH = 150;        // px, how far the centre sits back
-const PERSPECTIVE = 1200;
-const RATIO = 1.25;      // photo height / width
+const DEPTH = 120;        // px, how far the centre sits back
+const PERSPECTIVE = 1300;
+const RATIO = 1.3;      // photo height / width
 
 export default function Gallery() {
   const [itemW, setItemW] = useState(300);
