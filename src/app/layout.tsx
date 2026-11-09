@@ -7,6 +7,8 @@ import {
   Libertinus_Math,
   Caveat,
   Geologica,
+  Bebas_Neue,
+  Inter,
 } from "next/font/google";
 import "./globals.css";
 
@@ -56,6 +58,18 @@ const geologica = Geologica({
   weight: ["400", "500", "600", "700"],
 });
 
+const bebas = Bebas_Neue({
+  variable: "--font-bebas",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
 export const metadata: Metadata = {
   title: "Canopy Safaris — Exclusive Adventures in the Wild",
   description:
@@ -70,7 +84,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${manrope.variable} ${playfairDisplay.variable} ${poppins.variable}  ${libertinus_Math.variable} ${caveat.variable} ${geologica.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${manrope.variable} ${playfairDisplay.variable} ${poppins.variable} ${libertinus_Math.variable} ${caveat.variable} ${geologica.variable} ${bebas.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
