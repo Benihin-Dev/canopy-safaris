@@ -149,7 +149,7 @@ export default function PeekShowcase() {
   return (
     /* overflow-x-clip stops a sideways scrollbar from the side cards. */
     <section className="relative w-full min-h-svh flex items-center bg-[#f0eee5] overflow-x-clip py-14">
-      <div className="w-full sm:w-11/12 lg:max-w-310 mx-auto px-5 sm:px-0 md:pl-1 md:pr-10 grid grid-cols-1 md:grid-cols-[minmax(0,400px)_minmax(0,1fr)] items-center gap-6 md:gap-x-18">
+      <div className="w-full sm:w-11/12 lg:max-w-350 mx-auto px-5 sm:px-0 grid grid-cols-1 md:grid-cols-[minmax(0,400px)_minmax(0,1fr)] items-center gap-6 md:gap-x-18">
         {/* ---------- Left: stays in place ---------- */}
         <div className="w-full min-w-0">
           <p className="font-poppins text-xs font-semibold uppercase tracking-[0.25em] text-[#a15f21]">
@@ -203,7 +203,7 @@ export default function PeekShowcase() {
         <div
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
-          className="relative min-w-0 grid justify-items-center items-center py-8 [--cw:min(76vw,340px)] md:[--cw:clamp(250px,28vw,370px)]"
+          className="relative min-w-0 grid justify-items-center items-center py-8 md:translate-x-8 [--cw:min(76vw,340px)] md:[--cw:clamp(250px,28vw,370px)]"
           style={{ perspective: "1600px" }}
         >
           {items.map((r, i) => {
