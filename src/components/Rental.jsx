@@ -35,7 +35,7 @@ const items = [
     title: "Card title three",
     sub: "Small line under the title",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/peek/three.jpg",
+    img: "/images/peek/tuktuk1.jpg",
     features: ["First feature line", "Second feature line"],
     cta: "Book now",
     href: "#",
@@ -46,7 +46,7 @@ const items = [
     title: "Card title four",
     sub: "Small line under the title",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/peek/four.jpg",
+    img: "/images/peek/tuktuk2.jpg",
     features: ["First feature line", "Second feature line"],
     cta: "Book now",
     href: "#",
@@ -57,7 +57,7 @@ const items = [
     title: "Card title five",
     sub: "Small line under the title",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/peek/four.jpg", // copy of card 4's image for now; swap to five.jpg when you have it
+    img: "/images/peek/tuktuk3.jpg", // copy of card 4's image for now; swap to five.jpg when you have it
     features: ["First feature line", "Second feature line"],
     cta: "Book now",
     href: "#",
