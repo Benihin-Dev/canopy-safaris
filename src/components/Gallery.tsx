@@ -69,23 +69,23 @@ export default function Gallery() {
   return (
     <section className="relative w-full overflow-hidden bg-[#1a1410] py-16">
       {/* header */}
-      <div className="mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-350">
-        <div className="flex items-start gap-4">
-          <span className="mt-2 -rotate-6 rounded-full border border-[#f59e0b] px-5 py-1 text-sm italic tracking-wider text-[#f59e0b]">
-            Gallery
-          </span>
-          <h2 className="font-bebas max-w-xl text-5xl uppercase leading-[1.05] text-white xl:text-6xl">
-            See our travel photography
-          </h2>
-        </div>
+<div className="mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-350">
+  <h2 className="font-bebas max-w-xl text-6xl uppercase leading-[0.95] text-white xl:text-7xl">
+    <span className="mr-4 inline-block -rotate-[8deg] rounded-full border border-[#f59e0b] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#f59e0b]">
+      Gallery
+    </span>
+    See our travel photography
+  </h2>
 
-        <div className="flex items-center gap-3">
-          <span className="font-bebas text-7xl leading-none text-[#f59e0b] xl:text-8xl">10K+</span>
-          <span className="font-bebas text-xl uppercase leading-tight text-gray-400">
-            Successfully <br /> placed visited
-          </span>
-        </div>
-      </div>
+  <div className="flex items-center gap-3">
+    <span className="font-bebas text-7xl leading-none text-[#f59e0b] xl:text-8xl">
+      10K<span className="text-5xl xl:text-6xl">+</span>
+    </span>
+    <span className="font-bebas text-xl uppercase leading-tight tracking-wide text-gray-400">
+      Successfully <br /> placed visited
+    </span>
+  </div>
+</div>
 
       {/* curved, auto-scrolling panel (full width) */}
       <div
