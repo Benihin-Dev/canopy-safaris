@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-/* ---------- photos: public/images/gallery/travel/1.jpg ... 8.jpg ---------- */
+/* ---------- photos: public/images/gallery/travel/1.jpg ... 8.jpg ----- change number 8 if you add more---------- */
 const images = Array.from({ length: 8 }, (_, i) => `/images/gallery/travel/${i + 1}.jpg`);
 
 /* ---------- tweak the look here ---------- */
@@ -67,11 +67,11 @@ export default function Gallery() {
   }, [itemW, items.length]);
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#10222a] py-16">
+    <section className="relative w-full overflow-hidden bg-[#1a1410] py-16">
       {/* header */}
       <div className="mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-350">
         <div className="flex items-start gap-4">
-          <span className="mt-2 -rotate-6 rounded-full border border-[#0ea5d6] px-5 py-1 text-sm italic tracking-wider text-[#0ea5d6]">
+          <span className="mt-2 -rotate-6 rounded-full border border-[#f59e0b] px-5 py-1 text-sm italic tracking-wider text-[#f59e0b]">
             Gallery
           </span>
           <h2 className="font-bebas max-w-xl text-5xl uppercase leading-[1.05] text-white xl:text-6xl">
@@ -80,7 +80,7 @@ export default function Gallery() {
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="font-bebas text-7xl leading-none text-[#0ea5d6] xl:text-8xl">10K+</span>
+          <span className="font-bebas text-7xl leading-none text-[#f59e0b] xl:text-8xl">10K+</span>
           <span className="font-bebas text-xl uppercase leading-tight text-gray-400">
             Successfully <br /> placed visited
           </span>
@@ -103,7 +103,7 @@ export default function Gallery() {
             ref={(el) => {
               itemRefs.current[i] = el;
             }}
-            className="absolute left-0 top-5 overflow-hidden rounded-md bg-[#1a313b] will-change-transform"
+            className="absolute left-0 top-5 overflow-hidden rounded-md bg-[#2a2119] will-change-transform"
             style={{ width: itemW, height: itemW * RATIO }}
           >
             <Image
