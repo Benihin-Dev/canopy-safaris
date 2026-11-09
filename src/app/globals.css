@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -30,6 +29,8 @@
   --font-libertinus_Math: var(--font-libertinus_Math);
   --font-caveat: var(--font-caveat);
   --font-geologica: var(--font-geologica);
+  --font-bebas: var(--font-bebas);
+  --font-inter: var(--font-inter);
 }
 
 html {
