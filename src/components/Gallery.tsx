@@ -6,11 +6,11 @@ import Image from "next/image";
 const images = Array.from({ length: 8 }, (_, i) => `/images/gallery/travel/${i + 1}.jpg`);
 
 /* ---------- tweak the look here ---------- */
-const SPEED = 40;        // px per second (left to right)
-const GAP = 16;          // px between photos
-const MAX_TILT = 8;      // deg, outer photos turn toward the centre
-const DEPTH = 70;        // px, how far the centre sits back
-const PERSPECTIVE = 1400;
+const SPEED = 45;        // px per second (left to right)
+const GAP = 8;          // px between photos
+const MAX_TILT = 12;      // deg, outer photos turn toward the centre
+const DEPTH = 150;        // px, how far the centre sits back
+const PERSPECTIVE = 1200;
 const RATIO = 1.25;      // photo height / width
 
 export default function Gallery() {
