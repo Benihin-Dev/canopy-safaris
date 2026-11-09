@@ -1,78 +1,149 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Heading from "./Elements/Heading";
 
+/* ---------- put your photos here (public/images/gallery/...) ---------- */
+const make = (folder, n) =>
+  Array.from({ length: n }, (_, i) => `/images/gallery/${folder}/${i + 1}.jpg`);
+
+const galleries = [
+  { name: "National Parks", images: make("parks", 6) },
+  { name: "Wildlife Close-Ups", images: make("wildlife", 6) },
+  { name: "Golden Hour", images: make("golden", 6) },
+  { name: "Camp Life", images: make("camp", 6) },
+];
+
+/* ---------- tweak the look here ---------- */
+const SPEED = 45; // px per second (moves left to right)
+const GAP = 8; // px between photos
+const MAX_TILT = 12; // deg, how much the outer photos turn toward the centre
+const DEPTH = 120; // px, how far the centre photo sits back (the curve)
+const PERSPECTIVE = 1300;
+const RATIO = 1.3; // photo height / width
+
 export default function Gallery() {
-  const [activeItem, setActiveItem] = useState(1);
-  const galleryTypes = [
-    "National Parks",
-    "Wildlife Close-Ups",
-    "Golden Hour",
-    "Camp Life",
-  ];
+  const [active, setActive] = useState(0);
+  const [itemW, setItemW] = useState(300);
+
+  const wrapRef = useRef(null);
+  const itemRefs = useRef([]);
+  const offset = useRef(0);
+  const paused = useRef(false);
+
+  /* repeat the list 3x so the loop never shows a gap */
+  const list = galleries[active].images;
+  const items = [...list, ...list, ...list];
+
+  /* photo width: 5 on desktop, 3 on tablet, 1 on phone */
+  useEffect(() => {
+    const size = () => {
+      const w = wrapRef.current?.offsetWidth || window.innerWidth;
+      const visible = w >= 1024 ? 5 : w >= 640 ? 3 : 1.2;
+      setItemW((w - GAP * (Math.ceil(visible) - 1)) / visible);
+    };
+    size();
+    window.addEventListener("resize", size);
+    return () => window.removeEventListener("resize", size);
+  }, []);
+
+  /* animation loop */
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const step = itemW + GAP;
+    const total = items.length * step;
+    let raf = 0;
+    let last = performance.now();
+
+    const frame = (now) => {
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      if (!paused.current && !reduce) offset.current += SPEED * dt;
+
+      const W = wrapRef.current?.offsetWidth || 0;
+      const half = W / 2;
+
+      itemRefs.current.forEach((el, i) => {
+        if (!el) return;
+        // wrap each photo around the loop
+        const x = (((i * step + offset.current) % total) + total) % total - step;
+
+        const dx = x + itemW / 2 - half; // distance from centre
+        const n = Math.max(-1, Math.min(1, dx / half));
+        const z = -DEPTH * (1 - n * n); // centre sits back, edges come forward
+        const rot = -n * MAX_TILT; // outer photos turn inward
+        el.style.transform = `translate3d(${x}px,0,${z}px) rotateY(${rot}deg)`;
+      });
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(raf);
+  }, [itemW, active, items.length, list.length]);
+
   return (
-    <div className=" w-full py-20 relative bg-[#121212]">
-      <div className=" w-full sm:w-11/12 lg:max-w-350 mx-auto px-5 sm:px-0 ">
-        <div className="w-full">
-          <Heading
-            title="Gallery | Canopy Safaris"
-            textColor="text-[#ffffff] tracking-wider"
-            lineColor="from-[#ffffff]"
-          />
-        </div>
-        <h1 className="font-libertinus_Math text-5xl w-full text-center md:text-5xl xl:text-6xl mx-auto pb-1 text-[#ffffff] font-medium mt-2">
+    <div className="relative w-full bg-[#121212] py-20">
+      <div className="mx-auto w-full px-5 sm:w-11/12 sm:px-0 lg:max-w-350">
+        <Heading
+          title="Gallery | Canopy Safaris"
+          textColor="text-[#ffffff] tracking-wider"
+          lineColor="from-[#ffffff]"
+        />
+        <h1 className="font-libertinus_Math mx-auto mt-2 w-full pb-1 text-center text-5xl font-medium text-[#ffffff] xl:text-6xl">
           Moments From The Wild
         </h1>
-        <h2 className="w-1/2 mx-auto text-sm font-poppins text-[#ffffff] text-center">
-          A visual journey through Sri Lanka's landscapes and wildlife, captured
-          on our safaris
+        <h2 className="font-poppins mx-auto w-full text-center text-sm text-[#ffffff] md:w-1/2">
+          A visual journey through Sri Lanka&apos;s landscapes and wildlife,
+          captured on our safaris
         </h2>
-        <div className=" w-full flex items-center justify-center gap-6 pb-10 mt-14 relative z-30">
-          {galleryTypes.map((item, i) => (
-            <div
-              key={i}
+
+        {/* category tabs */}
+        <div className="relative z-30 mt-14 flex flex-wrap items-center justify-center gap-3 pb-10 sm:gap-6">
+          {galleries.map((g, i) => (
+            <button
+              key={g.name}
               onClick={() => {
-                setActiveItem(i + 1);
+                offset.current = 0;
+                setActive(i);
               }}
-              className={` ${activeItem === i + 1 ? "bg-white text-[#121212]" : " bg-transparent text-gray-400"} hover:bg-white hover:text-[#121212] rounded-lg cursor-pointer duration-300 transition-all px-5 py-2  font-poppins text-center `}
+              className={`font-poppins cursor-pointer rounded-lg px-5 py-2 text-center transition-all duration-300 hover:bg-white hover:text-[#121212] ${
+                active === i ? "bg-white text-[#121212]" : "bg-transparent text-gray-400"
+              }`}
             >
-              {item}
-            </div>
+              {g.name}
+            </button>
           ))}
         </div>
-        <div className=" w-full grid grid-cols-3 gap-8 bg-[#232323] p-8 rounded-3xl overflow-hidden ">
-          <div className=" w-full aspect-6/9  not-only:">
-            <div
-              className={` w-full border bg-black border-gray-400 transition-all ease-out duration-500 rounded-2xl ${activeItem === 1 ? "translate-x-0 h-full" : activeItem === 2 ? "translate-x-[calc(200%+66px)] h-full" : activeItem === 3 ? "translate-x-0 h-[calc(66%-14px)] translate-y-[calc(50%+26px)]" : activeItem === 4 ? "translate-x-[calc(100%+35px)] h-[calc(66%-16px)] translate-y-[calc(50%+29px)]" : ""}  `}
-            ></div>
+      </div>
+
+      {/* curved, auto-scrolling panel (full width) */}
+      <div
+        ref={wrapRef}
+        className="relative mx-auto w-full overflow-hidden"
+        style={{ perspective: `${PERSPECTIVE}px`, height: itemW * RATIO + 40 }}
+        onMouseEnter={() => (paused.current = true)}
+        onMouseLeave={() => (paused.current = false)}
+        onTouchStart={() => (paused.current = true)}
+        onTouchEnd={() => (paused.current = false)}
+      >
+        {items.map((src, i) => (
+          <div
+            key={`${active}-${i}`}
+            ref={(el) => {
+              itemRefs.current[i] = el;
+            }}
+            className="absolute left-0 top-5 overflow-hidden rounded-xl bg-[#232323] will-change-transform"
+            style={{ width: itemW, height: itemW * RATIO }}
+          >
+            <Image
+              src={src}
+              alt={`${galleries[active].name} ${(i % list.length) + 1}`}
+              fill
+              sizes="(min-width:1024px) 20vw, (min-width:640px) 33vw, 85vw"
+              className="object-cover"
+              draggable={false}
+            />
           </div>
-          <div className=" w-full aspect-6/9 ">
-            <div className=" w-full h-1/3 pb-4">
-              <div
-                className={`  w-full border bg-black border-gray-400 transition-all ease-out duration-500 rounded-2xl ${activeItem === 1 ? "translate-x-0 h-full" : activeItem === 2 ? "translate-x-[calc(-100%-32px)] translate-y-[calc(50%+23px)] h-[calc(200%+16px)]" : activeItem === 3 ? "translate-x-0 h-[calc(300%+48px)]" : activeItem === 4 ? "translate-x-[calc(-100%-34px)] translate-y-0 h-[calc(200%+14px)]" : ""}  `}
-              ></div>
-            </div>
-            <div className=" w-full h-2/3  pt-4">
-              <div
-                className={`  w-full border bg-black border-gray-400 transition-all ease-out duration-500 rounded-2xl 
-                   ${activeItem === 1 ? "translate-x-0 h-full" : activeItem === 2 ? "translate-x-0 translate-y-[calc(-50%-25px)] h-full" : activeItem === 3 ? "translate-x-[calc(100%+34px)] h-[calc(50%-4px)] translate-y-[calc(100%+8px)]" : activeItem === 4 ? "translate-x-0 translate-y-[calc(-100%-28px)] h-[calc(50%-4px)]" : ""} 
-                     `}
-              ></div>
-            </div>
-          </div>
-          <div className=" w-full aspect-6/9 ">
-            <div className=" w-full h-2/3 pb-4">
-              <div
-                className={`w-full border  bg-black border-gray-400 transition-all ease-out duration-500 rounded-2xl ${activeItem === 1 ? "translate-x-0 h-full" : activeItem === 2 ? "translate-x-[calc(-100%-35px)] translate-y-[calc(200%+42px)] h-[calc(50%-6px)]" : activeItem === 3 ? "translate-x-[calc(-200%-68px)] h-[calc(50%-6px)] translate-y-0" : activeItem === 4 ? "translate-x-0 translate-y-[calc(0px)] h-[calc(150%+25px)]" : ""} `}
-              ></div>
-            </div>
-            <div className=" w-full h-1/3 pt-4">
-              <div
-                className={`  w-full border bg-black border-gray-400 transition-all ease-out duration-500 rounded-2xl ${activeItem === 1 ? "translate-x-0 h-full" : activeItem === 2 ? "translate-x-[calc(-200%-68px)] translate-y-[calc(-200%-48px)] h-full" : activeItem === 3 ? "translate-x-0 h-[calc(200%+12px)] translate-y-[calc(-100%-36px)]" : activeItem === 4 ? "translate-x-[calc(-200%-68px)] translate-y-0 h-full" : ""} `}
-              ></div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
