@@ -110,15 +110,15 @@ body {
   50% {
     transform: translateX(-28%);
   }
-  @keyframes waveMove {
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes waveMove {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
 .wave-slow { animation: waveMove 40s linear infinite; }
 .wave-mid { animation: waveMove 28s linear infinite reverse; }
 .wave-fast { animation: waveMove 20s linear infinite; }
-
-  100% {
-    transform: translateX(0%);
-  }
-}
