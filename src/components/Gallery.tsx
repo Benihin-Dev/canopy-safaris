@@ -1,29 +1,19 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Heading from "./Elements/Heading";
 
-/* ---------- put your photos here (public/images/gallery/...) ---------- */
-const make = (folder: string, n: number) =>
-  Array.from({ length: n }, (_, i) => `/images/gallery/${folder}/${i + 1}.jpg`);
-
-const galleries = [
-  { name: "National Parks", images: make("parks", 6) },
-  { name: "Wildlife Close-Ups", images: make("wildlife", 6) },
-  { name: "Golden Hour", images: make("golden", 6) },
-  { name: "Camp Life", images: make("camp", 6) },
-];
+/* ---------- photos: public/images/gallery/travel/1.jpg ... 8.jpg ---------- */
+const images = Array.from({ length: 8 }, (_, i) => `/images/gallery/travel/${i + 1}.jpg`);
 
 /* ---------- tweak the look here ---------- */
-const SPEED = 45; // px per second (moves left to right)
-const GAP = 8; // px between photos
-const MAX_TILT = 12; // deg, how much the outer photos turn toward the centre
-const DEPTH = 120; // px, how far the centre photo sits back (the curve)
-const PERSPECTIVE = 1300;
-const RATIO = 1.3; // photo height / width
+const SPEED = 40;        // px per second (left to right)
+const GAP = 16;          // px between photos
+const MAX_TILT = 8;      // deg, outer photos turn toward the centre
+const DEPTH = 70;        // px, how far the centre sits back
+const PERSPECTIVE = 1400;
+const RATIO = 1.25;      // photo height / width
 
 export default function Gallery() {
-  const [active, setActive] = useState(0);
   const [itemW, setItemW] = useState(300);
 
   const wrapRef = useRef<HTMLDivElement | null>(null);
@@ -31,16 +21,15 @@ export default function Gallery() {
   const offset = useRef(0);
   const paused = useRef(false);
 
-  /* repeat the list 3x so the loop never shows a gap */
-  const list = galleries[active].images;
-  const items = [...list, ...list, ...list];
+  /* repeat the list so the loop never shows a gap */
+  const items = [...images, ...images, ...images];
 
-  /* photo width: 5 on desktop, 3 on tablet, 1 on phone */
+  /* how many photos are visible (the decimal leaves a cut-off photo on the edges) */
   useEffect(() => {
     const size = () => {
       const w = wrapRef.current?.offsetWidth || window.innerWidth;
-      const visible = w >= 1024 ? 5 : w >= 640 ? 3 : 1.2;
-      setItemW((w - GAP * (Math.ceil(visible) - 1)) / visible);
+      const visible = w >= 1024 ? 4.7 : w >= 640 ? 2.7 : 1.3;
+      setItemW(w / visible - GAP);
     };
     size();
     window.addEventListener("resize", size);
@@ -60,65 +49,48 @@ export default function Gallery() {
       last = now;
       if (!paused.current && !reduce) offset.current += SPEED * dt;
 
-      const W = wrapRef.current?.offsetWidth || 0;
-      const half = W / 2;
+      const half = (wrapRef.current?.offsetWidth || 0) / 2;
 
       itemRefs.current.forEach((el, i) => {
         if (!el) return;
-        // wrap each photo around the loop
-        const x = (((i * step + offset.current) % total) + total) % total - step;
-
-        const dx = x + itemW / 2 - half; // distance from centre
+        const x = ((((i * step + offset.current) % total) + total) % total) - step;
+        const dx = x + itemW / 2 - half;
         const n = Math.max(-1, Math.min(1, dx / half));
-        const z = -DEPTH * (1 - n * n); // centre sits back, edges come forward
-        const rot = -n * MAX_TILT; // outer photos turn inward
+        const z = -DEPTH * (1 - n * n);
+        const rot = -n * MAX_TILT;
         el.style.transform = `translate3d(${x}px,0,${z}px) rotateY(${rot}deg)`;
       });
       raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, [itemW, active, items.length, list.length]);
+  }, [itemW, items.length]);
 
   return (
-    <div className="relative w-full bg-[#121212] py-20">
-      <div className="mx-auto w-full px-5 sm:w-11/12 sm:px-0 lg:max-w-350">
-        <Heading
-          title="Gallery | Canopy Safaris"
-          textColor="text-[#ffffff] tracking-wider"
-          lineColor="from-[#ffffff]"
-        />
-        <h1 className="font-libertinus_Math mx-auto mt-2 w-full pb-1 text-center text-5xl font-medium text-[#ffffff] xl:text-6xl">
-          Moments From The Wild
-        </h1>
-        <h2 className="font-poppins mx-auto w-full text-center text-sm text-[#ffffff] md:w-1/2">
-          A visual journey through Sri Lanka&apos;s landscapes and wildlife,
-          captured on our safaris
-        </h2>
+    <section className="relative w-full overflow-hidden bg-[#10222a] py-16">
+      {/* header */}
+      <div className="mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-350">
+        <div className="flex items-start gap-4">
+          <span className="mt-2 -rotate-6 rounded-full border border-[#0ea5d6] px-5 py-1 text-sm italic tracking-wider text-[#0ea5d6]">
+            Gallery
+          </span>
+          <h2 className="font-bebas max-w-xl text-5xl uppercase leading-[1.05] text-white xl:text-6xl">
+            See our travel photography
+          </h2>
+        </div>
 
-        {/* category tabs */}
-        <div className="relative z-30 mt-14 flex flex-wrap items-center justify-center gap-3 pb-10 sm:gap-6">
-          {galleries.map((g, i) => (
-            <button
-              key={g.name}
-              onClick={() => {
-                offset.current = 0;
-                setActive(i);
-              }}
-              className={`font-poppins cursor-pointer rounded-lg px-5 py-2 text-center transition-all duration-300 hover:bg-white hover:text-[#121212] ${
-                active === i ? "bg-white text-[#121212]" : "bg-transparent text-gray-400"
-              }`}
-            >
-              {g.name}
-            </button>
-          ))}
+        <div className="flex items-center gap-3">
+          <span className="font-bebas text-7xl leading-none text-[#0ea5d6] xl:text-8xl">10K+</span>
+          <span className="font-bebas text-xl uppercase leading-tight text-gray-400">
+            Successfully <br /> placed visited
+          </span>
         </div>
       </div>
 
       {/* curved, auto-scrolling panel (full width) */}
       <div
         ref={wrapRef}
-        className="relative mx-auto w-full overflow-hidden"
+        className="relative w-full overflow-hidden"
         style={{ perspective: `${PERSPECTIVE}px`, height: itemW * RATIO + 40 }}
         onMouseEnter={() => (paused.current = true)}
         onMouseLeave={() => (paused.current = false)}
@@ -127,18 +99,18 @@ export default function Gallery() {
       >
         {items.map((src, i) => (
           <div
-            key={`${active}-${i}`}
+            key={i}
             ref={(el) => {
               itemRefs.current[i] = el;
             }}
-            className="absolute left-0 top-5 overflow-hidden rounded-xl bg-[#232323] will-change-transform"
+            className="absolute left-0 top-5 overflow-hidden rounded-md bg-[#1a313b] will-change-transform"
             style={{ width: itemW, height: itemW * RATIO }}
           >
             <Image
               src={src}
-              alt={`${galleries[active].name} ${(i % list.length) + 1}`}
+              alt={`Travel photo ${(i % images.length) + 1}`}
               fill
-              sizes="(min-width:1024px) 20vw, (min-width:640px) 33vw, 85vw"
+              sizes="(min-width:1024px) 22vw, (min-width:640px) 38vw, 80vw"
               className="object-cover"
               draggable={false}
               onError={(e) => ((e.currentTarget as HTMLImageElement).style.display = "none")}
@@ -146,6 +118,6 @@ export default function Gallery() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
