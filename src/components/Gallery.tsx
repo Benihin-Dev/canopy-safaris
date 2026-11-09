@@ -78,7 +78,7 @@ export default function Gallery() {
           <span className="mr-4 inline-block -rotate-[8deg] rounded-full border border-[#f59e0b] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#f59e0b]">
             Gallery
           </span>
-          <span className="sm:whitespace-nowrap">See our travel</span>
+          <span className="sm:whitespace-nowrap">See our Safari</span>
           <br />
           Photography
         </h2>
