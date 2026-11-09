@@ -141,6 +141,7 @@ export default function Gallery() {
               sizes="(min-width:1024px) 20vw, (min-width:640px) 33vw, 85vw"
               className="object-cover"
               draggable={false}
+              onError={(e) => (e.currentTarget.style.display = "none")}
             />
           </div>
         ))}
