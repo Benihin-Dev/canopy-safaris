@@ -74,7 +74,7 @@ export default function Gallery() {
     <span className="mr-4 inline-block -rotate-[8deg] rounded-full border border-[#f59e0b] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#f59e0b]">
       Gallery
     </span>
-    See our travel photography
+    See our Safari photography
   </h2>
 
   <div className="flex items-center gap-3">
