@@ -47,7 +47,7 @@ const packages = [
 const HOLD_MS = 4500; // how long the centre card stays
 const RADIUS = 3.0; // circle size, in card widths. Bigger = bigger circle
 const STEP = 20; // degrees between two neighbouring cards
-const SIDE_SCALE = 0.90; // side card size
+const SIDE_SCALE = 0.9; // side card size
 
 const rad = (deg) => (deg * Math.PI) / 180;
 
@@ -68,12 +68,13 @@ const css = `
   --sp-w:min(540px,78vw);
   --sp-dur:1.1s;
   --sp-ease:cubic-bezier(.22,.8,.22,1);
-  --sp-card-bg:#121212;
-  --sp-card-border:rgba(255,255,255,.07);
-  --sp-text:#ffffff;
-  --sp-muted:#8b8b92;
-  --sp-btn:#1f1f22;
-  --sp-btn-hover:#2e2e33;
+  --sp-card-bg:#fffaf2;
+  --sp-card-border:#c9a36a;
+  --sp-heading:#2b1d10;
+  --sp-text:#3d2c1b;
+  --sp-body:#5b4733;
+  --sp-accent:#a15f21;
+  --sp-accent-hover:#7d4a19;
 }
 .sp-stage{width:100%;padding:70px 0;perspective:1000px;perspective-origin:50% 50%;display:grid;touch-action:pan-y;cursor:grab;user-select:none}
 .sp-stage.sp-dragging{cursor:grabbing}
@@ -82,38 +83,38 @@ const css = `
   grid-area:1/1;justify-self:center;width:var(--sp-w);
   background:var(--sp-card-bg);border:1px solid var(--sp-card-border);
   border-radius:28px;padding:18px;color:var(--sp-text);
-  box-shadow:0 30px 60px -20px rgba(0,0,0,.9);
+  box-shadow:0 30px 60px -20px rgba(97,61,29,.55);
   transition:transform var(--sp-dur) var(--sp-ease),opacity var(--sp-dur) var(--sp-ease),filter var(--sp-dur) var(--sp-ease);
   will-change:transform,opacity,filter;backface-visibility:hidden;
 }
 .sp-card[data-pos="center"]{z-index:3;filter:brightness(1)}
-.sp-card[data-pos="side"]{z-index:2;filter:brightness(.45) saturate(.8);cursor:pointer}
-.sp-card[data-pos="far"]{z-index:1;opacity:0;pointer-events:none;filter:brightness(.3)}
+.sp-card[data-pos="side"]{z-index:2;filter:brightness(.9) saturate(.85);cursor:pointer;box-shadow:0 30px 60px -20px rgba(97,61,29,.45)}
+.sp-card[data-pos="far"]{z-index:1;opacity:0;pointer-events:none}
 
-.sp-media{position:relative;width:100%;aspect-ratio:16/10;border-radius:20px;overflow:hidden;background:#1a1a1c}
-.sp-media::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.14),transparent 45%,rgba(0,0,0,.18));pointer-events:none}
-.sp-badge{position:absolute;top:12px;left:12px;z-index:1;padding:6px 12px;border-radius:999px;background:rgba(11,11,12,.65);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.sp-media{position:relative;width:100%;aspect-ratio:16/10;border-radius:20px;overflow:hidden;background:#e6d9bf}
+.sp-media::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.12),transparent 45%,rgba(43,29,16,.12));pointer-events:none}
+.sp-badge{position:absolute;top:12px;left:12px;z-index:1;padding:6px 12px;border-radius:999px;background:#2b1d10;color:#fff;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
 
 .sp-body{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:24px 10px 8px;transition:opacity var(--sp-dur) var(--sp-ease)}
-.sp-card[data-pos="side"] .sp-body{opacity:.35}
-.sp-meta h3{font-size:clamp(1.6rem,4vw,2.1rem);font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
-.sp-meta p{font-size:.95rem;color:var(--sp-muted)}
+.sp-card[data-pos="side"] .sp-body{opacity:.45}
+.sp-meta h3{font-family:var(--font-bebas),sans-serif;font-size:clamp(1.9rem,4vw,2.4rem);font-weight:400;letter-spacing:.03em;text-transform:uppercase;line-height:1.05;color:var(--sp-heading);margin-bottom:6px}
+.sp-meta p{font-size:.95rem;color:var(--sp-text)}
 .sp-hl{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;padding:0;list-style:none}
-.sp-hl li{font-size:.78rem;color:#c9c9ce;border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:4px 10px}
+.sp-hl li{font-size:.78rem;color:var(--sp-body);border:1px solid var(--sp-card-border);border-radius:999px;padding:4px 10px}
 
-.sp-action{flex:none;width:56px;height:56px;border-radius:50%;background:var(--sp-btn);border:1px solid rgba(255,255,255,.06);color:var(--sp-text);display:grid;place-items:center;transition:background .2s ease,transform .2s ease}
-.sp-action:hover{background:var(--sp-btn-hover);transform:scale(1.08)}
-.sp-action:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.sp-action{flex:none;width:56px;height:56px;border-radius:50%;background:var(--sp-accent);border:0;color:#fff;display:grid;place-items:center;transition:background .2s ease,transform .2s ease}
+.sp-action:hover{background:var(--sp-accent-hover);transform:scale(1.08)}
+.sp-action:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
 .sp-action svg{width:20px;height:20px;stroke:currentColor;stroke-width:2.2;fill:none}
 .sp-card[data-pos="side"] .sp-action{pointer-events:none}
 
 .sp-controls{display:flex;align-items:center;justify-content:center;gap:16px;padding-bottom:8px}
-.sp-nav{width:46px;height:46px;border-radius:50%;background:var(--sp-btn);border:1px solid rgba(255,255,255,.06);color:#fff;font-size:1.2rem;cursor:pointer;display:grid;place-items:center;transition:background .2s ease}
-.sp-nav:hover{background:var(--sp-btn-hover)}
-.sp-nav:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.sp-nav{width:46px;height:46px;border-radius:50%;background:var(--sp-accent);border:0;color:#fff;font-size:1.2rem;cursor:pointer;display:grid;place-items:center;transition:background .2s ease}
+.sp-nav:hover{background:var(--sp-accent-hover)}
+.sp-nav:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
 .sp-dots{display:flex;gap:8px}
-.sp-dot{height:8px;width:8px;padding:0;border-radius:999px;border:0;background:rgba(255,255,255,.25);cursor:pointer;transition:width .3s ease,background .3s ease}
-.sp-dot[aria-current="true"]{width:26px;background:#fff}
+.sp-dot{height:8px;width:8px;padding:0;border-radius:999px;border:0;background:rgba(161,95,33,.28);cursor:pointer;transition:width .3s ease,background .3s ease}
+.sp-dot[aria-current="true"]{width:26px;background:var(--sp-accent)}
 
 @media (prefers-reduced-motion: reduce){
   .sp-card,.sp-body{transition-duration:.01s}
@@ -193,7 +194,7 @@ export default function SafariPackages() {
   return (
     <section
       id="packages"
-      className="sp-root relative w-full overflow-hidden bg-[#0b0b0c] py-16"
+      className="sp-root relative w-full overflow-hidden bg-[#f0eee5] py-16"
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") next();
         if (e.key === "ArrowLeft") prev();
@@ -201,8 +202,11 @@ export default function SafariPackages() {
     >
       <style>{css}</style>
 
-      <h2 className="font-libertinus_Math text-4xl md:text-5xl text-center text-white font-medium px-5">
-        Our Safari Packages
+      <h2 className="px-5 text-center font-bebas text-5xl uppercase leading-[1.05] tracking-wide text-[#2b1d10] md:text-7xl">
+        <span className="relative -top-1 mr-4 inline-block -rotate-6 rounded-full border border-[#a15f21] px-4 py-1.5 align-middle font-caveat text-lg normal-case leading-none tracking-normal text-[#a15f21] md:text-xl">
+          Safari
+        </span>
+        Our packages
       </h2>
 
       <div
@@ -248,14 +252,14 @@ export default function SafariPackages() {
                   className="object-cover"
                   priority={i === 1}
                 />
-                <span className="sp-badge">{p.badge}</span>
+                <span className="sp-badge font-inter">{p.badge}</span>
               </div>
 
               <div className="sp-body">
                 <div className="sp-meta">
-                  <h3 className="font-libertinus_Math">{p.title}</h3>
-                  <p className="font-poppins">{p.desc}</p>
-                  <ul className="sp-hl font-poppins">
+                  <h3>{p.title}</h3>
+                  <p className="font-inter">{p.desc}</p>
+                  <ul className="sp-hl font-inter">
                     {p.highlights.map((h) => (
                       <li key={h}>{h}</li>
                     ))}
