@@ -43,7 +43,9 @@ const files = [
   "25.jpg", // <- replace with the real name of your 25th file
 ];
 
-const images = files.map((f) => `/images/gallery/safari/${f}`);
+const images = [...files]
+  .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+  .map((f) => `/images/gallery/safari/${f}`);
 
 /* ---------- tweak the look here ---------- */
 const SPEED = 60;        // px per second (left to right)
@@ -87,7 +89,7 @@ export default function Gallery() {
     const frame = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
-      if (!paused.current && !reduce) offset.current += SPEED * dt;
+      if (!paused.current && !reduce) offset.current -= SPEED * dt;
 
       const half = (wrapRef.current?.offsetWidth || 0) / 2;
 
