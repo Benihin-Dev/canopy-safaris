@@ -89,7 +89,7 @@ export default function Gallery() {
     const frame = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
-      if (!paused.current && !reduce) offset.current += SPEED * dt;
+      if (!paused.current && !reduce) offset.current -= SPEED * dt;
 
       const half = (wrapRef.current?.offsetWidth || 0) / 2;
 
