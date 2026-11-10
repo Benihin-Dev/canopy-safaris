@@ -76,7 +76,7 @@ const css = `
   --sp-accent:#a15f21;
   --sp-accent-hover:#7d4a19;
 }
-.sp-stage{width:100%;padding:70px 0;perspective:1000px;perspective-origin:50% 50%;display:grid;touch-action:pan-y;cursor:grab;user-select:none}
+.sp-stage{position:relative;width:100%;padding:70px 0;perspective:1000px;perspective-origin:50% 50%;display:grid;touch-action:pan-y;cursor:grab;user-select:none}
 .sp-stage.sp-dragging{cursor:grabbing}
 
 .sp-card{
@@ -112,6 +112,13 @@ const css = `
 .sp-nav{width:46px;height:46px;border-radius:50%;background:var(--sp-accent);border:0;color:#fff;font-size:1.2rem;cursor:pointer;display:grid;place-items:center;transition:background .2s ease}
 .sp-nav:hover{background:var(--sp-accent-hover)}
 .sp-nav:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
+.sp-side{position:absolute;top:50%;z-index:10;width:46px;height:46px;margin-top:-23px;border-radius:50%;background:var(--sp-accent);border:0;color:#fff;font-size:1.2rem;cursor:pointer;display:grid;place-items:center;opacity:0;transition:opacity .3s ease,background .2s ease,transform .2s ease}
+.sp-side:hover{background:var(--sp-accent-hover);transform:scale(1.08)}
+.sp-side:focus-visible{opacity:1;outline:2px solid var(--sp-accent);outline-offset:3px}
+.sp-side-l{left:calc(50% - var(--sp-w) / 2 - 23px)}
+.sp-side-r{right:calc(50% - var(--sp-w) / 2 - 23px)}
+.sp-stage:hover .sp-side{opacity:1}
+@media (hover:none){.sp-side{opacity:1}}
 .sp-dots{display:flex;gap:8px}
 .sp-dot{height:8px;width:8px;padding:0;border-radius:999px;border:0;background:rgba(161,95,33,.28);cursor:pointer;transition:width .3s ease,background .3s ease}
 .sp-dot[aria-current="true"]{width:26px;background:var(--sp-accent)}
@@ -279,12 +286,26 @@ export default function SafariPackages() {
             </article>
           );
         })}
+
+        <button
+          className="sp-side sp-side-l"
+          onClick={prev}
+          onPointerDown={(e) => e.stopPropagation()}
+          aria-label="Previous"
+        >
+          ←
+        </button>
+        <button
+          className="sp-side sp-side-r"
+          onClick={next}
+          onPointerDown={(e) => e.stopPropagation()}
+          aria-label="Next"
+        >
+          →
+        </button>
       </div>
 
       <div className="sp-controls">
-        <button className="sp-nav" onClick={prev} aria-label="Previous">
-          ←
-        </button>
         <div className="sp-dots">
           {packages.map((p, i) => (
             <button
@@ -296,9 +317,6 @@ export default function SafariPackages() {
             />
           ))}
         </div>
-        <button className="sp-nav" onClick={next} aria-label="Next">
-          →
-        </button>
       </div>
     </section>
   );
