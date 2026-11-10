@@ -6,7 +6,7 @@ import { Bebas_Neue } from "next/font/google";
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 
 /* ---------- photos: public/images/gallery/safari/1.jpg ... 25.jpg ----- change number 25 if you add more---------- */
-const images = Array.from({ length: 25 }, (_, i) => `/images/gallery/safari/${i + 1}.jpg`);
+const images = Array.from({ length: 24 }, (_, i) => `/images/gallery/safari/${i + 1}.jpg`);
 
 /* ---------- tweak the look here ---------- */
 const SPEED = 60;        // px per second (left to right)
