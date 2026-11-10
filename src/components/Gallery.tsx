@@ -5,8 +5,45 @@ import { Bebas_Neue } from "next/font/google";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 
-/* ---------- photos: public/images/gallery/safari/1.jpg ... 25.jpg ----- change number 25 if you add more---------- */
-const images = Array.from({ length: 24 }, (_, i) => `/images/gallery/safari/${i + 1}.jpg`);
+/* ---------- photos: public/images/gallery/safari/ ---------- */
+
+/* OLD WAY (kept for later): auto-numbered 1.jpg ... N.jpg
+   Only works if the files are named exactly 1.jpg, 2.jpg, 3.jpg ... with no gaps.
+   To use it again: uncomment this line and delete the "files" list below.
+
+const images = Array.from({ length: 25 }, (_, i) => `/images/gallery/safari/${i + 1}.jpg`);
+*/
+
+/* NEW WAY: list the real file names (any name works, gaps are fine) */
+const files = [
+  "1.jpg",
+  "2.jpg",
+  "3.jpg",
+  "4.jpg",
+  "5.jpg",
+  "6.jpg",
+  "7.jpg",
+  "8.jpg",
+  "9.jpg",
+  "10.jpg",
+  "11.jpg",
+  "12.jpg",
+  "13.jpg",
+  "14.jpg",
+  "15.jpg",
+  "16.jpg",
+  "17.jpg",
+  "18.jpg",
+  "19.jpg",
+  "20.jpg",
+  "21.jpg",
+  "22.jpg",
+  "23.jpg",
+  "24.jpg",
+  "25.jpg", // <- replace with the real name of your 25th file
+];
+
+const images = files.map((f) => `/images/gallery/safari/${f}`);
 
 /* ---------- tweak the look here ---------- */
 const SPEED = 60;        // px per second (left to right)
