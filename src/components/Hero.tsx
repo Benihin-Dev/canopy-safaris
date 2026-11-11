@@ -24,17 +24,19 @@ const cinzel = Cinzel({
 });
 
 export default function Hero() {
-const safariStats = [
-  { value: "98%", label: "Guest Satisfaction" },
-  { value: "15+", label: "Years Of Experience" },
-  { value: "1,000+", label: "Safari Tours" },
-  { value: "90%", label: "Leopard Sighting" },
-];
+  const safariStats = [
+    { value: "98%", label: "Guest Satisfaction" },
+    { value: "15+", label: "Years Of Experience" },
+    { value: "1,000+", label: "Safari Tours" },
+    { value: "90%", label: "Leopard Sighting" },
+  ];
   const [typed, setTyped] = useState("");
 
   useEffect(() => {
     const full = "Into the Wild.";
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     let i = 0;
     let timer: ReturnType<typeof setInterval> | undefined;
     const start = setTimeout(() => {
@@ -49,16 +51,15 @@ const safariStats = [
       if (timer) clearInterval(timer);
     };
   }, []);
-  
+
   return (
     <section className="relative flex min-h-screen w-full items-center overflow-hidden">
       <div className="relative z-20 mx-auto w-full px-5 pt-32 pb-44 sm:w-11/12 sm:px-0 lg:max-w-350">
         <div className=" w-full flex items-center sm:items-start">
-          
           <div className="w-full text-center sm:w-10/12 md:text-left lg:max-w-170 xl:max-w-190">
             {/* 01 Small top heading */}
             <p
-               className={`${cinzel.className} text-[11px] font-semibold uppercase tracking-[3px] text-[#D6B47B] sm:text-[13px]`}
+              className={`${cinzel.className} text-[11px] font-semibold uppercase tracking-[3px] text-[#D6B47B] sm:text-[13px]`}
             >
               Exclusive adventures in Kumana
             </p>
@@ -87,8 +88,9 @@ const safariStats = [
             <p
               className={`${dmSans.className} mx-auto mt-3 max-w-xl text-[15px] font-normal leading-[1.7] text-[#D5DCD4] sm:text-[17px] md:mx-0`}
             >
-              Experience exclusive safari journeys through Kumana with knowledgeable local guides. 
-              Explore the wilderness, encounter remarkable wildlife and discover the natural beauty of Sri Lanka, 
+              Experience exclusive safari journeys through Kumana with
+              knowledgeable local guides. Explore the wilderness, encounter
+              remarkable wildlife and discover the natural beauty of Sri Lanka,
               from majestic elephants to elusive leopards and sloth bears.
             </p>
 
@@ -100,52 +102,27 @@ const safariStats = [
               </button>
             </div>
           </div>
-          
         </div>
         <div className="mt-16 grid w-full grid-cols-2 overflow-hidden rounded-2xl border border-white/30 bg-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl md:grid-cols-4">
-         {safariStats.map((item, i) => (
-        <div
-         key={i}
-         className={`px-6 py-5 font-poppins text-white border-white/20
+          {safariStats.map((item, i) => (
+            <div
+              key={i}
+              className={`px-6 py-5 font-poppins text-white border-white/20
          ${i % 2 !== 0 ? "border-l" : ""}
          ${i >= 2 ? "border-t md:border-t-0" : ""}
          ${i !== 0 ? "md:border-l" : ""}`}
-        >
-      <p className="font-serif text-3xl font-semibold">{item.value}</p>
-      <p className="mt-1 text-xs text-white/80">{item.label}</p>
-    </div>
-  ))}
-</div>
+            >
+              <p className="font-serif text-3xl font-semibold">{item.value}</p>
+              <p className="mt-1 text-xs text-white/80">{item.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
       <div className=" w-full z-30 pointer-events-none absolute bottom-0 left-0 scale-y-50 md:scale-y-80 translate-y-1/4 md:translate-y-1/8">
         <div className=" w-full flex items-center ">
           <Image
-            className=" w-full md:w-1/3 object-contain"
-            src="/images/divider4.svg"
-            alt="bg image"
-            width={500}
-            height={100}
-            priority
-          />
-          <Image
-            className=" w-full md:w-1/3 object-contain scale-x-[-1] -translate-x-20"
-            src="/images/divider4.svg"
-            alt="bg image"
-            width={500}
-            height={100}
-            priority
-          />
-          <Image
-            className=" w-full md:w-1/3 object-contain -translate-x-24"
-            src="/images/divider4.svg"
-            alt="bg image"
-            width={500}
-            height={100}
-            priority
-          />
-          <Image
-            className=" w-full md:w-1/3 object-contain scale-x-[-1] -translate-x-32"
-            src="/images/divider4.svg"
+            className=" w-full scale-y-40 translate-y-[30%] scale-x-[-1] object-contain"
+            src="/images/wave.svg"
             alt="bg image"
             width={500}
             height={100}
@@ -163,7 +140,7 @@ const safariStats = [
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-linear-to-r from-black/60 via-black/30 to-transparent" />
-      </div>      
+      </div>
     </section>
   );
 }

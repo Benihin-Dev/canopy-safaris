@@ -1,10 +1,13 @@
 "use client";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FaPaw, FaUsers, FaLeaf, FaWallet } from "react-icons/fa";
 
 const packages = [
   {
+    slug: "kumana-safari",
     badge: "Wildlife Experience",
     title: "Kumana Safari",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
@@ -13,6 +16,7 @@ const packages = [
     href: "#",
   },
   {
+    slug: "night-safari",
     badge: "After Dark",
     title: "Night Safari",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
@@ -21,6 +25,7 @@ const packages = [
     href: "#",
   },
   {
+    slug: "outdoor-safari",
     badge: "Outdoor Adventure",
     title: "Outdoor Safari",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
@@ -29,6 +34,7 @@ const packages = [
     href: "#",
   },
   {
+    slug: "tailor-made",
     badge: "Made For You",
     title: "Tailor Made",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
@@ -46,10 +52,18 @@ const packages = [
 
 /* the 4 sides of the rolling box */
 const perks = [
-  { Icon: FaPaw, title: "High chance for leopard", sub: "Guides who know where to look" },
+  {
+    Icon: FaPaw,
+    title: "High chance for leopard",
+    sub: "Guides who know where to look",
+  },
   { Icon: FaUsers, title: "Less crowded", sub: "Fewer jeeps, more space" },
   { Icon: FaLeaf, title: "Peaceful safari", sub: "Quiet time with nature" },
-  { Icon: FaWallet, title: "Reasonable price", sub: "Good value for every budget" },
+  {
+    Icon: FaWallet,
+    title: "Reasonable price",
+    sub: "Good value for every budget",
+  },
 ];
 
 /* ----- tweak the look here ----- */
@@ -187,7 +201,7 @@ export default function SafariPackages() {
   const [seen, setSeen] = useState(false);
   const rollBusy = useRef(false);
   const rollHover = useRef(false);
-  const headRef = useRef<HTMLDivElement>(null);
+  const headRef = useRef(null);
 
   const rollBox = () => {
     if (rollBusy.current) return;
@@ -200,6 +214,8 @@ export default function SafariPackages() {
     }, 1200);
   };
 
+  const router = useRouter();
+
   /* start the heading animation when the section scrolls into view */
   useEffect(() => {
     const el = headRef.current;
@@ -211,7 +227,7 @@ export default function SafariPackages() {
           io.disconnect();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -384,7 +400,9 @@ export default function SafariPackages() {
               aria-hidden={pos !== "center"}
               style={{ transform: transformFor(o) }}
               onClick={() => {
-                if (pos === "side" && !moved.current) goTo(i);
+                if (moved.current) return;
+                if (pos === "side") goTo(i);
+                else if (pos === "center") router.push(`/packages/${p.slug}`);
               }}
             >
               <div className="sp-media">
@@ -409,16 +427,17 @@ export default function SafariPackages() {
                     ))}
                   </ul>
                 </div>
-                <a
+                <Link
                   className="sp-action"
-                  href={p.href}
-                  aria-label={`Book ${p.title}`}
+                  href={`/packages/${p.slug}`}
+                  aria-label={`View ${p.title}`}
                   tabIndex={pos === "center" ? 0 : -1}
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M7 17L17 7M17 7H8M17 7V16" />
                   </svg>
-                </a>
+                </Link>
               </div>
             </article>
           );

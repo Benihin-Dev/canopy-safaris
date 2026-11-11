@@ -120,9 +120,31 @@ body {
 }
 
 @keyframes waveMove {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
-.wave-slow { animation: waveMove 40s linear infinite; }
-.wave-mid { animation: waveMove 28s linear infinite reverse; }
-.wave-fast { animation: waveMove 20s linear infinite; }
+.wave-slow {
+  animation: waveMove 40s linear infinite;
+}
+.wave-mid {
+  animation: waveMove 28s linear infinite reverse;
+}
+.wave-fast {
+  animation: waveMove 20s linear infinite;
+}
+
+@keyframes review-rise {
+  from {
+    transform: translateY(60px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.slick-active .review-card {
+  animation: review-rise 0.8s ease-out both;
+}

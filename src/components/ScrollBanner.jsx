@@ -10,10 +10,26 @@ const wa = (msg) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 
 /* The 4 round shapes (photos go in /public/images/) */
 const petals = [
-  { label: "Kumana Safari", src: "/images/petal-kumana.jpg", pos: "left-1/2 top-0 -translate-x-1/2" },
-  { label: "Hiking", src: "/images/petal-hiking.jpg", pos: "right-0 top-1/2 -translate-y-1/2" },
-  { label: "Scooter Rent", src: "/images/petal-scooter.jpg", pos: "left-1/2 bottom-0 -translate-x-1/2" },
-  { label: "Night Safari", src: "/images/petal-night.jpg", pos: "left-0 top-1/2 -translate-y-1/2" },
+  {
+    label: "Kumana Safari",
+    src: "/images/petal-kumana.jpg",
+    pos: "left-1/2 top-0 -translate-x-1/2",
+  },
+  {
+    label: "Hiking",
+    src: "/images/petal-hiking.jpg",
+    pos: "right-0 top-1/2 -translate-y-1/2",
+  },
+  {
+    label: "Scooter Rent",
+    src: "/images/petal-scooter.jpg",
+    pos: "left-1/2 bottom-0 -translate-x-1/2",
+  },
+  {
+    label: "Night Safari",
+    src: "/images/petal-night.jpg",
+    pos: "left-0 top-1/2 -translate-y-1/2",
+  },
 ];
 
 export default function TravelCtaBanner() {
@@ -22,8 +38,6 @@ export default function TravelCtaBanner() {
       className="relative w-full overflow-hidden lg:h-[441px]"
       style={{ "--main": "#4DA528", "--accent": "#D9822B" }}
     >
-      {/* background photo + dark navy fade on the left */}
-      <Image src="/images/cta-bg.jpg" alt="" fill sizes="100vw" className="object-cover" />
       <div className="absolute inset-0 bg-linear-to-r from-[#0a1b2a] via-[#0a1b2a]/70 to-transparent" />
 
       {/* same structure as the template: container > row > col-7 (text) + col-5 (image) */}
@@ -33,7 +47,10 @@ export default function TravelCtaBanner() {
           <div className="mb-8">
             <span
               className="mb-3 block text-[28px] text-[var(--main)] md:text-[34px]"
-              style={{ fontFamily: "'Dancing Script','Brush Script MT',cursive", fontStyle: "italic" }}
+              style={{
+                fontFamily: "'Dancing Script','Brush Script MT',cursive",
+                fontStyle: "italic",
+              }}
             >
               Explore the world
             </span>
@@ -49,7 +66,7 @@ export default function TravelCtaBanner() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Chat on WhatsApp"
-              className="flex size-[75px] shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition hover:scale-105 hover:bg-[#1ebe5b]"
+              className="flex size-[60px] shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition hover:scale-105 hover:bg-[#1ebe5b]"
             >
               <FaWhatsapp className="size-9" />
             </a>
@@ -59,7 +76,7 @@ export default function TravelCtaBanner() {
               href={wa("Hi, I'd like to make a booking.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex h-[57px] items-center gap-2 rounded-full border border-white/40 px-8 text-[18px] font-medium text-white transition hover:border-[var(--accent)] hover:bg-[var(--accent)]"
+              className="group flex h-[57px] items-center gap-2 rounded-full border border-white/40 px-8 text-[18px] font-medium text-white transition hover:border-[var(--accent)] hover:bg-[var(--accent)] "
             >
               Booking
               <PiArrowUpRight className="size-5 transition group-hover:rotate-12" />
@@ -69,7 +86,7 @@ export default function TravelCtaBanner() {
             <svg
               aria-hidden
               viewBox="0 0 90 60"
-              className="pointer-events-none absolute -right-24 -top-6 hidden h-14 w-24 text-white lg:block"
+              className="pointer-events-none absolute -right-24 -rotate-45 -top-6 hidden h-14 w-24 text-white lg:block"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -83,23 +100,16 @@ export default function TravelCtaBanner() {
         </div>
 
         {/* ---------- col-5: the 4 round shapes ---------- */}
-        <div className="flex justify-center lg:col-span-5 lg:justify-end">
-          <div className="relative h-[460px] w-[460px] shrink-0 scale-[.62] -my-20 sm:scale-[.8] sm:-my-12 lg:my-0 lg:scale-[.85] xl:scale-100">
-            {petals.map(({ label, src, pos }) => (
-              <div key={label} className={`absolute ${pos}`}>
-                <div
-                  className="relative size-[160px] rotate-45 overflow-hidden border-[5px] border-white bg-white shadow-xl"
-                  style={{ borderRadius: "50% 50% 0 50%" }}
-                >
-                  <div className="absolute left-1/2 top-1/2 size-[150%] -translate-x-1/2 -translate-y-1/2 -rotate-45">
-                    <Image src={src} alt={label} fill sizes="240px" className="object-cover" />
-                  </div>
-                </div>
-                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-black/55 px-3 py-1 text-[13px] font-semibold text-white backdrop-blur-sm">
-                  {label}
-                </span>
-              </div>
-            ))}
+        <div className="flex justify-center itce lg:col-span-5 aspect-square lg:justify-end">
+          <div className=" mx-auto w-11/12">
+            <Image
+              src="/images/bannerIcon.png"
+              alt="/images/bannerIcon.png"
+              width={400}
+              height={100}
+              priority
+              className="object-cover p-5 aspect-square w-full"
+            />
           </div>
         </div>
       </div>

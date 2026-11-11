@@ -13,7 +13,7 @@ const reviews = [
     name: "Guest Name",
     location: "Country",
     title: "Unforgettable Safari!",
-    text: "Replace this with a real review from one of your guests about their safari experience.",
+    text: "Globally architect client-centered system through products. Proactively formulate platform schemas focused collaboration idea-sharing. Collaboratively cross-media leadership travel leadership whereas cutting-edge convergence.",
     rating: 5,
     photo: "/images/person1.jpg",
   },
@@ -21,7 +21,7 @@ const reviews = [
     name: "Guest Name",
     location: "Country",
     title: "Amazing Guide!",
-    text: "Replace this with a real review from one of your guests about their safari experience.",
+    text: "Strategically develop innovative solutions through customer-focused technologies. Proactively establish collaborative frameworks that encourage creativity, knowledge-sharing, and continuous improvement.",
     rating: 5,
     photo: "/images/person2.jpg",
   },
@@ -29,7 +29,7 @@ const reviews = [
     name: "Guest Name",
     location: "Country",
     title: "Wildlife Everywhere!",
-    text: "Replace this with a real review from one of your guests about their safari experience.",
+    text: "Effectively transform complex ideas into scalable solutions. Proactively drive technological advancement through strategic partnerships, collaborative initiatives, and forward-thinking leadership.",
     rating: 5,
     photo: "/images/person3.jpg",
   },
@@ -37,7 +37,7 @@ const reviews = [
     name: "Guest Name",
     location: "Country",
     title: "Highly Recommended!",
-    text: "Replace this with a real review from one of your guests about their safari experience.",
+    text: "Dynamically enhance organizational capabilities through emerging technologies. Foster collaborative environments focused on innovation, strategic communication, and continuous business transformation.",
     rating: 4,
     photo: "/images/person1.jpg",
   },
@@ -106,10 +106,22 @@ export default function SliderForTestimonial() {
         </div>
 
         {/* ================= RIGHT SIDE ================= */}
-        <div className="min-w-0">
+        <div className="min-w-0 relative z-20">
+          <div className="absolute inset-0 -z-10">
+            <div className=" w-full h-full flex justify-center items-center">
+              <Image
+                src="/images/map.png"
+                alt={`Photo of worldmap`}
+                width={500}
+                height={100}
+                className=" w-10/12 object-cover"
+              />
+            </div>
+          </div>
           {/* Cards slider */}
           <Slider
             ref={sliderRef}
+            rtl
             dots={false}
             arrows={false}
             infinite
@@ -117,21 +129,23 @@ export default function SliderForTestimonial() {
             slidesToShow={1}
             slidesToScroll={1}
             autoplay
-            autoplaySpeed={6000}
+            autoplaySpeed={4000}
           >
             {reviews.map((r, i) => (
               <div key={i}>
-                <div className="relative overflow-hidden rounded-3xl border border-white/5 bg-[#2a2119] p-8 md:p-10">
+                <div className="review-card relative mx-8 mt-10 overflow-hidden border-b border-white/10 py-8">
                   {/* amber glow, top-left */}
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(245,158,11,0.35),transparent_55%)]" />
+                  <div className="pointer-events-none absolute inset-0" />
 
                   <div className="relative flex gap-5 md:gap-6">
-                    <FaQuoteLeft className="size-8 shrink-0 text-[#f59e0b] md:size-10" />
                     <div>
-                      <h3 className="font-bebas text-3xl uppercase tracking-wide text-white md:text-4xl">
-                        {r.title}
-                      </h3>
-                      <div className="my-3 flex gap-1 text-[#f59e0b]">
+                      <div className=" w-full flex items-center gap-5">
+                        <FaQuoteLeft className="size-8 shrink-0 text-[#f59e0b] md:size-10" />
+                        <h3 className="font-bebas text-3xl uppercase tracking-wide text-white md:text-4xl">
+                          {r.title}
+                        </h3>
+                      </div>
+                      <div className="my-3 pl-[60px] flex gap-1 text-[#f59e0b]">
                         {Array.from({ length: 5 }).map((_, s) => (
                           <FaStar
                             key={s}
@@ -139,7 +153,7 @@ export default function SliderForTestimonial() {
                           />
                         ))}
                       </div>
-                      <p className="font-inter text-base leading-7 text-stone-400">
+                      <p className="font-inter text-base leading-7 mt-5 text-stone-400">
                         &quot;{r.text}&quot;
                       </p>
 
@@ -168,21 +182,21 @@ export default function SliderForTestimonial() {
           </Slider>
 
           {/* Controls: bottom of the right side */}
-          <div className="mt-6 flex items-center justify-between">
+          <div className="mt-6 translate-x-6 flex items-center justify-between z-20">
             <div className="flex items-center gap-3">
               <button
                 type="button"
                 aria-label="Previous review"
-                onClick={() => sliderRef.current?.slickPrev()}
-                className="flex size-10 cursor-pointer items-center justify-center rounded-full border border-white/20 text-white transition-all hover:border-[#f59e0b] hover:text-[#f59e0b]"
+                onClick={() => sliderRef.current?.slickNext()}
+                className="flex size-10 cursor-pointer items-center justify-center rounded-full border border-white/15 text-white/25 transition-all hover:border-[#f59e0b] hover:text-[#f59e0b]"
               >
                 <GoArrowLeft className="size-5" />
               </button>
               <button
                 type="button"
                 aria-label="Next review"
-                onClick={() => sliderRef.current?.slickNext()}
-                className="flex size-10 cursor-pointer items-center justify-center rounded-full border border-white/20 text-white transition-all hover:border-[#f59e0b] hover:text-[#f59e0b]"
+                onClick={() => sliderRef.current?.slickPrev()}
+                className="flex size-10 cursor-pointer items-center justify-center rounded-full border border-white/15 text-white/25 transition-all hover:border-[#f59e0b] hover:text-[#f59e0b]"
               >
                 <GoArrowLeft className="size-5 rotate-180" />
               </button>

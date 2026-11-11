@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import {
   PiJeep,
   PiJeepThin,
@@ -6,9 +7,11 @@ import {
   PiScooterThin,
   PiMapPinLine,
   PiPhone,
+  PiPlayFill,
 } from "react-icons/pi";
 import YellowBtn from "./Elements/YellowBtn";
 import VideoFrame from "./Elements/VideoFrame";
+import Image from "next/image";
 
 export default function About() {
   const services = [
@@ -24,22 +27,55 @@ export default function About() {
     },
   ];
 
+  const [videoOpen, setVideoOpen] = useState(false);
+
   return (
     <section
       id="about"
-      className="relative w-full scroll-mt-20 overflow-hidden bg-[#e7e7db] py-20 lg:py-28"
+      className="relative w-full scroll-mt-20 overflow-hidden bg-[#e7e7db] pb-20 pt-10  lg:pt-16  lg:pb-28"
     >
       <div className="mx-auto grid w-full items-center gap-16 px-5 sm:w-11/12 sm:px-0 lg:max-w-350 lg:grid-cols-2 lg:gap-10">
         {/* Left: video space with floating cards */}
         <div className="relative mx-auto w-full max-w-md px-4 sm:px-0">
           {/* dashed arch behind the video */}
-          <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-t-[999px] rounded-b-4xl border-2 border-dashed border-canopy-line/50"></div>
+          <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-4xl border-2 border-dashed border-canopy-line/50"></div>
 
-          {/* ===== VIDEO GOES HERE: set src to "/videos/about.mp4" once uploaded ===== */}
-          <VideoFrame />
+          <div className=" w-full aspect-square flex items-center justify-center">
+            <Image
+              src="/images/aboutImg.png"
+              className=" w-full object-cover z-20"
+              width={400}
+              height={100}
+              alt=""
+            />
+          </div>
+          {/* jeep img */}
+          <div className=" absolute top-[50%] right-0 w-50 aspect-squarer z-30">
+            <Image
+              src="/images/jeepImg.png"
+              className=" w-full object-cover translate-x-5 scale-x-[-1] z-20"
+              width={400}
+              height={100}
+              alt=""
+            />
+          </div>
+
+          {/* Play Btn */}
+          <div className=" absolute w-full h-full top-0 left-0 z-30">
+            <div className=" w-full h-full flex items-center justify-center">
+              <button
+                type="button"
+                onClick={() => setVideoOpen(true)}
+                aria-label="Play video"
+                className="absolute top-1/2 left-1/2 flex size-20 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[#ffcd09] text-black shadow-lg transition-transform duration-300 hover:scale-110"
+              >
+                <PiPlayFill className="size-8" />
+              </button>
+            </div>
+          </div>
 
           {/* floating card: jeep */}
-          <div className="absolute bottom-10 -left-2 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-xl sm:-left-10">
+          <div className="absolute z-30 bottom-10 -left-2 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-xl sm:-left-10">
             <div className="rounded-full bg-[#ffcd09] p-2">
               <PiJeep className="size-6" />
             </div>
@@ -50,7 +86,7 @@ export default function About() {
           </div>
 
           {/* floating card: scooter */}
-          <div className="absolute top-24 -right-2 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-xl sm:-right-10">
+          <div className="absolute z-30 top-24 -right-2 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-xl sm:-right-10">
             <div className="rounded-full bg-canopy-deep p-2 text-white">
               <PiScooter className="size-6" />
             </div>
@@ -75,10 +111,10 @@ export default function About() {
           </h2>
           <p className="mt-6 max-w-xl font-poppins text-sm leading-7 text-ink/70">
             Welcome to The Canofy, where nature, adventure and heartfelt
-            hospitality come together. We run Kumana National Park
-            safaris*, and we rent scooters so you can explore
-            the island freely. Our experienced drivers and wildlife guides know
-            the landscapes, the wildlife and the local ecosystems first-hand.
+            hospitality come together. We run Kumana National Park safaris*, and
+            we rent scooters so you can explore the island freely. Our
+            experienced drivers and wildlife guides know the landscapes, the
+            wildlife and the local ecosystems first-hand.
           </p>
 
           <div className="mt-8 grid max-w-xl gap-8 sm:grid-cols-2">
@@ -112,7 +148,12 @@ export default function About() {
           </div>
         </div>
       </div>
+      <VideoFrame
+        open={videoOpen}
+        onClose={() => setVideoOpen(false)}
+        url="https://www.youtube.com/watch?v=n4xzVr6nRTI&pp=ygULc2FmYXJpIHJpZGU%3D"
+        title="Canopy Safaris"
+      />
     </section>
   );
 }
-
