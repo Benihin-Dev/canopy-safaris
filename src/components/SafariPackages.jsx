@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { FaPaw, FaUsers, FaLeaf, FaWallet } from "react-icons/fa";
 
 const packages = [
   {
@@ -43,6 +44,14 @@ const packages = [
   },
 ];
 
+/* the 4 sides of the rolling box */
+const perks = [
+  { Icon: FaPaw, title: "High chance for leopard", sub: "Guides who know where to look" },
+  { Icon: FaUsers, title: "Less crowded", sub: "Fewer jeeps, more space" },
+  { Icon: FaLeaf, title: "Peaceful safari", sub: "Quiet time with nature" },
+  { Icon: FaWallet, title: "Reasonable price", sub: "Good value for every budget" },
+];
+
 /* ----- tweak the look here ----- */
 const HOLD_MS = 4500; // how long the centre card stays
 const RADIUS = 3.0; // circle size, in card widths. Bigger = bigger circle
@@ -75,6 +84,8 @@ const css = `
   --sp-body:#5b4733;
   --sp-accent:#a15f21;
   --sp-accent-hover:#7d4a19;
+  --sp-cube-h:100px;
+  --sp-half:50px;
 }
 .sp-stage{position:relative;width:100%;padding:70px 0;perspective:1000px;perspective-origin:50% 50%;display:grid;touch-action:pan-y;cursor:grab;user-select:none}
 .sp-stage.sp-dragging{cursor:grabbing}
@@ -123,8 +134,40 @@ const css = `
 .sp-dot{height:8px;width:8px;padding:0;border-radius:999px;border:0;background:rgba(161,95,33,.28);cursor:pointer;transition:width .3s ease,background .3s ease}
 .sp-dot[aria-current="true"]{width:26px;background:var(--sp-accent)}
 
+/* heading + rolling box */
+.sp-ln{display:block;overflow:hidden}
+.sp-ln>span{display:inline-block;transform:translateY(110%)}
+.sp-pill{display:inline-block;transform:rotate(-6deg);opacity:0}
+.sp-3d{opacity:0;perspective:700px;perspective-origin:50% 40%;position:relative;width:100%;max-width:380px;height:var(--sp-cube-h);margin:0 auto;cursor:pointer}
+.sp-go .sp-ln>span{animation:sp-up .8s var(--sp-ease) both}
+.sp-go .sp-ln:nth-child(2)>span{animation-delay:.15s}
+.sp-go .sp-pill{animation:sp-pop .7s var(--sp-ease) .1s both}
+.sp-go .sp-3d{animation:sp-fade .9s ease .4s both}
+@keyframes sp-up{from{transform:translateY(110%)}to{transform:none}}
+@keyframes sp-pop{from{opacity:0;transform:rotate(-6deg) scale(.6)}to{opacity:1;transform:rotate(-6deg) scale(1)}}
+@keyframes sp-fade{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+.sp-lift{position:absolute;inset:0;transform-style:preserve-3d}
+.sp-lift.sp-rolling{animation:sp-lift 1.2s cubic-bezier(.45,0,.2,1)}
+@keyframes sp-lift{0%{transform:translateZ(0) scale(1)}40%{transform:translateZ(-55px) scale(.96)}100%{transform:translateZ(0) scale(1)}}
+.sp-cube{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 1.2s cubic-bezier(.45,0,.2,1.15)}
+.sp-face{position:absolute;inset:0;display:flex;align-items:center;gap:12px;padding:0 18px;background:var(--sp-card-bg);border:1px solid var(--sp-card-border);border-radius:16px;backface-visibility:hidden;overflow:hidden}
+.sp-face::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0) 45%,rgba(97,61,29,.1));pointer-events:none}
+.sp-perk-ic{position:relative;z-index:1;flex:none;width:40px;height:40px;border-radius:50%;background:var(--sp-accent);color:#fff;display:grid;place-items:center;font-size:19px}
+.sp-perk-tx{position:relative;z-index:1}
+.sp-perk-t{font-family:var(--font-bebas),sans-serif;font-weight:400;font-size:19px;letter-spacing:.04em;text-transform:uppercase;line-height:1.15;color:var(--sp-heading);margin:0}
+.sp-perk-s{font-size:11.5px;color:#7a6550;margin:2px 0 0}
+.sp-shadow{position:absolute;left:8%;right:8%;bottom:-38px;height:20px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(97,61,29,.38),rgba(97,61,29,0) 70%)}
+.sp-shadow.sp-rolling{animation:sp-sh 1.2s cubic-bezier(.45,0,.2,1)}
+@keyframes sp-sh{0%{transform:scaleX(1);opacity:1}40%{transform:scaleX(.72);opacity:.55}100%{transform:scaleX(1);opacity:1}}
+
 @media (prefers-reduced-motion: reduce){
   .sp-card,.sp-body{transition-duration:.01s}
+  .sp-cube{transition-duration:.01s}
+  .sp-lift.sp-rolling,.sp-shadow.sp-rolling{animation:none}
+  .sp-ln>span{transform:none}
+  .sp-pill,.sp-3d{opacity:1}
+  .sp-go .sp-ln>span,.sp-go .sp-pill,.sp-go .sp-3d{animation:none}
 }
 `;
 
@@ -137,6 +180,50 @@ export default function SafariPackages() {
   const startX = useRef(0);
   const down = useRef(false);
   const moved = useRef(false);
+
+  /* heading + rolling box */
+  const [step, setStep] = useState(0);
+  const [rolling, setRolling] = useState(false);
+  const [seen, setSeen] = useState(false);
+  const rollBusy = useRef(false);
+  const rollHover = useRef(false);
+  const headRef = useRef<HTMLDivElement>(null);
+
+  const rollBox = () => {
+    if (rollBusy.current) return;
+    rollBusy.current = true;
+    setStep((s) => s + 1);
+    setRolling(true);
+    setTimeout(() => {
+      setRolling(false);
+      rollBusy.current = false;
+    }, 1200);
+  };
+
+  /* start the heading animation when the section scrolls into view */
+  useEffect(() => {
+    const el = headRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setSeen(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  /* the box rolls by itself every 3.4 seconds */
+  useEffect(() => {
+    const t = setInterval(() => {
+      if (!rollHover.current && !document.hidden) rollBox();
+    }, 3400);
+    return () => clearInterval(t);
+  }, []);
 
   const goTo = (i) => setCurrent(((i % n) + n) % n);
   const next = () => setCurrent((c) => (c + 1) % n);
@@ -209,12 +296,62 @@ export default function SafariPackages() {
     >
       <style>{css}</style>
 
-      <h2 className="px-5 text-center font-bebas text-5xl uppercase leading-[1.05] tracking-wide text-[#2b1d10] md:text-7xl">
-        <span className="relative -top-1 mr-4 inline-block -rotate-6 rounded-full border border-[#a15f21] px-4 py-1.5 align-middle font-caveat text-lg normal-case leading-none tracking-normal text-[#a15f21] md:text-xl">
-          Safari
-        </span>
-        Our packages
-      </h2>
+      <div
+        ref={headRef}
+        className={`mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-2 md:px-12${seen ? " sp-go" : ""}`}
+      >
+        <h2 className="font-bebas text-5xl uppercase leading-[1.08] tracking-wide text-[#2b1d10] md:text-6xl">
+          <span className="sp-ln">
+            <span>
+              <span className="sp-pill relative -top-1 mr-4 rounded-full border border-[#a15f21] px-4 py-1.5 align-middle font-caveat text-lg normal-case leading-none tracking-normal text-[#a15f21] md:text-xl">
+                Safari
+              </span>
+              Choose your
+            </span>
+          </span>
+          <span className="sp-ln">
+            <span>wild adventure</span>
+          </span>
+        </h2>
+
+        <div
+          className="sp-3d"
+          onClick={rollBox}
+          onPointerEnter={(e) => {
+            if (e.pointerType === "mouse") rollHover.current = true;
+          }}
+          onPointerLeave={(e) => {
+            if (e.pointerType === "mouse") rollHover.current = false;
+          }}
+        >
+          <div className={`sp-lift${rolling ? " sp-rolling" : ""}`}>
+            <div
+              className="sp-cube"
+              style={{ transform: `rotateX(${-step * 90}deg)` }}
+            >
+              {perks.map(({ Icon, title, sub }, i) => (
+                <div
+                  key={title}
+                  className="sp-face"
+                  aria-hidden={i !== step % perks.length}
+                  style={{
+                    transform: `rotateX(${i * 90}deg) translateZ(var(--sp-half))`,
+                  }}
+                >
+                  <span className="sp-perk-ic">
+                    <Icon />
+                  </span>
+                  <div className="sp-perk-tx">
+                    <p className="sp-perk-t">{title}</p>
+                    <p className="sp-perk-s font-inter">{sub}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className={`sp-shadow${rolling ? " sp-rolling" : ""}`} />
+        </div>
+      </div>
 
       <div
         className={`sp-stage${dragging ? " sp-dragging" : ""}`}
@@ -321,3 +458,4 @@ export default function SafariPackages() {
     </section>
   );
 }
+
