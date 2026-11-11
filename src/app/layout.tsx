@@ -7,6 +7,8 @@ import {
   Libertinus_Math,
   Caveat,
   Geologica,
+  Plus_Jakarta_Sans,
+  Yellowtail,
   Bebas_Neue,
   Inter,
 } from "next/font/google";
@@ -58,6 +60,18 @@ const geologica = Geologica({
   weight: ["400", "500", "600", "700"],
 });
 
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const yellowtail = Yellowtail({
+  variable: "--font-yellowtail",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
 const bebas = Bebas_Neue({
   variable: "--font-bebas",
   subsets: ["latin"],
@@ -84,7 +98,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${manrope.variable} ${playfairDisplay.variable} ${poppins.variable} ${libertinus_Math.variable} ${caveat.variable} ${geologica.variable} ${bebas.variable} ${inter.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${manrope.variable} ${playfairDisplay.variable} ${poppins.variable} ${libertinus_Math.variable} ${caveat.variable} ${geologica.variable} ${jakarta.variable} ${yellowtail.variable} ${bebas.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
