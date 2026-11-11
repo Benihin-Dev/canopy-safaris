@@ -458,4 +458,3 @@ export default function SafariPackages() {
     </section>
   );
 }
-
