@@ -2,67 +2,12 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { IoArrowForward, IoCheckmarkCircleOutline } from "react-icons/io5";
+import Link from "next/link";
+import { rentals as items } from "@/data/rentals";
 
 /* Replace this placeholder content with your own.
    Add a `price` (for example "$25") to show it next to the title.
    Add or remove items freely: the layout adapts to any number of cards. */
-const items = [
-  {
-    ribbon: "Ribbon text one",
-    badge: "Badge",
-    title: "Card title one",
-    sub: "Small line under the title",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/peek/scooter1.jpg",
-    features: ["First feature line", "Second feature line"],
-    cta: "Book now",
-    href: "#",
-  },
-  {
-    ribbon: "Ribbon text two",
-    badge: "Badge",
-    title: "Card title two",
-    sub: "Small line under the title",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/peek/scooter2.jpg",
-    features: ["First feature line", "Second feature line"],
-    cta: "Book now",
-    href: "#",
-  },
-  {
-    ribbon: "Ribbon text three",
-    badge: "Badge",
-    title: "Card title three",
-    sub: "Small line under the title",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/peek/tuktuk1.jpg",
-    features: ["First feature line", "Second feature line"],
-    cta: "Book now",
-    href: "#",
-  },
-  {
-    ribbon: "Ribbon text four",
-    badge: "Badge",
-    title: "Card title four",
-    sub: "Small line under the title",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/peek/tuktuk2.jpg",
-    features: ["First feature line", "Second feature line"],
-    cta: "Book now",
-    href: "#",
-  },
-  {
-    ribbon: "Ribbon text five",
-    badge: "Badge",
-    title: "Card title five",
-    sub: "Small line under the title",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/peek/tuktuk3.jpg",
-    features: ["First feature line", "Second feature line"],
-    cta: "Book now",
-    href: "#",
-  },
-];
 
 const N = items.length;
 
@@ -164,16 +109,15 @@ export default function PeekShowcase() {
             tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
           </p>
 
-          <a
-            href="#"
+          <Link
+            href="/rentals"
             className="hidden md:inline-flex items-center gap-3 mt-7 rounded-full bg-[#a15f21] pl-6 pr-2 py-2 font-poppins text-sm font-semibold text-white transition hover:bg-[#7d4a19] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a15f21]"
           >
             Read more
             <span className="grid size-9 place-items-center rounded-full bg-white text-[#a15f21]">
               <IoArrowForward className="size-4" />
             </span>
-          </a>
-
+          </Link>
           {/* step counter */}
           <div className="flex items-center gap-4 pt-5 md:pt-10 font-poppins text-xs text-[#5b4733]">
             <span className="tabular-nums font-semibold text-[#2b1d10]">
@@ -183,7 +127,7 @@ export default function PeekShowcase() {
             <div className="flex gap-2">
               {items.map((r, i) => (
                 <button
-                  key={r.title}
+                  key={r.slug}
                   type="button"
                   aria-label={`Show card ${i + 1}`}
                   onClick={() => go(i)}
@@ -211,7 +155,7 @@ export default function PeekShowcase() {
             const isActive = pos === 0;
             return (
               <article
-                key={r.title}
+                key={r.slug}
                 aria-hidden={!isActive}
                 /* clicking a blurred card brings it to the front */
                 onClickCapture={(e) => {
@@ -273,18 +217,24 @@ export default function PeekShowcase() {
                     ))}
                   </ul>
 
-                  <a
-                    href={r.href}
+                  <Link
+                    href={`/rentals/${r.slug}`}
                     tabIndex={isActive ? 0 : -1}
-                    className="mt-5 block w-full rounded-full bg-[#a15f21] py-3 text-center font-poppins text-sm font-bold text-white transition hover:bg-[#7d4a19] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a15f21]"
+                    className="..."
                   >
                     {r.cta}
-                  </a>
+                  </Link>
                 </div>
               </article>
             );
           })}
         </div>
+        <Link
+          href="/rentals"
+          className="md:hidden justify-self-center font-poppins text-sm font-semibold text-[#a15f21] underline underline-offset-4"
+        >
+          View all rentals →
+        </Link>
       </div>
     </section>
   );

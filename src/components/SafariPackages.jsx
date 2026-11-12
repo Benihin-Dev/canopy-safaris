@@ -4,51 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaPaw, FaUsers, FaLeaf, FaWallet } from "react-icons/fa";
-
-const packages = [
-  {
-    slug: "kumana-safari",
-    badge: "Wildlife Experience",
-    title: "Kumana Safari",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/safari/kumana.jpg",
-    highlights: ["Half day safari", "Full day safari"],
-    href: "#",
-  },
-  {
-    slug: "night-safari",
-    badge: "After Dark",
-    title: "Night Safari",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/safari/night.jpg",
-    highlights: ["Sunset", "Nocturnal animal"],
-    href: "#",
-  },
-  {
-    slug: "outdoor-safari",
-    badge: "Outdoor Adventure",
-    title: "Outdoor Safari",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/safari/outdoor.jpg",
-    highlights: ["Kudumbigala", "Crocodile and elephants encounter"],
-    href: "#",
-  },
-  {
-    slug: "tailor-made",
-    badge: "Made For You",
-    title: "Tailor Made",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    img: "/images/safari/tailor-made.jpg",
-    highlights: [
-      "Morning or evening",
-      "Meals package",
-      "Destinations",
-      "Buffer zone dinner",
-      "Under bonfire dinner",
-    ],
-    href: "#",
-  },
-];
+import { packages } from "@/data/packages";
 
 /* the 4 sides of the rolling box */
 const perks = [
@@ -461,7 +417,7 @@ export default function SafariPackages() {
         </button>
       </div>
 
-      <div className="sp-controls">
+      <div className="sp-controls flex-col">
         <div className="sp-dots">
           {packages.map((p, i) => (
             <button
@@ -473,6 +429,12 @@ export default function SafariPackages() {
             />
           ))}
         </div>
+        <Link
+          href="/packages"
+          className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#a15f21] px-6 py-2.5 font-inter text-sm font-semibold text-[#a15f21] transition-colors hover:bg-[#a15f21] hover:text-white"
+        >
+          View all packages →
+        </Link>
       </div>
     </section>
   );

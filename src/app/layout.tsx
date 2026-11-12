@@ -13,6 +13,9 @@ import {
   Inter,
 } from "next/font/google";
 import "./globals.css";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
+import Image from "next/image";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -92,15 +95,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${fraunces.variable} ${manrope.variable} ${playfairDisplay.variable} ${poppins.variable} ${libertinus_Math.variable} ${caveat.variable} ${geologica.variable} ${jakarta.variable} ${yellowtail.variable} ${bebas.variable} ${inter.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`...your font variables... h-full antialiased`}>
+      <body className="min-h-full flex flex-col">
+        <NavBar />
+        <main className="w-full flex-1">{children}</main>
+        <Footer />
+        <div className="fixed top-0 left-0 -z-10 h-full w-full">
+          <Image
+            className="object-cover"
+            src="/images/fixedBg.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+          />
+        </div>
+      </body>
     </html>
   );
 }

@@ -148,3 +148,113 @@ body {
 .slick-active .review-card {
   animation: review-rise 0.8s ease-out both;
 }
+
+@keyframes nav-in {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes zoom-slow {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.animate-nav-in {
+  animation: nav-in 0.8s cubic-bezier(0.22, 0.8, 0.22, 1) both;
+}
+.animate-fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.22, 0.8, 0.22, 1) both;
+}
+.animate-zoom-slow {
+  animation: zoom-slow 2.4s cubic-bezier(0.22, 0.8, 0.22, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-nav-in,
+  .animate-fade-up,
+  .animate-zoom-slow {
+    animation: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease both;
+}
+.animate-zoom-in {
+  animation: zoom-in 0.4s cubic-bezier(0.22, 0.8, 0.22, 1) both;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 45s linear infinite;
+}
+.animate-marquee-rev {
+  animation: marquee 55s linear infinite reverse;
+}
+
+/* cursor-follow glow on cards */
+.spot {
+  position: relative;
+}
+.spot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    420px circle at var(--x, 50%) var(--y, 50%),
+    rgba(245, 158, 11, 0.16),
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.spot:hover::before {
+  opacity: 1;
+}

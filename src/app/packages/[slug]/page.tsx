@@ -187,13 +187,6 @@ export default async function PackagePage({ params }: Props) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#2b1d10]/85 via-[#2b1d10]/30 to-[#2b1d10]/40" />
 
-        <Link
-          href="/#packages"
-          className="font-inter absolute left-6 top-6 z-10 inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm text-white backdrop-blur transition hover:bg-white/25 md:left-12"
-        >
-          <FaArrowLeft className="text-xs" /> All packages
-        </Link>
-
         <div className="absolute inset-x-0 bottom-0 mx-auto max-w-6xl px-6 pb-12 md:px-12">
           <span className="font-inter inline-block rounded-full bg-[#2b1d10] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[.1em] text-white">
             {pkg.badge}

@@ -6,45 +6,11 @@ import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
 import { FaStar, FaQuoteLeft } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
-
-// TODO: replace these placeholders with REAL guest reviews and photos.
-const reviews = [
-  {
-    name: "Guest Name",
-    location: "Country",
-    title: "Unforgettable Safari!",
-    text: "Globally architect client-centered system through products. Proactively formulate platform schemas focused collaboration idea-sharing. Collaboratively cross-media leadership travel leadership whereas cutting-edge convergence.",
-    rating: 5,
-    photo: "/images/person1.jpg",
-  },
-  {
-    name: "Guest Name",
-    location: "Country",
-    title: "Amazing Guide!",
-    text: "Strategically develop innovative solutions through customer-focused technologies. Proactively establish collaborative frameworks that encourage creativity, knowledge-sharing, and continuous improvement.",
-    rating: 5,
-    photo: "/images/person2.jpg",
-  },
-  {
-    name: "Guest Name",
-    location: "Country",
-    title: "Wildlife Everywhere!",
-    text: "Effectively transform complex ideas into scalable solutions. Proactively drive technological advancement through strategic partnerships, collaborative initiatives, and forward-thinking leadership.",
-    rating: 5,
-    photo: "/images/person3.jpg",
-  },
-  {
-    name: "Guest Name",
-    location: "Country",
-    title: "Highly Recommended!",
-    text: "Dynamically enhance organizational capabilities through emerging technologies. Foster collaborative environments focused on innovation, strategic communication, and continuous business transformation.",
-    rating: 4,
-    photo: "/images/person1.jpg",
-  },
-];
+import { reviews as allReviews } from "@/data/reviews";
 
 export default function SliderForTestimonial() {
   const sliderRef = useRef<Slider>(null);
+  const reviews = allReviews.filter((r) => r.featured);
 
   return (
     <div className="w-full bg-[#1a1410] px-6 py-16 md:px-12">
