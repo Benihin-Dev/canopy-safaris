@@ -68,7 +68,7 @@ export default function WhoWeAre() {
             <div className=" absolute w-2/6 h-[35%] lg:h-2/5  top-1/8 -right-1/5 z-10 ">
               <Image
                 className="object-cover w-full rounded-full border-2 border-white upDownAnimation"
-                src="/images/Jastan.jpg"
+                src="/images/OurTeam/Jastan.jpg"
                 alt="bg image"
                 fill
                 priority
