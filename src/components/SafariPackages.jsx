@@ -5,9 +5,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaPaw, FaUsers, FaLeaf, FaWallet } from "react-icons/fa";
 import { packages } from "@/data/packages";
-import { Bebas_Neue } from "next/font/google";
+import { Bebas_Neue, Poppins } from "next/font/google";
 
-const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas" });
+const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500"] });
 
 /* the 4 sides of the rolling box */
 const perks = [
@@ -111,7 +112,10 @@ const css = `
 .sp-ln{display:block;overflow:hidden}
 .sp-ln>span{display:inline-block;transform:translateY(110%)}
 .sp-pill{display:inline-block;transform:rotate(-8deg);opacity:0}
-.sp-3d{opacity:0;perspective:700px;perspective-origin:50% 40%;position:relative;width:100%;max-width:380px;height:var(--sp-cube-h);margin:0 auto;cursor:pointer;flex:none}
+.sp-3d{opacity:0;perspective:700px;perspective-origin:50% 40%;position:relative;width:100%;max-width:380px;height:var(--sp-cube-h);margin:0 auto;cursor:pointer}
+@media (min-width:1280px){.sp-3d{position:absolute;right:0;bottom:0;width:320px;margin:0}}
+.sp-sub{opacity:0}
+.sp-go .sp-sub{animation:sp-fade .9s ease .3s both}
 @media (min-width:768px){.sp-3d{width:340px;margin:0 0 auto auto}}
 .sp-go .sp-ln>span{animation:sp-up .8s var(--sp-ease) both}
 .sp-go .sp-ln:nth-child(2)>span{animation-delay:.15s}
@@ -140,8 +144,8 @@ const css = `
   .sp-cube{transition-duration:.01s}
   .sp-lift.sp-rolling,.sp-shadow.sp-rolling{animation:none}
   .sp-ln>span{transform:none}
-  .sp-pill,.sp-3d{opacity:1}
-  .sp-go .sp-ln>span,.sp-go .sp-pill,.sp-go .sp-3d{animation:none}
+  .sp-pill,.sp-3d,.sp-sub{opacity:1}
+  .sp-go .sp-ln>span,.sp-go .sp-pill,.sp-go .sp-3d,.sp-go .sp-sub{animation:none}
 }
 `;
 
@@ -274,23 +278,31 @@ export default function SafariPackages() {
 
 <div
   ref={headRef}
-  className={`mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-[1400px]${seen ? " sp-go" : ""}`}
+  className={`relative mx-auto flex w-full flex-col items-center gap-6 px-5 sm:w-11/12 sm:px-0 lg:max-w-[1400px]${seen ? " sp-go" : ""}`}
 >
-  <h2
-    className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-[#2b1d10] sm:text-6xl xl:text-7xl`}
-  >
-    <span className="sp-ln">
-      <span>
-        <span className="sp-pill mr-4 rounded-full border border-[#a15f21] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#a15f21]">
-          Safari
+  <div className="flex flex-col items-center text-center">
+    <h2
+      className={`${bebas.className} text-center text-5xl uppercase leading-[0.95] tracking-wide text-[#2b1d10] sm:text-6xl xl:text-7xl`}
+    >
+      <span className="sp-ln">
+        <span>
+          <span className="sp-pill mr-4 rounded-full border border-[#a15f21] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#a15f21]">
+            Safari
+          </span>
+          <span className="sm:whitespace-nowrap">Choose your</span>
         </span>
-        <span className="sm:whitespace-nowrap">Choose your</span>
       </span>
-    </span>
-    <span className="sp-ln">
-      <span>wild adventure</span>
-    </span>
-  </h2>
+      <span className="sp-ln text-[#a15f21]">
+        <span>wild adventure</span>
+      </span>
+    </h2>
+    <p
+      className={`${poppins.className} sp-sub mt-4 max-w-lg text-sm leading-7 text-[#5b4733] sm:text-base`}
+    >
+      Explore our exclusive safari packages and discover unforgettable
+      wildlife encounters.
+    </p>
+  </div>
 
         <div
           className="sp-3d"
