@@ -110,11 +110,11 @@ export default function About() {
             &amp; Scooter
           </h2>
           <p className="mt-6 max-w-xl font-poppins text-sm leading-7 text-ink/70">
-            Welcome to The Canofy, where nature, adventure and heartfelt
-            hospitality come together. We run Kumana National Park safaris*, and
-            we rent scooters so you can explore the island freely. Our
-            experienced drivers and wildlife guides know the landscapes, the
-            wildlife and the local ecosystems first-hand.
+           Welcome to The Canofy, your gateway to exploring the natural beauty of Sri Lanka. 
+            From unforgettable wildlife adventures in Kumana National Park to the freedom of exploring the coastline 
+            and surrounding destinations by scooter, we bring together authentic experiences, local knowledge and genuine hospitality. 
+            Whether you're discovering the wilderness on a safari jeep or travelling at your own pace on two wheels, 
+            we're here to make your journey memorable.
           </p>
 
           <div className="mt-8 grid max-w-xl gap-8 sm:grid-cols-2">
