@@ -56,11 +56,13 @@ const PERSPECTIVE = 1300;
 const RATIO = 1.3;      // photo height / width
 
 /* ---------- heading letter effect ---------- */
-const LIGHT = [255, 255, 255];
-const SHADE = [91, 96, 93];   // gray shade
+const SHADE = [91, 96, 93];   // gray shade the letters start from
 const DIR = -1;               // -1 = shift left, 1 = shift right
-const SHIFT = 8;              // px, how far letters sit away
-const SPREAD = 0.85;          // higher = more strictly letter by letter
+const SHIFT = 6;              // px, how far letters sit away (smaller = softer)
+const SPREAD = 0.6;           // lower = more overlap = smoother, higher = strictly letter by letter
+const LINE_GAP = 5;           // pause between lines, counted in "letters" (higher = longer wait)
+const RANGE = 0.6;            // scroll length of the effect (x screen height). Higher = slower, smoother
+const START = 0.8;            // effect begins when the heading is this far down the screen (0.8 = 80%)
 
 function useScrollLetters(ref: React.RefObject<HTMLElement | null>) {
   useEffect(() => {
@@ -68,19 +70,37 @@ function useScrollLetters(ref: React.RefObject<HTMLElement | null>) {
     if (!el) return;
     const letters = Array.from(el.querySelectorAll<HTMLElement>("[data-letter]"));
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const mix = (s: number) =>
-      LIGHT.map((v, i) => Math.round(v + (SHADE[i] - v) * s)).join(",");
+
+    // each letter's own final colour (white for the heading, amber for the Gallery pill)
+    const finals = letters.map((l) => {
+      const m = getComputedStyle(l).color.match(/\d+/g);
+      return m ? m.slice(0, 3).map(Number) : [255, 255, 255];
+    });
+
+    // order of each letter, with an extra pause every time a new line starts
+    let idx = 0;
+    let lastLine = letters[0]?.dataset.line;
+    const order = letters.map((l) => {
+      if (l.dataset.line !== lastLine) {
+        idx += LINE_GAP;
+        lastLine = l.dataset.line;
+      }
+      return idx++;
+    });
+    const total = idx;
 
     const update = () => {
       const vh = window.innerHeight;
       const top = el.getBoundingClientRect().top;
       // 0 while the heading is low on the screen, 1 once it has come up
-      const p = Math.min(1, Math.max(0, (vh * 0.75 - top) / (vh * 0.4)));
-      const n = letters.length;
+      const p = Math.min(1, Math.max(0, (vh * START - top) / (vh * RANGE)));
       letters.forEach((l, i) => {
-        const start = (i / n) * SPREAD;
-        const t = Math.min(1, Math.max(0, (p - start) / (1 - SPREAD)));
-        l.style.color = `rgb(${mix(1 - t)})`;
+        const start = (order[i] / total) * SPREAD;
+        let t = Math.min(1, Math.max(0, (p - start) / (1 - SPREAD)));
+        t = t * t * (3 - 2 * t); // smooth start and end
+        const f = finals[i];
+        const c = SHADE.map((v, k) => Math.round(v + (f[k] - v) * t)).join(",");
+        l.style.color = `rgb(${c})`;
         if (!reduce) l.style.transform = `translateX(${DIR * (1 - t) * SHIFT}px)`;
       });
     };
@@ -95,7 +115,7 @@ function useScrollLetters(ref: React.RefObject<HTMLElement | null>) {
   }, [ref]);
 }
 
-function Letters({ text }: { text: string }) {
+function Letters({ text, line }: { text: string; line: number }) {
   const words = text.split(" ");
   return (
     <>
@@ -103,7 +123,12 @@ function Letters({ text }: { text: string }) {
         <React.Fragment key={wi}>
           <span className="inline-block whitespace-nowrap">
             {[...w].map((c, i) => (
-              <span key={i} data-letter className="inline-block">
+              <span
+                key={i}
+                data-letter
+                data-line={line}
+                className="inline-block will-change-transform transition-[color,transform] duration-200 ease-out"
+              >
                 {c}
               </span>
             ))}
@@ -182,13 +207,13 @@ export default function Gallery() {
           className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-white sm:text-6xl xl:text-7xl`}
         >
           <span className="mr-4 inline-block -rotate-[8deg] rounded-full border border-[#f59e0b] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#f59e0b]">
-            Gallery
+            <Letters text="Gallery" line={0} />
           </span>
           <span className="sm:whitespace-nowrap">
-            <Letters text="See our Safari" />
+            <Letters text="See our Safari" line={1} />
           </span>
           <br />
-          <Letters text="Photography" />
+          <Letters text="Photography" line={2} />
         </h2>
 
         <div className="flex items-center gap-3">
