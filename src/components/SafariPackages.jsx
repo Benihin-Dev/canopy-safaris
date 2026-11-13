@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaPaw, FaUsers, FaLeaf, FaWallet } from "react-icons/fa";
 import { packages } from "@/data/packages";
+import { Bebas_Neue } from "next/font/google";
+
+const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 
 /* the 4 sides of the rolling box */
 const perks = [
@@ -107,14 +110,14 @@ const css = `
 /* heading + rolling box */
 .sp-ln{display:block;overflow:hidden}
 .sp-ln>span{display:inline-block;transform:translateY(110%)}
-.sp-pill{display:inline-block;transform:rotate(-6deg);opacity:0}
+.sp-pill{display:inline-block;transform:rotate(-8deg);opacity:0}
 .sp-3d{opacity:0;perspective:700px;perspective-origin:50% 40%;position:relative;width:100%;max-width:380px;height:var(--sp-cube-h);margin:0 auto;cursor:pointer}
 .sp-go .sp-ln>span{animation:sp-up .8s var(--sp-ease) both}
 .sp-go .sp-ln:nth-child(2)>span{animation-delay:.15s}
 .sp-go .sp-pill{animation:sp-pop .7s var(--sp-ease) .1s both}
 .sp-go .sp-3d{animation:sp-fade .9s ease .4s both}
 @keyframes sp-up{from{transform:translateY(110%)}to{transform:none}}
-@keyframes sp-pop{from{opacity:0;transform:rotate(-6deg) scale(.6)}to{opacity:1;transform:rotate(-6deg) scale(1)}}
+@keyframes sp-pop{from{opacity:0;transform:rotate(-8deg) scale(.6)}to{opacity:1;transform:rotate(-8deg) scale(1)}}
 @keyframes sp-fade{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 
 .sp-lift{position:absolute;inset:0;transform-style:preserve-3d}
@@ -268,23 +271,25 @@ export default function SafariPackages() {
     >
       <style>{css}</style>
 
-      <div
-        ref={headRef}
-        className={`mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-2 md:px-12${seen ? " sp-go" : ""}`}
-      >
-        <h2 className="font-bebas text-5xl uppercase leading-[1.08] tracking-wide text-[#2b1d10] md:text-6xl">
-          <span className="sp-ln">
-            <span>
-              <span className="sp-pill relative -top-1 mr-4 rounded-full border border-[#a15f21] px-4 py-1.5 align-middle font-caveat text-lg normal-case leading-none tracking-normal text-[#a15f21] md:text-xl">
-                Safari
-              </span>
-              Choose your
-            </span>
-          </span>
-          <span className="sp-ln">
-            <span>wild adventure</span>
-          </span>
-        </h2>
+<div
+  ref={headRef}
+  className={`mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-[1400px]${seen ? " sp-go" : ""}`}
+>
+  <h2
+    className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-[#2b1d10] sm:text-6xl xl:text-7xl`}
+  >
+    <span className="sp-ln">
+      <span>
+        <span className="sp-pill mr-4 rounded-full border border-[#a15f21] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#a15f21]">
+          Safari
+        </span>
+        <span className="sm:whitespace-nowrap">Choose your</span>
+      </span>
+    </span>
+    <span className="sp-ln">
+      <span>wild adventure</span>
+    </span>
+  </h2>
 
         <div
           className="sp-3d"
