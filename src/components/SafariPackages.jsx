@@ -7,7 +7,7 @@ import { FaPaw, FaUsers, FaLeaf, FaWallet } from "react-icons/fa";
 import { packages } from "@/data/packages";
 import { Bebas_Neue } from "next/font/google";
 
-const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
+const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas" });
 
 /* the 4 sides of the rolling box */
 const perks = [
@@ -111,7 +111,8 @@ const css = `
 .sp-ln{display:block;overflow:hidden}
 .sp-ln>span{display:inline-block;transform:translateY(110%)}
 .sp-pill{display:inline-block;transform:rotate(-8deg);opacity:0}
-.sp-3d{opacity:0;perspective:700px;perspective-origin:50% 40%;position:relative;width:100%;max-width:380px;height:var(--sp-cube-h);margin:0 auto;cursor:pointer}
+.sp-3d{opacity:0;perspective:700px;perspective-origin:50% 40%;position:relative;width:100%;max-width:380px;height:var(--sp-cube-h);margin:0 auto;cursor:pointer;flex:none}
+@media (min-width:768px){.sp-3d{width:340px;margin:0 0 auto auto}}
 .sp-go .sp-ln>span{animation:sp-up .8s var(--sp-ease) both}
 .sp-go .sp-ln:nth-child(2)>span{animation-delay:.15s}
 .sp-go .sp-pill{animation:sp-pop .7s var(--sp-ease) .1s both}
@@ -263,7 +264,7 @@ export default function SafariPackages() {
   return (
     <section
       id="packages"
-      className="sp-root relative w-full overflow-hidden bg-[#f0eee5] py-16"
+      className={`${bebas.variable} sp-root relative w-full overflow-hidden bg-[#f0eee5] py-16`}
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") next();
         if (e.key === "ArrowLeft") prev();
