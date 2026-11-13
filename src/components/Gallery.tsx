@@ -55,6 +55,66 @@ const DEPTH = 120;        // px, how far the centre sits back
 const PERSPECTIVE = 1300;
 const RATIO = 1.3;      // photo height / width
 
+/* ---------- heading letter effect ---------- */
+const LIGHT = [255, 255, 255];
+const SHADE = [91, 96, 93];   // gray shade
+const DIR = -1;               // -1 = shift left, 1 = shift right
+const SHIFT = 8;              // px, how far letters sit away
+const SPREAD = 0.85;          // higher = more strictly letter by letter
+
+function useScrollLetters(ref: React.RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const letters = Array.from(el.querySelectorAll<HTMLElement>("[data-letter]"));
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mix = (s: number) =>
+      LIGHT.map((v, i) => Math.round(v + (SHADE[i] - v) * s)).join(",");
+
+    const update = () => {
+      const vh = window.innerHeight;
+      const top = el.getBoundingClientRect().top;
+      // 0 while the heading is low on the screen, 1 once it has come up
+      const p = Math.min(1, Math.max(0, (vh * 0.75 - top) / (vh * 0.4)));
+      const n = letters.length;
+      letters.forEach((l, i) => {
+        const start = (i / n) * SPREAD;
+        const t = Math.min(1, Math.max(0, (p - start) / (1 - SPREAD)));
+        l.style.color = `rgb(${mix(1 - t)})`;
+        if (!reduce) l.style.transform = `translateX(${DIR * (1 - t) * SHIFT}px)`;
+      });
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [ref]);
+}
+
+function Letters({ text }: { text: string }) {
+  const words = text.split(" ");
+  return (
+    <>
+      {words.map((w, wi) => (
+        <React.Fragment key={wi}>
+          <span className="inline-block whitespace-nowrap">
+            {[...w].map((c, i) => (
+              <span key={i} data-letter className="inline-block">
+                {c}
+              </span>
+            ))}
+          </span>
+          {wi < words.length - 1 && " "}
+        </React.Fragment>
+      ))}
+    </>
+  );
+}
+
 export default function Gallery() {
   const [itemW, setItemW] = useState(300);
 
@@ -62,6 +122,10 @@ export default function Gallery() {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const offset = useRef(0);
   const paused = useRef(false);
+
+  /* heading letter effect (must be INSIDE the component) */
+  const headRef = useRef<HTMLHeadingElement | null>(null);
+  useScrollLetters(headRef);
 
   /* repeat the list so the loop never shows a gap */
   const items = [...images, ...images, ...images];
@@ -113,13 +177,18 @@ export default function Gallery() {
       
       {/* header */}
       <div className="mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-[1400px]">
-        <h2 className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-white sm:text-6xl xl:text-7xl`}>
+        <h2
+          ref={headRef}
+          className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-white sm:text-6xl xl:text-7xl`}
+        >
           <span className="mr-4 inline-block -rotate-[8deg] rounded-full border border-[#f59e0b] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#f59e0b]">
             Gallery
           </span>
-          <span className="sm:whitespace-nowrap">See our Safari</span>
+          <span className="sm:whitespace-nowrap">
+            <Letters text="See our Safari" />
+          </span>
           <br />
-          Photography
+          <Letters text="Photography" />
         </h2>
 
         <div className="flex items-center gap-3">
