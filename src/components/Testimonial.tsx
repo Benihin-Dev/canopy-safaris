@@ -7,6 +7,9 @@ import Image from "next/image";
 import { FaStar, FaQuoteLeft } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
 import { reviews as allReviews } from "@/data/reviews";
+import { Bebas_Neue } from "next/font/google";
+
+const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 
 export default function SliderForTestimonial() {
   const sliderRef = useRef<Slider>(null);
@@ -18,35 +21,33 @@ export default function SliderForTestimonial() {
         {/* ================= LEFT SIDE ================= */}
         <div>
           {/* Heading: badge on line 1, line 2 starts at the left edge */}
-          <h2 className="font-bebas text-5xl uppercase leading-[1.05] tracking-wide text-white md:text-7xl">
-            <span className="relative -top-1 mr-4 inline-block -rotate-6 rounded-full border border-[#f59e0b] px-4 py-1.5 align-middle font-caveat text-lg normal-case leading-none tracking-normal text-[#f59e0b] md:text-xl">
-              Testimonial
-            </span>
-            Real story from <br />
-            our organic clients
-          </h2>
+<h2 className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-white sm:text-6xl xl:text-7xl`}>
+  <span className="mr-4 inline-block -rotate-[8deg] rounded-full border border-[#f59e0b] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#f59e0b]">
+    Testimonial
+  </span>
+  <span className="sm:whitespace-nowrap">Real story from</span>
+  <br />
+  our organic clients
+</h2>
 
-          {/* Stats */}
-          <div className="mt-10 border-y border-white/10 py-8">
-            <div className="grid gap-x-10 gap-y-6 sm:grid-cols-2">
-              <div className="flex items-center gap-3">
-                <span className="font-bebas text-6xl leading-none text-[#f59e0b] md:text-7xl">
-                  10K
-                </span>
-                <span className="font-bebas text-lg uppercase leading-tight text-white">
-                  Successfully <br /> placed visited
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="font-bebas text-6xl leading-none text-[#f59e0b] md:text-7xl">
-                  98%
-                </span>
-                <span className="font-bebas text-lg uppercase leading-tight text-white">
-                  Our customers <br /> satisfaction rates
-                </span>
-              </div>
-            </div>
-          </div>
+<div className="mt-10 border-y border-white/10 py-8">
+  <div className="grid gap-x-10 gap-y-6 sm:grid-cols-2">
+    <div className="flex items-center gap-3">
+      <span className={`${bebas.className} text-7xl leading-none text-[#f59e0b] xl:text-8xl`}>
+        10K<span className="text-5xl xl:text-6xl">+</span>
+      </span>
+      <span className={`${bebas.className} text-xl uppercase leading-tight tracking-wide text-gray-400`}>
+        Successfully <br /> placed visited
+      </span>
+    </div>
+    <div className="flex items-center gap-3">
+      <span className={`${bebas.className} text-7xl leading-none text-[#f59e0b] xl:text-8xl`}>98%</span>
+      <span className={`${bebas.className} text-xl uppercase leading-tight tracking-wide text-gray-400`}>
+        Our customers <br /> satisfaction rates
+      </span>
+    </div>
+  </div>
+</div>
 
           {/* Happy clients */}
           <div className="flex items-center gap-4 pt-6">
@@ -107,7 +108,7 @@ export default function SliderForTestimonial() {
                     <div>
                       <div className=" w-full flex items-center gap-5">
                         <FaQuoteLeft className="size-8 shrink-0 text-[#f59e0b] md:size-10" />
-                        <h3 className="font-bebas text-3xl uppercase tracking-wide text-white md:text-4xl">
+                        <h3 className={`${bebas.className} text-3xl uppercase tracking-wide text-white md:text-4xl`}>
                           {r.title}
                         </h3>
                       </div>
