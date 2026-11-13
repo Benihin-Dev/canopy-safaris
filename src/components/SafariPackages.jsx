@@ -293,8 +293,8 @@ export default function SafariPackages() {
         </span>
       </span>
       <span className="sp-ln text-[#a15f21]">
-        <span>Explore our exclusive safari packages and discover unforgettable
-      wildlife encounters.</span>
+        <span>Explore our exclusive safari packages
+        </span>
       </span>
     </h2>
   </div>
