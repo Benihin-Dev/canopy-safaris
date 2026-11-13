@@ -289,19 +289,14 @@ export default function SafariPackages() {
           <span className="sp-pill mr-4 rounded-full border border-[#a15f21] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#a15f21]">
             Safari
           </span>
-          <span className="sm:whitespace-nowrap">Choose your</span>
+          <span className="sm:whitespace-nowrap">Choose your wild adventure</span>
         </span>
       </span>
       <span className="sp-ln text-[#a15f21]">
-        <span>wild adventure</span>
+        <span>Explore our exclusive safari packages and discover unforgettable
+      wildlife encounters.</span>
       </span>
     </h2>
-    <p
-      className={`${poppins.className} sp-sub mt-4 max-w-lg text-sm leading-7 text-[#5b4733] sm:text-base`}
-    >
-      Explore our exclusive safari packages and discover unforgettable
-      wildlife encounters.
-    </p>
   </div>
 
         <div
