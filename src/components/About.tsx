@@ -12,6 +12,9 @@ import {
 import YellowBtn from "./Elements/YellowBtn";
 import VideoFrame from "./Elements/VideoFrame";
 import Image from "next/image";
+import { Dancing_Script } from "next/font/google";
+
+const dancing = Dancing_Script({ subsets: ["latin"], weight: ["500", "600"] });
 
 export default function About() {
   const services = [
@@ -99,9 +102,9 @@ export default function About() {
 
         {/* Right: content */}
         <div className="w-full lg:pl-10">
-          <p className="font-poppins text-base font-medium text-canopy-line">
-            Explore Sri Lanka
-          </p>
+<p className={`${dancing.className} text-[28px] italic text-canopy-line md:text-[34px]`}>
+  Adventure Awaits
+</p>
           <h2 className="mt-2 font-libertinus_Math text-4xl leading-tight text-canopy-deep md:text-5xl">
             Sri Lanka&apos;s Wild Side, by{" "}
             <span className="font-caveat text-5xl text-clay md:text-6xl">
