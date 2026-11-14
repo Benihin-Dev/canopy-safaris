@@ -193,7 +193,7 @@ export default function About() {
           <p
             className={`${dancing.className} text-[34px] leading-[1.1] text-[#a15f21]`}
           >
-            Explore Sri Lanka
+            Adventure Awaits
           </p>
           <h2
             className={`${libertinus.className} mt-2.5 text-[40px] leading-[1.08] text-[#2b1d10] md:text-[52px]`}
