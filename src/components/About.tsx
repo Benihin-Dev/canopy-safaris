@@ -8,7 +8,6 @@ import {
   Libertinus_Serif,
   Poppins,
 } from "next/font/google";
-import VideoFrame from "./Elements/VideoFrame";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 const dancing = Dancing_Script({ subsets: ["latin"], weight: "600" });
@@ -18,6 +17,52 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600"] });
 /* Put a cover picture for the video here, e.g. "/images/aboutImg.png".
    Leave it empty to show the dark brown frame only. */
 const POSTER = "";
+
+/* The video that plays inside the frame. YouTube, Vimeo or a direct
+   .mp4 / .webm / .ogg link all work. */
+const VIDEO_URL =
+  "https://www.youtube.com/watch?v=n4xzVr6nRTI&pp=ygULc2FmYXJpIHJpZGU%3D";
+
+type Source = { kind: "iframe" | "video"; src: string };
+
+function getSource(raw: string): Source | null {
+  let u: URL;
+  try {
+    u = new URL(raw);
+  } catch {
+    return null;
+  }
+  const host = u.hostname.replace(/^www\./, "");
+
+  let yt: string | null = null;
+  if (host === "youtu.be") yt = u.pathname.slice(1);
+  else if (host.endsWith("youtube.com")) {
+    if (u.pathname === "/watch") yt = u.searchParams.get("v");
+    else {
+      const m = u.pathname.match(/^\/(embed|shorts|live)\/([\w-]+)/);
+      if (m) yt = m[2];
+    }
+  }
+  if (yt)
+    return {
+      kind: "iframe",
+      src: `https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0&playsinline=1`,
+    };
+
+  if (host.endsWith("vimeo.com")) {
+    const id = u.pathname.split("/").filter(Boolean).pop();
+    if (id && /^\d+$/.test(id))
+      return {
+        kind: "iframe",
+        src: `https://player.vimeo.com/video/${id}?autoplay=1`,
+      };
+  }
+
+  if (/\.(mp4|webm|ogg)$/i.test(u.pathname))
+    return { kind: "video", src: raw };
+
+  return null;
+}
 
 const parks = [
   { n: "01", name: "Yala" },
@@ -96,7 +141,8 @@ function ArrowButton() {
 }
 
 export default function About() {
-  const [videoOpen, setVideoOpen] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const source = getSource(VIDEO_URL);
 
   return (
     <section
@@ -133,26 +179,69 @@ export default function About() {
                 className="object-cover"
               />
             )}
-            <button
-              type="button"
-              onClick={() => setVideoOpen(true)}
-              aria-label="Play video"
-              className="relative z-10 flex size-[92px] cursor-pointer items-center justify-center rounded-full bg-[#a15f21] text-white transition-transform duration-300 hover:scale-110"
-              style={{ boxShadow: "0 0 0 14px rgba(161,95,33,.3)" }}
-            >
-              <svg
-                width="34"
-                height="34"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </button>
-            <span className="absolute left-6 top-6 z-10 rounded-full bg-white/15 px-3.5 py-2 text-xs font-medium uppercase tracking-[.12em] text-white">
-              Kumana National Park
-            </span>
+            {playing && source ? (
+              <>
+                {source.kind === "iframe" ? (
+                  <iframe
+                    src={source.src}
+                    title="Canopy Safaris video"
+                    className="absolute inset-0 size-full"
+                    allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    src={source.src}
+                    className="absolute inset-0 size-full object-cover"
+                    controls
+                    autoPlay
+                    playsInline
+                  />
+                )}
+                <button
+                  type="button"
+                  onClick={() => setPlaying(false)}
+                  aria-label="Close video"
+                  className="absolute left-4 top-4 z-10 flex size-10 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-colors hover:bg-black/80"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 6l12 12M18 6L6 18" />
+                  </svg>
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setPlaying(true)}
+                  aria-label="Play video"
+                  className="relative z-10 flex size-[92px] cursor-pointer items-center justify-center rounded-full bg-[#a15f21] text-white transition-transform duration-300 hover:scale-110"
+                  style={{ boxShadow: "0 0 0 14px rgba(161,95,33,.3)" }}
+                >
+                  <svg
+                    width="34"
+                    height="34"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </button>
+                <span className="absolute left-6 top-6 z-10 rounded-full bg-white/15 px-3.5 py-2 text-xs font-medium uppercase tracking-[.12em] text-white">
+                  Kumana National Park
+                </span>
+              </>
+            )}
           </div>
 
           {/* floating card: jeep (moves up and down) */}
@@ -193,7 +282,7 @@ export default function About() {
           <p
             className={`${dancing.className} text-[34px] leading-[1.1] text-[#a15f21]`}
           >
-            Adventure Awaits
+            Explore Sri Lanka
           </p>
           <h2
             className={`${libertinus.className} mt-2.5 text-[40px] leading-[1.08] text-[#2b1d10] md:text-[52px]`}
@@ -322,13 +411,6 @@ export default function About() {
           </div>
         </div>
       </div>
-
-      <VideoFrame
-        open={videoOpen}
-        onClose={() => setVideoOpen(false)}
-        url="https://www.youtube.com/watch?v=n4xzVr6nRTI&pp=ygULc2FmYXJpIHJpZGU%3D"
-        title="Canopy Safaris"
-      />
     </section>
   );
 }
