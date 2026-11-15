@@ -33,7 +33,7 @@ export default function WhoWeAre() {
     },
   ];
   return (
-    <section id="team" className=" w-full relative overflow-hidden py-20 scroll-mt-20">
+    <section id="who-we-are" className=" w-full relative overflow-hidden py-20 scroll-mt-20">
       <div className=" w-full sm:w-11/12 mx-auto px-5 lg:max-w-350 sm:px-0 lg:flex items-center justify-center relative z-10">
         <div className=" w-full h-full lg:w-3/8">
           <div className=" w-2/3 2xl:w-1/2 mx-auto lg:mx-0 lg 2xl:ml-24 relative flex items-center justify-center -translate-x-5 lg:translate-x-0 pb-20 lg:pb-0">
