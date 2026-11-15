@@ -3,7 +3,14 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaPaw, FaUsers, FaLeaf, FaWallet } from "react-icons/fa";
+import {
+  FaPaw,
+  FaUsers,
+  FaLeaf,
+  FaWallet,
+  FaRegClock,
+  FaRegCalendarAlt,
+} from "react-icons/fa";
 import { packages } from "@/data/packages";
 import { Bebas_Neue, Poppins } from "next/font/google";
 
@@ -76,17 +83,27 @@ const css = `
 .sp-card[data-pos="side"]{z-index:2;filter:brightness(.9) saturate(.85);cursor:pointer;box-shadow:0 30px 60px -20px rgba(97,61,29,.45)}
 .sp-card[data-pos="far"]{z-index:1;opacity:0;pointer-events:none}
 
-.sp-media{position:relative;width:100%;aspect-ratio:16/10;border-radius:20px;overflow:hidden;background:#e6d9bf}
-.sp-media::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.12),transparent 45%,rgba(43,29,16,.12));pointer-events:none}
+.sp-media{position:relative;width:100%;aspect-ratio:16/10}
+.sp-img{position:absolute;inset:0;border-radius:20px;overflow:hidden;background:#e6d9bf}
+.sp-img::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.12),transparent 45%,rgba(43,29,16,.12));pointer-events:none}
+.sp-price{position:absolute;right:14px;bottom:-16px;z-index:2;background:var(--sp-accent);color:#fff;font-size:.9rem;font-weight:500;border-radius:999px;padding:7px 16px;border:3px solid var(--sp-card-bg)}
 .sp-badge{position:absolute;top:12px;left:12px;z-index:1;padding:6px 12px;border-radius:999px;background:#2b1d10;color:#fff;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
 
-.sp-body{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:24px 10px 8px;transition:opacity var(--sp-dur) var(--sp-ease)}
+.sp-body{display:flex;flex-direction:column;gap:18px;padding:28px 8px 6px;transition:opacity var(--sp-dur) var(--sp-ease)}
 .sp-card[data-pos="side"] .sp-body{opacity:.45}
 .sp-meta h3{font-family:var(--font-bebas),sans-serif;font-size:clamp(1.9rem,4vw,2.4rem);font-weight:400;letter-spacing:.03em;text-transform:uppercase;line-height:1.05;color:var(--sp-heading);margin-bottom:6px}
 .sp-meta p{font-size:.95rem;color:var(--sp-text)}
-.sp-hl{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;padding:0;list-style:none}
-.sp-hl li{font-size:.78rem;color:var(--sp-body);border:1px solid var(--sp-card-border);border-radius:999px;padding:4px 10px}
-
+.sp-tag{margin:0;font-size:.95rem;color:#7a6550}
+.sp-meta p.sp-desc{margin:10px 0 0;font-size:.9rem;line-height:1.55;color:var(--sp-body);text-align:justify;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sp-facts{display:flex;gap:8px;margin:16px 0 0;padding:0;list-style:none}
+.sp-facts li{flex:1;display:flex;flex-direction:column;gap:2px;font-size:.82rem;font-weight:500;color:var(--sp-text)}
+.sp-facts svg{width:16px;height:16px;color:var(--sp-accent);margin-bottom:2px}
+.sp-facts small{font-size:.72rem;font-weight:400;color:#7a6550}
+.sp-cta{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--sp-accent);color:#fff;border-radius:14px;padding:12px;font-size:.9rem;font-weight:500;transition:background .2s ease}
+.sp-cta:hover{background:var(--sp-accent-hover)}
+.sp-cta:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
+.sp-cta svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none}
+.sp-card[data-pos="side"] .sp-cta{pointer-events:none}
 .sp-action{flex:none;width:56px;height:56px;border-radius:50%;background:var(--sp-accent);border:0;color:#fff;display:grid;place-items:center;transition:background .2s ease,transform .2s ease}
 .sp-action:hover{background:var(--sp-accent-hover);transform:scale(1.08)}
 .sp-action:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
@@ -378,34 +395,51 @@ export default function SafariPackages() {
               }}
             >
               <div className="sp-media">
-                <Image
-                  src={p.img}
-                  alt={p.title}
-                  fill
-                  sizes="(max-width: 640px) 78vw, 540px"
-                  className="object-cover"
-                  priority={i === 1}
-                />
+                <div className="sp-img">
+                  <Image
+                    src={p.img}
+                    alt={p.title}
+                    fill
+                    sizes="(max-width: 640px) 78vw, 540px"
+                    className="object-cover"
+                    priority={i === 1}
+                  />
+                </div>
                 <span className="sp-badge font-inter">{p.badge}</span>
+                <span className="sp-price font-inter">{p.price}</span>
               </div>
 
               <div className="sp-body">
                 <div className="sp-meta">
                   <h3>{p.title}</h3>
-                  <p className="font-inter">{p.desc}</p>
-                  <ul className="sp-hl font-inter">
-                    {p.highlights.map((h) => (
-                      <li key={h}>{h}</li>
-                    ))}
+                  <p className="sp-tag font-inter">{p.tagline}</p>
+                  <p className="sp-desc font-inter">{p.desc}</p>
+                  <ul className="sp-facts font-inter">
+                    <li>
+                      <FaRegClock aria-hidden="true" />
+                      {p.duration}
+                      <small>Duration</small>
+                    </li>
+                    <li>
+                      <FaUsers aria-hidden="true" />
+                      {p.groupSize}
+                      <small>Group size</small>
+                    </li>
+                    <li>
+                      <FaRegCalendarAlt aria-hidden="true" />
+                      {p.bestTime}
+                      <small>Best time</small>
+                    </li>
                   </ul>
                 </div>
                 <Link
-                  className="sp-action"
+                  className="sp-cta font-inter"
                   href={`/packages/${p.slug}`}
                   aria-label={`View ${p.title}`}
                   tabIndex={pos === "center" ? 0 : -1}
                   onClick={(e) => e.stopPropagation()}
                 >
+                  View details
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M7 17L17 7M17 7H8M17 7V16" />
                   </svg>
