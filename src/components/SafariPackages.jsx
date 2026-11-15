@@ -442,12 +442,6 @@ export default function SafariPackages() {
             />
           ))}
         </div>
-        <Link
-          href="/packages"
-          className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#a15f21] px-6 py-2.5 font-inter text-sm font-semibold text-[#a15f21] transition-colors hover:bg-[#a15f21] hover:text-white"
-        >
-          View all packages →
-        </Link>
       </div>
     </section>
   );
