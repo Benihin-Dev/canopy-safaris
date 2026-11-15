@@ -304,6 +304,7 @@ style={{
     </h2>
   </div>
 
+  {/* ROLLING BOX (saved for later)
         <div
           className="sp-3d"
           onClick={rollBox}
@@ -341,6 +342,7 @@ style={{
           </div>
           <div className={`sp-shadow${rolling ? " sp-rolling" : ""}`} />
         </div>
+        */}
       </div>
 
       <div
