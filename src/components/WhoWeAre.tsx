@@ -56,7 +56,7 @@ export default function WhoWeAre() {
 >
   <IoArrowBackOutline className="text-[#D9822B] rotate-135 size-10 absolute z-10" />
 
-  <div className="absolute inset-0 m-auto size-14 border-[#D9822B] rounded-full border-[1.5px] border-dashed animate-spin scale-x-[-1] [animation-duration:4s]"></div>
+  <div className="absolute inset-0 m-auto size-16 border-[#D9822B] rounded-full border-[1.5px] border-dashed animate-spin scale-x-[-1] [animation-duration:4s]"></div>
 </a>
             </div>
             <div className=" absolute w-2/6 h-[35%] lg:h-2/5  top-1/8 -right-1/5 z-10 ">
