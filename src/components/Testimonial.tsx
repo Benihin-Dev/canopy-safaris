@@ -16,7 +16,7 @@ export default function SliderForTestimonial() {
   const reviews = allReviews.filter((r) => r.featured);
 
   return (
-    <div className="w-full bg-[#1a1410] px-6 py-16 md:px-12">
+    <div id="guestbook" className="scroll-mt-24 w-full bg-[#1a1410] px-6 py-16 md:px-12">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
         {/* ================= LEFT SIDE ================= */}
         <div>
