@@ -18,23 +18,6 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600"] });
    Leave it empty to show the dark brown frame only. */
 const POSTER = "";
 
-/* wave shape cut from the top of the About background */
-const WAVE_PATH =
-  "M0,64L24,90.7C48,117,96,171,144,165.3C192,160,240,96,288,101.3C336,107,384,181,432,224C480,267,528,277,576,240C624,203,672,117,720,80C768,43,816,53,864,74.7C912,96,960,128,1008,154.7C1056,181,1104,203,1152,224C1200,245,1248,267,1296,240C1344,213,1392,139,1416,101.3L1440,64L1440,320L0,320Z";
-const WAVE_SVG = `url("data:image/svg+xml,${encodeURIComponent(
-  `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'><path d='${WAVE_PATH}'/></svg>`
-)}")`;
-const WAVE_MASK = {
-  maskImage: `${WAVE_SVG}, linear-gradient(#000,#000)`,
-  WebkitMaskImage: `${WAVE_SVG}, linear-gradient(#000,#000)`,
-  maskSize: "100% var(--wave), 100% calc(100% - var(--wave) + 1px)",
-  WebkitMaskSize: "100% var(--wave), 100% calc(100% - var(--wave) + 1px)",
-  maskPosition: "top, bottom",
-  WebkitMaskPosition: "top, bottom",
-  maskRepeat: "no-repeat",
-  WebkitMaskRepeat: "no-repeat",
-} as React.CSSProperties;
-
 /* The video that plays inside the frame. YouTube, Vimeo or a direct
    .mp4 / .webm / .ogg link all work. */
 const VIDEO_URL =
@@ -163,27 +146,10 @@ export default function About() {
 
   return (
 <section
-  id="about"
-  className={`${poppins.className} relative z-40 w-full scroll-mt-20 overflow-hidden px-5 pb-24 text-[#3d2c1b] sm:px-12`}
-  style={
-    {
-      "--wave": "clamp(60px, 9vw, 140px)",
-      marginTop: "calc(var(--wave) * -1)",
-      paddingTop: "calc(var(--wave) + 96px)",
-    } as React.CSSProperties
-  }
->
-  {/* background layer: same gradient as before, but shaped like a wave at the top */}
-  <div
-    aria-hidden
-    className="pointer-events-none absolute inset-0 -z-10"
-    style={{
-      background:
-        "radial-gradient(700px circle at 8% 12%, rgba(217,130,43,.16), transparent 60%), radial-gradient(800px circle at 95% 90%, rgba(161,95,33,.12), transparent 60%), linear-gradient(180deg, #F4EBDD 0%, #f0eee5 100%)",
-      ...WAVE_MASK,
-    }}
-  />
-  <style>{css}</style>
+      id="about"
+      className={`${poppins.className} relative w-full scroll-mt-20 overflow-hidden px-5 pb-24 pt-24 text-[#3d2c1b] sm:px-12`}
+    >
+      <style>{css}</style>
 
       <div className="mx-auto grid max-w-[1280px] items-stretch gap-16 lg:grid-cols-2 lg:gap-[72px]">
         {/* Left: video frame (height follows the content on the right) */}
