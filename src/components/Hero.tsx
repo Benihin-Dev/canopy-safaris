@@ -118,18 +118,6 @@ export default function Hero() {
           ))}
         </div>
       </div>
-      <div className=" w-full z-30 pointer-events-none absolute bottom-0 left-0 scale-y-50 md:scale-y-80 translate-y-1/4 md:translate-y-1/8">
-        <div className=" w-full flex items-center ">
-          <Image
-            className=" w-full scale-y-40 translate-y-[30%] scale-x-[-1] object-contain"
-            src="/images/hero/wave.svg"
-            alt="bg image"
-            width={500}
-            height={100}
-            priority
-          />
-        </div>
-      </div>
       <div className=" absolute w-full  h-full top-0 left-0 z-0">
         <Image
           className="object-cover brightness-75 bg-gray-800"
