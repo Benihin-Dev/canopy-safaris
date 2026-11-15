@@ -117,8 +117,14 @@ export default function NavBar() {
     children.some((c) => isActive(c.link));
 
   const linkCls = (active: boolean) =>
-    `rounded-full px-4 py-2 text-sm font-semibold uppercase transition-colors duration-300 hover:bg-[#a15f21]/10 ${
-      active ? "bg-[#a15f21]/15 text-[#7d4a19]" : ""
+    `rounded-full px-4 py-2 text-sm font-semibold uppercase transition-colors duration-300 ${
+      atTop ? "hover:bg-white/15" : "hover:bg-[#a15f21]/10"
+    } ${
+      active
+        ? atTop
+          ? "bg-white/20"
+          : "bg-[#a15f21]/15 text-[#7d4a19]"
+        : ""
     }`;
 
   const isHidden = hidden && !open;
@@ -126,24 +132,35 @@ export default function NavBar() {
   return (
     <header
       onFocusCapture={() => setHidden(false)}
-      className={`fixed inset-x-0 top-0 z-50 font-poppins text-[#3d2c1b] transition-[padding,transform] duration-500 ease-[cubic-bezier(.22,.8,.22,1)] ${
-        atTop ? "px-0 pt-0" : "px-4 pt-3"
-      } ${isHidden ? "-translate-y-[140%]" : "translate-y-0"}`}
+      style={{
+        transitionDuration: isHidden ? "600ms" : "800ms",
+        transitionTimingFunction: isHidden
+          ? "cubic-bezier(.4,0,.2,1)"
+          : "cubic-bezier(.16,1,.3,1)",
+      }}
+      className={`fixed inset-x-0 top-0 z-50 font-poppins transition-[padding,transform,opacity,color] will-change-transform ${
+        atTop ? "px-0 pt-0 text-white" : "px-4 pt-3 text-[#3d2c1b]"
+      } ${
+        isHidden
+          ? "pointer-events-none -translate-y-[130%] opacity-0"
+          : "translate-y-0 opacity-100"
+      }`}
     >
+      {/* soft dark fade behind the white text so it stays readable on any photo */}
+      <span
+        aria-hidden
+        className={`pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-black/40 to-transparent transition-opacity duration-500 ${
+          atTop ? "opacity-100" : "opacity-0"
+        }`}
+      />
+
       {/* the bar: flat full-width at the top, floating glass pill after scrolling */}
       <div
         className={`animate-nav-in relative mx-auto w-full transition-[max-width,border-radius] duration-500 ${
           atTop ? "max-w-full rounded-none" : "max-w-[1400px] rounded-[64px]"
         }`}
       >
-        {/* layer 1: flat cream bar (top of the page) */}
-        <span
-          aria-hidden
-          className={`pointer-events-none absolute inset-0 rounded-[inherit] border-b border-[#dccdaa] bg-[#fbf3e3] transition-opacity duration-500 ${
-            atTop ? "opacity-100" : "opacity-0"
-          }`}
-        />
-        {/* layer 2: glossy glass (after scrolling up) */}
+        {/* glossy glass, only after scrolling (at the top the bar has no background) */}
         <span
           aria-hidden
           style={GLASS}
@@ -186,7 +203,7 @@ export default function NavBar() {
                   </button>
                   {/* pt-3 bridges the gap so hover isn't lost */}
                   <div className="invisible absolute left-0 top-full pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                    <div className="min-w-52 translate-y-2 overflow-hidden rounded-2xl border border-white/70 bg-[#fffaf2]/95 p-2 shadow-xl backdrop-blur-xl transition-transform duration-200 group-hover:translate-y-0 group-focus-within:translate-y-0">
+                    <div className="min-w-52 translate-y-2 overflow-hidden rounded-2xl border border-white/70 text-[#3d2c1b] bg-[#fffaf2]/95 p-2 shadow-xl backdrop-blur-xl transition-transform duration-200 group-hover:translate-y-0 group-focus-within:translate-y-0">
                       {item.children.map((c) => (
                         <Link
                           key={c.name}
@@ -247,7 +264,7 @@ export default function NavBar() {
 
       {/* Mobile menu */}
       {open && (
-        <nav className="animate-fade-up mx-auto mt-2 flex w-[calc(100%-2rem)] max-w-[1400px] flex-col gap-1 rounded-3xl border border-white/70 bg-[#fffaf2]/95 p-4 shadow-xl backdrop-blur-xl lg:hidden">
+        <nav className="animate-fade-up mx-auto mt-2 flex w-[calc(100%-2rem)] text-[#3d2c1b] max-w-[1400px] flex-col gap-1 rounded-3xl border border-white/70 bg-[#fffaf2]/95 p-4 shadow-xl backdrop-blur-xl lg:hidden">
           {navLinks.map((item) =>
             item.children ? (
               <div key={item.name}>
