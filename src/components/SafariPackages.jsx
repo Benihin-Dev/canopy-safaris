@@ -197,14 +197,14 @@ export default function SafariPackages() {
     return () => io.disconnect();
   }, []);
 
-/* ROLLING BOX (saved for later): auto roll every 3.4 seconds
-useEffect(() => {
-  const t = setInterval(() => {
-    if (!rollHover.current && !document.hidden) rollBox();
-  }, 3400);
-  return () => clearInterval(t);
-}, []);
-*/
+  /* ROLLING BOX (saved for later): auto roll every 3.4 seconds
+  useEffect(() => {
+    const t = setInterval(() => {
+      if (!rollHover.current && !document.hidden) rollBox();
+    }, 3400);
+    return () => clearInterval(t);
+  }, []);
+  */
 
   const goTo = (i) => setCurrent(((i % n) + n) % n);
   const next = () => setCurrent((c) => (c + 1) % n);
@@ -270,10 +270,6 @@ useEffect(() => {
     <section
       id="packages"
       className="sp-root relative w-full scroll-mt-20 overflow-hidden py-16"
-style={{
-  background:
-    "radial-gradient(800px circle at 95% 0%, rgba(161,95,33,.12), transparent 60%), radial-gradient(700px circle at 8% 100%, rgba(217,130,43,.16), transparent 60%), linear-gradient(180deg, #f0eee5 0%, #F4EBDD 100%)",
-}}
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") next();
         if (e.key === "ArrowLeft") prev();
@@ -304,7 +300,7 @@ style={{
     </h2>
   </div>
 
-  {/* ROLLING BOX (saved for later)
+        {/* ROLLING BOX (saved for later)
         <div
           className="sp-3d"
           onClick={rollBox}
