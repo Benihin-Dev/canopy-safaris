@@ -6,23 +6,34 @@ import { usePathname } from "next/navigation";
 import { PiPhoneThin } from "react-icons/pi";
 import { IoMenu, IoClose, IoChevronDown } from "react-icons/io5";
 
-const packageLinks = [
-  { name: "Safari", link: "/#packages" },
-  { name: "Scooter Rentals", link: "/rentals" },
+/* "About us" groups three sections of the home page */
+const aboutLinks = [
+  { name: "Our story", link: "/#about" },
+  { name: "Who we are", link: "/#who-we-are" },
+  { name: "Guestbook", link: "/#guestbook" },
 ];
 
+/* same order as the home page, top to bottom */
 const navLinks = [
-  { name: "Home", link: "/" },
-  { name: "Our Story", link: "/#about" },
-  { name: "Packages", children: packageLinks },
-  { name: "Gallery", link: "/gallery" },
-  { name: "Our Team", link: "/#team" },
-  { name: "Guestbook", link: "/guestbook" },
-  { name: "Contact Us", link: "/#contact" },
+  { name: "Home", link: "/#home" },
+  { name: "About us", children: aboutLinks },
+  { name: "Safari", link: "/#packages" },
+  { name: "Rental", link: "/#rentals" },
+  { name: "Gallery", link: "/#gallery" },
+  { name: "Contact us", link: "/#contact" },
 ];
 
-/* home page sections the nav can jump to (the ids must exist on the page) */
-const SECTION_IDS = ["about", "packages", "team", "contact"];
+/* home page sections the nav can jump to (these ids must exist on the page) */
+const SECTION_IDS = [
+  "home",
+  "about",
+  "packages",
+  "rentals",
+  "gallery",
+  "who-we-are",
+  "guestbook",
+  "contact",
+];
 
 /* glossy glass look, used when the bar floats */
 const GLASS: React.CSSProperties = {
@@ -102,10 +113,8 @@ export default function NavBar() {
       return pathname === "/" && activeId === link.slice(2);
     return pathname === link;
   };
-  const pkgActive =
-    pathname.startsWith("/packages") ||
-    pathname.startsWith("/rentals") ||
-    (pathname === "/" && activeId === "packages");
+  const groupActive = (children: { link: string }[]) =>
+    children.some((c) => isActive(c.link));
 
   const linkCls = (active: boolean) =>
     `rounded-full px-4 py-2 text-sm font-semibold uppercase transition-colors duration-300 hover:bg-[#a15f21]/10 ${
@@ -169,7 +178,7 @@ export default function NavBar() {
                 <div key={item.name} className="group relative">
                   <button
                     type="button"
-                    className={`${linkCls(pkgActive)} flex cursor-pointer items-center gap-1`}
+                    className={`${linkCls(groupActive(item.children))} flex cursor-pointer items-center gap-1`}
                     aria-haspopup="menu"
                   >
                     {item.name}
