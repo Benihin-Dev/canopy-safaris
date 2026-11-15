@@ -325,7 +325,7 @@ export default function About() {
             </span>{" "}
             &amp; Scooter
           </h2>
-          <p className="mt-6 max-w-[620px] text-justify text-base leading-[1.8] text-[#5b4733]">
+          <p className={`${poppins.className} mt-6 max-w-[620px] text-justify text-base leading-[1.8] text-[#5b4733]`}>
             Welcome to The Canofy, your gateway to Sri Lanka’s unforgettable
             experiences. From wildlife safaris in Yala, Udawalawe, Wilpattu and
             Kumana National Parks to exploring the coastline and surrounding
