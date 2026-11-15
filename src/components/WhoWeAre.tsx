@@ -39,7 +39,7 @@ export default function WhoWeAre() {
           <div className=" w-2/3 2xl:w-1/2 mx-auto lg:mx-0 lg 2xl:ml-24 relative flex items-center justify-center -translate-x-5 lg:translate-x-0 pb-20 lg:pb-0">
             <Image
               className="w-full object-contain rounded-3xl relative z-10"
-              src="/images/why-choose-one-1.webp"
+              src="/images/WhoWeAre/why-choose-one-1.webp"
               alt="bg image"
               width={500}
               height={100}
@@ -68,7 +68,7 @@ export default function WhoWeAre() {
             <div className=" absolute w-2/6 h-[35%] lg:h-2/5  top-1/8 -right-1/5 z-10 ">
               <Image
                 className="object-cover w-full rounded-full border-2 border-white upDownAnimation"
-                src="/images/OurTeam/Jastan.jpg"
+                src="/images/WhoWeAre/Jastan.jpg"
                 alt="bg image"
                 fill
                 priority
@@ -85,8 +85,8 @@ export default function WhoWeAre() {
   aria-hidden="true"
   className="inline-block size-7.5 bg-[#D9822B] -translate-y-3 leftRightAnimation translate-x-1"
   style={{
-    WebkitMaskImage: "url(/images/title-shape.webp)",
-    maskImage: "url(/images/title-shape.webp)",
+    WebkitMaskImage: "url(/images/WhoWeAre/title-shape.webp)",
+    maskImage: "url(/images/WhoWeAre/title-shape.webp)",
     WebkitMaskRepeat: "no-repeat",
     maskRepeat: "no-repeat",
     WebkitMaskSize: "contain",
@@ -190,7 +190,7 @@ export default function WhoWeAre() {
       <div className=" w-full h-full absolute top-0 left-0 bg-[#F4EBDD] z-0">
         <Image
           className="object-cover"
-          src="/images/why-choose-one-bg.webp"
+          src="/images/WhoWeAre/why-choose-one-bg.webp"
           alt="bg image"
           fill
           priority
