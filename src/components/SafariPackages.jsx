@@ -3,8 +3,19 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaPaw, FaUsers, FaLeaf, FaWallet } from "react-icons/fa";
+import {
+  FaPaw,
+  FaUsers,
+  FaLeaf,
+  FaWallet,
+  FaRegClock,
+  FaRegCalendarAlt,
+} from "react-icons/fa";
 import { packages } from "@/data/packages";
+import { Bebas_Neue, Poppins } from "next/font/google";
+
+const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500"] });
 
 /* the 4 sides of the rolling box */
 const perks = [
@@ -72,17 +83,27 @@ const css = `
 .sp-card[data-pos="side"]{z-index:2;filter:brightness(.9) saturate(.85);cursor:pointer;box-shadow:0 30px 60px -20px rgba(97,61,29,.45)}
 .sp-card[data-pos="far"]{z-index:1;opacity:0;pointer-events:none}
 
-.sp-media{position:relative;width:100%;aspect-ratio:16/10;border-radius:20px;overflow:hidden;background:#e6d9bf}
-.sp-media::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.12),transparent 45%,rgba(43,29,16,.12));pointer-events:none}
+.sp-media{position:relative;width:100%;aspect-ratio:16/10}
+.sp-img{position:absolute;inset:0;border-radius:20px;overflow:hidden;background:#e6d9bf}
+.sp-img::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.12),transparent 45%,rgba(43,29,16,.12));pointer-events:none}
+.sp-price{position:absolute;right:14px;bottom:-16px;z-index:2;background:var(--sp-accent);color:#fff;font-size:.9rem;font-weight:500;border-radius:999px;padding:7px 16px;border:3px solid var(--sp-card-bg)}
 .sp-badge{position:absolute;top:12px;left:12px;z-index:1;padding:6px 12px;border-radius:999px;background:#2b1d10;color:#fff;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
 
-.sp-body{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:24px 10px 8px;transition:opacity var(--sp-dur) var(--sp-ease)}
+.sp-body{display:flex;flex-direction:column;gap:18px;padding:28px 8px 6px;transition:opacity var(--sp-dur) var(--sp-ease)}
 .sp-card[data-pos="side"] .sp-body{opacity:.45}
 .sp-meta h3{font-family:var(--font-bebas),sans-serif;font-size:clamp(1.9rem,4vw,2.4rem);font-weight:400;letter-spacing:.03em;text-transform:uppercase;line-height:1.05;color:var(--sp-heading);margin-bottom:6px}
 .sp-meta p{font-size:.95rem;color:var(--sp-text)}
-.sp-hl{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;padding:0;list-style:none}
-.sp-hl li{font-size:.78rem;color:var(--sp-body);border:1px solid var(--sp-card-border);border-radius:999px;padding:4px 10px}
-
+.sp-tag{margin:0;font-size:.95rem;color:#7a6550}
+.sp-meta p.sp-desc{margin:10px 0 0;font-size:.9rem;line-height:1.55;color:var(--sp-body);text-align:justify;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sp-facts{display:flex;gap:8px;margin:16px 0 0;padding:0;list-style:none}
+.sp-facts li{flex:1;display:flex;flex-direction:column;gap:2px;font-size:.82rem;font-weight:500;color:var(--sp-text)}
+.sp-facts svg{width:16px;height:16px;color:var(--sp-accent);margin-bottom:2px}
+.sp-facts small{font-size:.72rem;font-weight:400;color:#7a6550}
+.sp-cta{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--sp-accent);color:#fff;border-radius:14px;padding:12px;font-size:.9rem;font-weight:500;transition:background .2s ease}
+.sp-cta:hover{background:var(--sp-accent-hover)}
+.sp-cta:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
+.sp-cta svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none}
+.sp-card[data-pos="side"] .sp-cta{pointer-events:none}
 .sp-action{flex:none;width:56px;height:56px;border-radius:50%;background:var(--sp-accent);border:0;color:#fff;display:grid;place-items:center;transition:background .2s ease,transform .2s ease}
 .sp-action:hover{background:var(--sp-accent-hover);transform:scale(1.08)}
 .sp-action:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
@@ -107,14 +128,18 @@ const css = `
 /* heading + rolling box */
 .sp-ln{display:block;overflow:hidden}
 .sp-ln>span{display:inline-block;transform:translateY(110%)}
-.sp-pill{display:inline-block;transform:rotate(-6deg);opacity:0}
+.sp-pill{display:inline-block;transform:rotate(-8deg);opacity:0}
 .sp-3d{opacity:0;perspective:700px;perspective-origin:50% 40%;position:relative;width:100%;max-width:380px;height:var(--sp-cube-h);margin:0 auto;cursor:pointer}
+@media (min-width:1280px){.sp-3d{position:absolute;right:0;bottom:0;width:320px;margin:0}}
+.sp-sub{opacity:0}
+.sp-go .sp-sub{animation:sp-fade .9s ease .3s both}
+@media (min-width:768px){.sp-3d{width:340px;margin:0 0 auto auto}}
 .sp-go .sp-ln>span{animation:sp-up .8s var(--sp-ease) both}
 .sp-go .sp-ln:nth-child(2)>span{animation-delay:.15s}
 .sp-go .sp-pill{animation:sp-pop .7s var(--sp-ease) .1s both}
 .sp-go .sp-3d{animation:sp-fade .9s ease .4s both}
 @keyframes sp-up{from{transform:translateY(110%)}to{transform:none}}
-@keyframes sp-pop{from{opacity:0;transform:rotate(-6deg) scale(.6)}to{opacity:1;transform:rotate(-6deg) scale(1)}}
+@keyframes sp-pop{from{opacity:0;transform:rotate(-8deg) scale(.6)}to{opacity:1;transform:rotate(-8deg) scale(1)}}
 @keyframes sp-fade{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 
 .sp-lift{position:absolute;inset:0;transform-style:preserve-3d}
@@ -136,8 +161,8 @@ const css = `
   .sp-cube{transition-duration:.01s}
   .sp-lift.sp-rolling,.sp-shadow.sp-rolling{animation:none}
   .sp-ln>span{transform:none}
-  .sp-pill,.sp-3d{opacity:1}
-  .sp-go .sp-ln>span,.sp-go .sp-pill,.sp-go .sp-3d{animation:none}
+  .sp-pill,.sp-3d,.sp-sub{opacity:1}
+  .sp-go .sp-ln>span,.sp-go .sp-pill,.sp-go .sp-3d,.sp-go .sp-sub{animation:none}
 }
 `;
 
@@ -189,13 +214,14 @@ export default function SafariPackages() {
     return () => io.disconnect();
   }, []);
 
-  /* the box rolls by itself every 3.4 seconds */
+  /* ROLLING BOX (saved for later): auto roll every 3.4 seconds
   useEffect(() => {
     const t = setInterval(() => {
       if (!rollHover.current && !document.hidden) rollBox();
     }, 3400);
     return () => clearInterval(t);
   }, []);
+  */
 
   const goTo = (i) => setCurrent(((i % n) + n) % n);
   const next = () => setCurrent((c) => (c + 1) % n);
@@ -260,7 +286,7 @@ export default function SafariPackages() {
   return (
     <section
       id="packages"
-      className="sp-root relative w-full overflow-hidden bg-[#f0eee5] py-16"
+      className="sp-root relative w-full scroll-mt-20 overflow-hidden py-16"
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") next();
         if (e.key === "ArrowLeft") prev();
@@ -268,24 +294,30 @@ export default function SafariPackages() {
     >
       <style>{css}</style>
 
-      <div
-        ref={headRef}
-        className={`mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-2 md:px-12${seen ? " sp-go" : ""}`}
-      >
-        <h2 className="font-bebas text-5xl uppercase leading-[1.08] tracking-wide text-[#2b1d10] md:text-6xl">
-          <span className="sp-ln">
-            <span>
-              <span className="sp-pill relative -top-1 mr-4 rounded-full border border-[#a15f21] px-4 py-1.5 align-middle font-caveat text-lg normal-case leading-none tracking-normal text-[#a15f21] md:text-xl">
-                Safari
-              </span>
-              Choose your
-            </span>
+<div
+  ref={headRef}
+  className={`relative mx-auto flex w-full flex-col items-center gap-6 px-5 sm:w-11/12 sm:px-0 lg:max-w-[1400px]${seen ? " sp-go" : ""}`}
+>
+  <div className="flex flex-col items-center text-center">
+    <h2
+      className={`${bebas.className} text-center text-5xl uppercase leading-[0.95] tracking-wide text-[#2b1d10] sm:text-6xl xl:text-7xl`}
+    >
+      <span className="sp-ln">
+        <span>
+          <span className="sp-pill mr-4 rounded-full border border-[#a15f21] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#a15f21]">
+            Safari
           </span>
-          <span className="sp-ln">
-            <span>wild adventure</span>
-          </span>
-        </h2>
+          <span className="sm:whitespace-nowrap">Choose your wild adventure</span>
+        </span>
+      </span>
+      <span className="sp-ln text-[#a15f21]">
+        <span>Explore our exclusive safari packages
+        </span>
+      </span>
+    </h2>
+  </div>
 
+        {/* ROLLING BOX (saved for later)
         <div
           className="sp-3d"
           onClick={rollBox}
@@ -323,6 +355,7 @@ export default function SafariPackages() {
           </div>
           <div className={`sp-shadow${rolling ? " sp-rolling" : ""}`} />
         </div>
+        */}
       </div>
 
       <div
@@ -362,34 +395,51 @@ export default function SafariPackages() {
               }}
             >
               <div className="sp-media">
-                <Image
-                  src={p.img}
-                  alt={p.title}
-                  fill
-                  sizes="(max-width: 640px) 78vw, 540px"
-                  className="object-cover"
-                  priority={i === 1}
-                />
+                <div className="sp-img">
+                  <Image
+                    src={p.img}
+                    alt={p.title}
+                    fill
+                    sizes="(max-width: 640px) 78vw, 540px"
+                    className="object-cover"
+                    priority={i === 1}
+                  />
+                </div>
                 <span className="sp-badge font-inter">{p.badge}</span>
+                <span className="sp-price font-inter">{p.price}</span>
               </div>
 
               <div className="sp-body">
                 <div className="sp-meta">
                   <h3>{p.title}</h3>
-                  <p className="font-inter">{p.desc}</p>
-                  <ul className="sp-hl font-inter">
-                    {p.highlights.map((h) => (
-                      <li key={h}>{h}</li>
-                    ))}
+                  <p className="sp-tag font-inter">{p.tagline}</p>
+                  <p className="sp-desc font-inter">{p.desc}</p>
+                  <ul className="sp-facts font-inter">
+                    <li>
+                      <FaRegClock aria-hidden="true" />
+                      {p.duration}
+                      <small>Duration</small>
+                    </li>
+                    <li>
+                      <FaUsers aria-hidden="true" />
+                      {p.groupSize}
+                      <small>Group size</small>
+                    </li>
+                    <li>
+                      <FaRegCalendarAlt aria-hidden="true" />
+                      {p.bestTime}
+                      <small>Best time</small>
+                    </li>
                   </ul>
                 </div>
                 <Link
-                  className="sp-action"
+                  className="sp-cta font-inter"
                   href={`/packages/${p.slug}`}
                   aria-label={`View ${p.title}`}
                   tabIndex={pos === "center" ? 0 : -1}
                   onClick={(e) => e.stopPropagation()}
                 >
+                  View details
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M7 17L17 7M17 7H8M17 7V16" />
                   </svg>
@@ -429,12 +479,6 @@ export default function SafariPackages() {
             />
           ))}
         </div>
-        <Link
-          href="/packages"
-          className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#a15f21] px-6 py-2.5 font-inter text-sm font-semibold text-[#a15f21] transition-colors hover:bg-[#a15f21] hover:text-white"
-        >
-          View all packages →
-        </Link>
       </div>
     </section>
   );
