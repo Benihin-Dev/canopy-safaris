@@ -8,7 +8,7 @@ import { IoMenu, IoClose, IoChevronDown } from "react-icons/io5";
 import YellowBtn from "./Elements/YellowBtn";
 
 const packageLinks = [
-  { name: "Safari", link: "/packages" },
+  { name: "Safari", link: "/#packages" },
   { name: "Scooter Rentals", link: "/rentals" },
 ];
 
@@ -161,11 +161,12 @@ export default function NavBar() {
                   {mobilePkg && (
                     <div className="ml-4 flex flex-col border-l border-white/20 pl-2">
                       {item.children.map((c) => (
-                        <Link
-                          key={c.name}
-                          href={c.link}
-                          className="rounded-full px-4 py-2.5 text-sm hover:bg-white/15"
-                        >
+<Link
+  key={c.name}
+  href={c.link}
+  onClick={() => setOpen(false)}
+  className="rounded-full px-4 py-2.5 text-sm hover:bg-white/15"
+>
                           {c.name}
                         </Link>
                       ))}
@@ -173,11 +174,12 @@ export default function NavBar() {
                   )}
                 </div>
               ) : (
-                <Link
-                  key={item.name}
-                  href={item.link!}
-                  className="rounded-full px-4 py-3 text-base font-semibold uppercase hover:bg-white/15"
-                >
+<Link
+  key={item.name}
+  href={item.link!}
+  onClick={() => setOpen(false)}
+  className="rounded-full px-4 py-3 text-base font-semibold uppercase hover:bg-white/15"
+>
                   {item.name}
                 </Link>
               ),
