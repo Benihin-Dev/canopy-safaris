@@ -53,7 +53,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative flex min-h-screen w-full items-center overflow-hidden">
+    <section id="home" className="relative flex min-h-screen w-full items-center overflow-hidden">
       <div className="relative z-20 mx-auto w-full px-5 pt-32 pb-44 sm:w-11/12 sm:px-0 lg:max-w-350">
         <div className=" w-full flex items-center sm:items-start">
           <div className="w-full text-center sm:w-10/12 md:text-left lg:max-w-170 xl:max-w-190">
