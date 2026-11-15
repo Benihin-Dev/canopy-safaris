@@ -307,7 +307,7 @@ export default function About() {
           <div className="mt-8 grid max-w-[620px] gap-4 sm:grid-cols-2">
             {/* Kumana Safari */}
             <Link
-              href="/packages"
+              href="/packages/kumana-safari"
               className="ab-card relative flex min-h-[176px] flex-col justify-between overflow-hidden rounded-[26px] p-[22px] text-white"
               style={{
                 background: "linear-gradient(150deg, #4a3320, #2b1d10)",
