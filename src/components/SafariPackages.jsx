@@ -268,7 +268,7 @@ export default function SafariPackages() {
   return (
     <section
       id="packages"
-      className={`${bebas.variable} sp-root relative w-full overflow-hidden bg-[#f0eee5] py-16`}
+      className="sp-root relative w-full scroll-mt-20 overflow-hidden bg-[#f0eee5] py-16"
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") next();
         if (e.key === "ArrowLeft") prev();
