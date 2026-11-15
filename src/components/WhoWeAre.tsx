@@ -47,29 +47,17 @@ export default function WhoWeAre() {
             />
             <div className="absolute -top-5.5 w-9/10 h-8/10 lg:h-9/10 left-14 border border-dashed rounded-2xl border-[#D9822B]  "></div>
             <div className="w-25 aspect-square rounded-full bg-[#F4EBDD] absolute bottom-0 right-0 translate-x-1/4 -translate-y-3/4 lg:translate-y-2 z-10 flex items-center justify-center">
-              <a
-href="https://jastanric.vercel.app/"
-target="_blank"
-rel="noopener noreferrer"
-aria-label="Visit our website"
-  className="w-18.5 relative bg-[#2B1D14] aspect-square rounded-full flex items-center justify-center cursor-pointer overflow-hidden group transition-transform duration-300 hover:scale-110"
+<a
+  href="https://jastanric.vercel.app/"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Visit our website"
+  className="w-18.5 relative bg-[#2B1D14] aspect-square rounded-full flex items-center justify-center cursor-pointer overflow-hidden transition-transform duration-300 hover:scale-110"
 >
-                {/* Arrow 1 - visible by default, slides up on hover */}
-                <IoArrowBackOutline
-                  className="text-[#D9822B] rotate-135 size-10 absolute z-10
-                 translate-y-0 group-hover:-translate-y-30
-                 group-hover:transition-transform group-hover:duration-400"
-                />
+  <IoArrowBackOutline className="text-[#D9822B] rotate-135 size-10 absolute z-10" />
 
-                {/* Arrow 2 - starts below, slides into place on hover */}
-                <IoArrowBackOutline
-                  className="text-[#D9822B] rotate-135 size-10 absolute z-10
-                 translate-y-30 group-hover:translate-y-0
-                 group-hover:transition-transform group-hover:duration-400"
-                />
-
-<div className="absolute top-1 left-1 w-16.5 border-[#D9822B] aspect-square rounded-full border-[1.5px] border-dashed flex items-center justify-center animate-spin scale-x-[-1] [animation-duration:4s]"></div>
-              </a>
+  <div className="absolute inset-0 m-auto size-14 border-[#D9822B] rounded-full border-[1.5px] border-dashed animate-spin scale-x-[-1] [animation-duration:4s]"></div>
+</a>
             </div>
             <div className=" absolute w-2/6 h-[35%] lg:h-2/5  top-1/8 -right-1/5 z-10 ">
               <Image
