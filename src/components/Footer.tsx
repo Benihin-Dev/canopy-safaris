@@ -16,7 +16,7 @@ const navLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative w-full overflow-hidden text-white">
+    <footer id="contact" className="relative w-full overflow-hidden text-white scroll-mt-20">
       {/* Background image (replace the path with your own) */}
       <Image
         src="/images/footer-bg.jpg"
