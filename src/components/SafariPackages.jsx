@@ -10,12 +10,18 @@ import {
   FaWallet,
   FaRegClock,
   FaRegCalendarAlt,
+  FaRegCalendarCheck,
 } from "react-icons/fa";
 import { packages } from "@/data/packages";
 import { Bebas_Neue, Poppins } from "next/font/google";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500"] });
+
+/* "Book now" opens WhatsApp. Put your WhatsApp number here:
+   country code + number, no + and no spaces */
+const WHATSAPP = "94754540123";
+const wa = (msg) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 
 /* the 4 sides of the rolling box */
 const perks = [
@@ -91,18 +97,29 @@ const css = `
 
 .sp-body{display:flex;flex-direction:column;gap:18px;padding:28px 8px 6px;transition:opacity var(--sp-dur) var(--sp-ease)}
 .sp-card[data-pos="side"] .sp-body{opacity:.45}
-.sp-meta h3{font-family:var(--font-bebas),sans-serif;font-size:clamp(1.9rem,4vw,2.4rem);font-weight:400;letter-spacing:.03em;text-transform:uppercase;line-height:1.05;color:var(--sp-heading);margin-bottom:6px}
+.sp-meta h3.sp-name{font-family:var(--font-bebas),sans-serif;display:flex;align-items:baseline;gap:.35em;margin:0 0 6px;white-space:nowrap;overflow:hidden;text-transform:uppercase;line-height:1.05;font-weight:400;letter-spacing:.03em}
+.sp-n1{font-size:clamp(2rem,8vw,2.8rem);color:#1a1410;-webkit-text-stroke:.6px #1a1410}
+.sp-n2{font-size:clamp(1.05rem,4vw,1.4rem);color:#9a8b78}
 .sp-meta p{font-size:.95rem;color:var(--sp-text)}
-.sp-tag{margin:0;font-size:.95rem;color:#7a6550}
-.sp-meta p.sp-desc{margin:10px 0 0;font-size:.9rem;line-height:1.55;color:var(--sp-body);text-align:justify;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sp-tag{margin:0;font-size:.95rem;color:#7a6550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp-meta p.sp-desc{margin:10px 0 0;font-size:.9rem;line-height:1.55;color:var(--sp-body);text-align:justify;height:calc(1.55em * 5);display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+@media (min-width:640px){.sp-meta p.sp-desc{height:calc(1.55em * 3);-webkit-line-clamp:3}}
 .sp-facts{display:flex;gap:8px;margin:16px 0 0;padding:0;list-style:none}
-.sp-facts li{flex:1;display:flex;flex-direction:column;gap:2px;font-size:.82rem;font-weight:500;color:var(--sp-text)}
+.sp-facts li{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font-size:.82rem;font-weight:500;color:var(--sp-text)}
+.sp-fv{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sp-facts svg{width:16px;height:16px;color:var(--sp-accent);margin-bottom:2px}
 .sp-facts small{font-size:.72rem;font-weight:400;color:#7a6550}
 .sp-cta{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--sp-accent);color:#fff;border-radius:14px;padding:12px;font-size:.9rem;font-weight:500;transition:background .2s ease}
 .sp-cta:hover{background:var(--sp-accent-hover)}
 .sp-cta:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
-.sp-cta svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none}
+.sp-cta svg{width:16px;height:16px}
+.sp-actions{display:flex;flex-direction:column;gap:10px}
+.sp-more{display:block;text-align:center;font-size:.85rem;font-weight:500;color:var(--sp-accent);text-decoration:underline;text-underline-offset:3px;transition:color .2s ease}
+.sp-more:hover{color:var(--sp-accent-hover)}
+.sp-card[data-pos="side"] .sp-more{pointer-events:none}
+.sp-all{margin-top:14px;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--sp-accent);color:var(--sp-accent);border-radius:999px;padding:9px 22px;font-size:.9rem;font-weight:500;transition:background .2s ease,color .2s ease}
+.sp-all:hover{background:var(--sp-accent);color:#fff}
+.sp-all:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
 .sp-card[data-pos="side"] .sp-cta{pointer-events:none}
 .sp-action{flex:none;width:56px;height:56px;border-radius:50%;background:var(--sp-accent);border:0;color:#fff;display:grid;place-items:center;transition:background .2s ease,transform .2s ease}
 .sp-action:hover{background:var(--sp-accent-hover);transform:scale(1.08)}
@@ -411,39 +428,54 @@ export default function SafariPackages() {
 
               <div className="sp-body">
                 <div className="sp-meta">
-                  <h3>{p.title}</h3>
+                  <h3 className="sp-name">
+                    <span className="sp-n1">{p.title.split(" ")[0]}</span>
+                    <span className="sp-n2">
+                      {p.title.split(" ").slice(1).join(" ")}
+                    </span>
+                  </h3>
                   <p className="sp-tag font-inter">{p.tagline}</p>
                   <p className="sp-desc font-inter">{p.desc}</p>
                   <ul className="sp-facts font-inter">
                     <li>
                       <FaRegClock aria-hidden="true" />
-                      {p.duration}
+                      <span className="sp-fv">{p.duration}</span>
                       <small>Duration</small>
                     </li>
                     <li>
                       <FaUsers aria-hidden="true" />
-                      {p.groupSize}
+                      <span className="sp-fv">{p.groupSize}</span>
                       <small>Group size</small>
                     </li>
                     <li>
                       <FaRegCalendarAlt aria-hidden="true" />
-                      {p.bestTime}
+                      <span className="sp-fv">{p.bestTime}</span>
                       <small>Best time</small>
                     </li>
                   </ul>
                 </div>
-                <Link
-                  className="sp-cta font-inter"
-                  href={`/packages/${p.slug}`}
-                  aria-label={`View ${p.title}`}
-                  tabIndex={pos === "center" ? 0 : -1}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  View details
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M7 17L17 7M17 7H8M17 7V16" />
-                  </svg>
-                </Link>
+                <div className="sp-actions">
+                  <a
+                    className="sp-cta font-inter"
+                    href={wa(`Hi! I would like to book the ${p.title}.`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Book ${p.title}`}
+                    tabIndex={pos === "center" ? 0 : -1}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <FaRegCalendarCheck aria-hidden="true" />
+                    Book now
+                  </a>
+                  <Link
+                    className="sp-more font-inter"
+                    href={`/packages/${p.slug}`}
+                    tabIndex={pos === "center" ? 0 : -1}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    View more
+                  </Link>
+                </div>
               </div>
             </article>
           );
@@ -479,6 +511,9 @@ export default function SafariPackages() {
             />
           ))}
         </div>
+        <Link href="/packages" className="sp-all font-inter">
+          View all packages
+        </Link>
       </div>
     </section>
   );
