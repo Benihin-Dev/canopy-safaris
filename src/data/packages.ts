@@ -19,7 +19,7 @@ export type SafariPackage = {
 };
 
 const lorem =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.";
+  "i* need to knw where it going to change leo.";
 
 const baseIncluded = [
   "Private open-air jeep",
