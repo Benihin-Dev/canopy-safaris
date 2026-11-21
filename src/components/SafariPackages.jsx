@@ -11,6 +11,7 @@ import {
   FaRegClock,
   FaRegCalendarAlt,
   FaRegCalendarCheck,
+  FaArrowRight,
 } from "react-icons/fa";
 import { packages } from "@/data/packages";
 import { Bebas_Neue, Poppins } from "next/font/google";
@@ -104,17 +105,20 @@ const css = `
 .sp-tag{margin:0;font-size:.95rem;color:#7a6550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sp-meta p.sp-desc{margin:10px 0 0;font-size:.9rem;line-height:1.55;color:var(--sp-body);text-align:justify;height:calc(1.55em * 5);display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
 @media (min-width:640px){.sp-meta p.sp-desc{height:calc(1.55em * 3);-webkit-line-clamp:3}}
-.sp-facts{display:flex;gap:8px;margin:16px 0 0;padding:0;list-style:none}
-.sp-facts li{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font-size:.82rem;font-weight:500;color:var(--sp-text)}
+.sp-facts{display:flex;gap:8px;margin:14px 0 0;padding:0 0 12px;list-style:none;border-bottom:1px solid rgba(201,163,106,.5)}
+.sp-facts li{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;font-size:.82rem;font-weight:500;color:var(--sp-heading)}
+.sp-fl{display:flex;align-items:center;gap:5px;font-size:.62rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:#7a6550}
+.sp-fl svg{width:14px;height:14px;flex:none;color:var(--sp-accent)}
 .sp-fv{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sp-facts svg{width:16px;height:16px;color:var(--sp-accent);margin-bottom:2px}
-.sp-facts small{font-size:.72rem;font-weight:400;color:#7a6550}
+.sp-chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding:0;list-style:none}
+.sp-chips li{border:1px solid var(--sp-card-border);border-radius:999px;padding:4px 10px;font-size:.75rem;color:var(--sp-body)}
 .sp-cta{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--sp-accent);color:#fff;border-radius:14px;padding:12px;font-size:.9rem;font-weight:500;transition:background .2s ease}
 .sp-cta:hover{background:var(--sp-accent-hover)}
 .sp-cta:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
 .sp-cta svg{width:16px;height:16px}
 .sp-actions{display:flex;flex-direction:column;gap:10px}
-.sp-more{display:block;text-align:center;font-size:.85rem;font-weight:500;color:var(--sp-accent);text-decoration:underline;text-underline-offset:3px;transition:color .2s ease}
+.sp-more{display:flex;align-items:center;justify-content:center;gap:6px;font-size:.85rem;font-weight:500;color:var(--sp-accent);text-decoration:underline;text-underline-offset:3px;transition:color .2s ease}
+.sp-more svg{width:12px;height:12px}
 .sp-more:hover{color:var(--sp-accent-hover)}
 .sp-card[data-pos="side"] .sp-more{pointer-events:none}
 .sp-all{margin-top:14px;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--sp-accent);color:var(--sp-accent);border-radius:999px;padding:9px 22px;font-size:.9rem;font-weight:500;transition:background .2s ease,color .2s ease}
@@ -438,20 +442,31 @@ export default function SafariPackages() {
                   <p className="sp-desc font-inter">{p.desc}</p>
                   <ul className="sp-facts font-inter">
                     <li>
-                      <FaRegClock aria-hidden="true" />
+                      <span className="sp-fl">
+                        <FaRegClock aria-hidden="true" />
+                        Duration
+                      </span>
                       <span className="sp-fv">{p.duration}</span>
-                      <small>Duration</small>
                     </li>
                     <li>
-                      <FaUsers aria-hidden="true" />
+                      <span className="sp-fl">
+                        <FaUsers aria-hidden="true" />
+                        Group
+                      </span>
                       <span className="sp-fv">{p.groupSize}</span>
-                      <small>Group size</small>
                     </li>
                     <li>
-                      <FaRegCalendarAlt aria-hidden="true" />
+                      <span className="sp-fl">
+                        <FaRegCalendarAlt aria-hidden="true" />
+                        Best time
+                      </span>
                       <span className="sp-fv">{p.bestTime}</span>
-                      <small>Best time</small>
                     </li>
+                  </ul>
+                  <ul className="sp-chips font-inter">
+                    {p.highlights.map((h) => (
+                      <li key={h}>{h}</li>
+                    ))}
                   </ul>
                 </div>
                 <div className="sp-actions">
@@ -474,6 +489,7 @@ export default function SafariPackages() {
                     onClick={(e) => e.stopPropagation()}
                   >
                     View more
+                    <FaArrowRight aria-hidden="true" />
                   </Link>
                 </div>
               </div>
