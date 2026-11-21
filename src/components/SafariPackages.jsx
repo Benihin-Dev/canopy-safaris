@@ -105,7 +105,7 @@ const css = `
 .sp-tag{margin:0;font-size:.95rem;color:#7a6550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sp-meta p.sp-desc{margin:10px 0 0;font-size:.9rem;line-height:1.55;color:var(--sp-body);text-align:justify;height:calc(1.55em * 5);display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
 @media (min-width:640px){.sp-meta p.sp-desc{height:calc(1.55em * 3);-webkit-line-clamp:3}}
-.sp-facts{display:flex;gap:8px;margin:14px 0 0;padding:0 0 12px;list-style:none;border-bottom:1px solid rgba(201,163,106,.5)}
+.sp-facts{display:flex;gap:8px;margin:14px 0 0;padding:12px 0;list-style:none;border-top:1px solid rgba(201,163,106,.5);border-bottom:1px solid rgba(201,163,106,.5)}
 .sp-facts li{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;font-size:.82rem;font-weight:500;color:var(--sp-heading)}
 .sp-fl{display:flex;align-items:center;gap:5px;font-size:.62rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:#7a6550}
 .sp-fl svg{width:14px;height:14px;flex:none;color:var(--sp-accent)}
