@@ -97,7 +97,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`...your font variables... h-full antialiased`}>
+    <html
+  lang="en"
+  className={`${fraunces.variable} ${manrope.variable} ${playfairDisplay.variable} ${poppins.variable} ${libertinus_Math.variable} ${caveat.variable} ${geologica.variable} ${jakarta.variable} ${yellowtail.variable} ${bebas.variable} ${inter.variable} h-full antialiased`}
+>
       <body className="min-h-full flex flex-col">
         <NavBar />
         <main className="w-full flex-1">{children}</main>
