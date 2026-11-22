@@ -15,13 +15,13 @@ export default function WhoWeAre() {
     {
       title: "Hotel Pickups",
       description:
-        "Pick-up and drop-off available from your hotel or preferred location in Arugam Bay and Whisky Point.",
+        "Pick-up and drop-off available from your hotel or preferred location in Arugambay and Whisky Point.",
       icon: FaMapSigns,
     },
     {
       title: "Comfortable Safari Jeeps",
       description:
-        "Explore wildlife in our comfortable open-air safari jeeps for a smooth, immersive wilderness experience.",
+        "Explore wildlife in our comfortable safari jeeps for a smooth, immersive wilderness experience.",
       icon: GiJeep,
     },
     {
@@ -106,7 +106,7 @@ export default function WhoWeAre() {
             </span>{" "}
             Experts
           </h2>
-          <p className={`${poppins.className} pt-2 text-[#5A4636] text-xl text-justify xl:pr-10`}>
+          <p className={`${poppins.className} mt-6 max-w-[620px] text-justify text-base leading-[1.8] text-[#5b4733]`}>
             At The Canofy, we bring together a passion for wildlife, authentic nature experiences 
             and genuine hospitality to create unforgettable safari journeys across Sri Lanka.
           </p>
