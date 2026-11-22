@@ -153,11 +153,8 @@ export default function PeekShowcase() {
       <div className="w-full sm:w-11/12 lg:max-w-350 mx-auto px-5 sm:px-0 grid grid-cols-1 md:grid-cols-[minmax(0,450px)_minmax(0,1fr)] items-center gap-6 md:gap-x-18">
         {/* ---------- Left: stays in place ---------- */}
         <div className="w-full min-w-0">
-          <p className={`${dancing.className} text-[34px] leading-[1.1] text-[#a15f21]`}>
-            Explore at your own pace
-          </p>
           <h2
-            className={`${libertinus.className} mt-2.5 text-[40px] leading-[1.08] text-[#2b1d10] md:text-[52px]`}
+            className={`${libertinus.className} text-[40px] leading-[1.08] text-[#2b1d10] md:text-[52px]`}
           >
             <span
               className={`${dancing.className} text-[48px] text-[#a15f21] md:text-[64px]`}
