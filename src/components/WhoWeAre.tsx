@@ -1,80 +1,88 @@
 import React from "react";
 import Image from "next/image";
-import { FaMapSigns } from "react-icons/fa";
-import { GiJeep, GiPawPrint } from "react-icons/gi";
-import { TbCertificate2 } from "react-icons/tb";
-import { IoArrowBackOutline } from "react-icons/io5";
 import { Dancing_Script, Libertinus_Serif, Poppins } from "next/font/google";
 
 const dancing = Dancing_Script({ subsets: ["latin"], weight: "600" });
 const libertinus = Libertinus_Serif({ subsets: ["latin"], weight: "600" });
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
+/* ----- the 3 collage photos (put the files in /public/images/WhoWeAre/) -----
+   left / top / w / h are in % of the collage box, rot = tilt in degrees.
+   z = which photo sits on top. Change the src to use your own photos. */
+const photos = [
+  {
+    src: "/images/WhoWeAre/collage-1.jpg",
+    alt: "Safari jeep in Kumana National Park",
+    left: 7.9,
+    top: 11.1,
+    w: 51.5,
+    h: 50.9,
+    rot: -7,
+    z: 1,
+  },
+  {
+    src: "/images/WhoWeAre/collage-2.jpg",
+    alt: "Leopard in the wild",
+    left: 39.1,
+    top: 30.2,
+    w: 53.5,
+    h: 51.8,
+    rot: 4,
+    z: 2,
+  },
+  {
+    src: "/images/WhoWeAre/collage-3.jpg",
+    alt: "Our safari guide",
+    left: 11.2,
+    top: 59.5,
+    w: 50.3,
+    h: 38,
+    rot: -3,
+    z: 3,
+  },
+];
+
+/* ----- the numbers row (change the words / numbers here) ----- */
+const stats = [
+  { value: "18k+", label: "Travellers" },
+  { value: "4", label: "National Parks" },
+  { value: "24/7", label: "Support" },
+  { value: "10+", label: "Years" }, // <- replace with your real number
+];
+
 export default function WhoWeAre() {
-  const features = [
-    {
-      title: "Hotel Pickups",
-      description:
-        "Pick-up and drop-off available from your hotel or preferred location in Arugambay and Whisky Point.",
-      icon: FaMapSigns,
-    },
-    {
-      title: "Comfortable Safari Jeeps",
-      description:
-        "Explore wildlife in our comfortable safari jeeps for a smooth, immersive wilderness experience.",
-      icon: GiJeep,
-    },
-    {
-      title: "Responsible Wildlife Tracking",
-      description:
-        "Ethical and responsible wildlife tracking guided by experienced local naturalists.",
-      icon: GiPawPrint,
-    },
-    {
-      title: "Experienced Naturalists",
-      description:
-        "Experienced naturalists bringing expert field knowledge to every memorable safari journey.",
-      icon: TbCertificate2,
-    },
-  ];
   return (
     <section id="who-we-are" className=" w-full relative overflow-hidden py-20 scroll-mt-20">
       <div className=" w-full sm:w-11/12 mx-auto px-5 lg:max-w-350 sm:px-0 lg:flex items-center justify-center relative z-10">
+        {/* ---------- left: photo collage ---------- */}
         <div className=" w-full h-full lg:w-3/8">
-          <div className=" w-2/3 2xl:w-1/2 mx-auto lg:mx-0 lg 2xl:ml-24 relative flex items-center justify-center -translate-x-5 lg:translate-x-0 pb-20 lg:pb-0">
-            <Image
-              className="w-full object-contain rounded-3xl relative z-10"
-              src="/images/WhoWeAre/why-choose-one-1.webp"
-              alt="bg image"
-              width={500}
-              height={100}
-              priority
-            />
-            <div className="absolute -top-5.5 w-9/10 h-8/10 lg:h-9/10 left-14 border border-dashed rounded-2xl border-[#D9822B]  "></div>
-            <div className="w-25 aspect-square rounded-full bg-[#F4EBDD] absolute bottom-0 right-0 translate-x-1/4 -translate-y-3/4 lg:translate-y-2 z-10 flex items-center justify-center">
-<a
-  href="https://jastanric.vercel.app/"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Visit our website"
-  className="w-18.5 relative bg-[#2B1D14] aspect-square rounded-full flex items-center justify-center cursor-pointer overflow-hidden transition-transform duration-300 hover:scale-110"
->
-  <IoArrowBackOutline className="text-[#D9822B] rotate-135 size-10 absolute z-10" />
-
-  <div className="absolute inset-0 m-auto size-15 border-[#D9822B] rounded-full border-[1.5px] border-dashed animate-spin scale-x-[-1] [animation-duration:4s]"></div>
-</a>
-            </div>
-            <div className=" absolute w-2/6 h-[35%] lg:h-2/5  top-1/8 -right-1/5 z-10 ">
-              <Image
-                className="object-cover w-full rounded-full border-2 border-white upDownAnimation"
-                src="/images/WhoWeAre/Jastan.jpg"
-                alt="bg image"
-                fill
-                priority
-              />
-            </div>
+          <div className="relative mx-auto lg:mx-0 lg:ml-10 w-full max-w-[360px] aspect-[340/440] mb-12 lg:mb-0">
+            {photos.map((p) => (
+              <div
+                key={p.src}
+                className="absolute overflow-hidden border-[5px] border-white bg-[#d9c7a8] shadow-[0_8px_18px_rgba(0,0,0,0.2)]"
+                style={{
+                  left: `${p.left}%`,
+                  top: `${p.top}%`,
+                  width: `${p.w}%`,
+                  height: `${p.h}%`,
+                  transform: `rotate(${p.rot}deg)`,
+                  zIndex: p.z,
+                }}
+              >
+                <Image
+                  src={p.src}
+                  alt={p.alt}
+                  fill
+                  sizes="(max-width: 1024px) 40vw, 200px"
+                  className="object-cover"
+                />
+              </div>
+            ))}
           </div>
         </div>
+
+        {/* ---------- right: text + numbers ---------- */}
         <div className=" w-full lg:w-5/8">
           <div className=" w-full flex items-center gap-1s">
             <h1 className=" font-caveat text-3xl font-semibold text-[#B5651D]">
@@ -95,6 +103,7 @@ export default function WhoWeAre() {
   }}
 />
           </div>
+
           <h2
             className={`${libertinus.className} pt-2 text-[40px] leading-[1.08] text-[#2b1d10] md:text-[52px]`}
           >
@@ -106,37 +115,34 @@ export default function WhoWeAre() {
             </span>{" "}
             Experts
           </h2>
+
           <p className={`${poppins.className} mt-6 max-w-[620px] text-justify text-base leading-[1.8] text-[#5b4733]`}>
             At The Canofy, we bring together a passion for wildlife, authentic nature experiences 
             and genuine hospitality to create unforgettable safari journeys across Sri Lanka.
           </p>
-          <div className=" w-full grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
-            {features.map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <div key={i} className="w-full flex gap-3 pr-10">
-                  <div className="relative size-fit translate-y-2">
-                    <div className="absolute -top-1.5 left-1.5 h-full w-full rounded-lg border border-dashed border-[#D9822B]" />
-                    <div className="relative flex items-center justify-center rounded-lg bg-[#2B1D14] p-2.5">
-                      <Icon
-                        className={`text-[#D9822B] size-6 ${i === 1 ? " scale-130" : ""}`}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full">
-                    <h3 className={`${libertinus.className} text-xl text-[#2B1D14]`}>
-                      {item.title}
-                    </h3>
-                    <p className={`${poppins.className} text-sm leading-5 text-justify text-[#5A4636]`}>
-                      {item.description}
-                    </p>
-                  </div>
+
+          {/* numbers row */}
+          <div className="mt-8 grid max-w-[620px] grid-cols-4 border-y border-[#d9c7a8] py-4">
+            {stats.map((s, i) => (
+              <div
+                key={s.label}
+                className={`px-1.5 text-center ${i > 0 ? "border-l border-[#d9c7a8]" : ""}`}
+              >
+                <div
+                  className={`${libertinus.className} text-[26px] leading-[1.1] text-[#2b1d10] md:text-[30px]`}
+                >
+                  {s.value}
                 </div>
-              );
-            })}
+                <div className={`${poppins.className} mt-0.5 text-[11px] text-[#5b4733] md:text-xs`}>
+                  {s.label}
+                </div>
+              </div>
+            ))}
           </div>
-          <div className=" w-full md:flex items-center gap-5 mt-10">
-            <div className={`${poppins.className} px-8 h-12 text-center flex items-center justify-center cursor-pointer bg-[#D9822B] text-[#2B1D14] text-sm rounded-full relative group overflow-hidden`}>
+
+          {/* start booking button (same hover effect as before) */}
+          <div className=" w-full mt-8">
+            <div className={`${poppins.className} px-8 h-12 w-fit text-center flex items-center justify-center cursor-pointer bg-[#D9822B] text-[#2B1D14] text-sm rounded-full relative group overflow-hidden`}>
               <div
                 className=" relative z-20 translate-y-0 group-hover:-translate-y-30
                  group-hover:transition-transform group-hover:duration-600"
@@ -152,48 +158,10 @@ export default function WhoWeAre() {
               <div className=" absolute w-full  aspect-square rounded-full group-hover:scale-120 bg-[#2B1D14] top-full group-hover:-translate-y-2/5 left-0  group-hover:transition-transform group-hover:duration-300 delay-100"></div>
               <div className=" absolute -top-full left-0 w-full h-full bg-[#2B1D14] group-hover:translate-y-full duration-200 delay-300 rotate-180"></div>
             </div>
-            <div className=" flex items-center gap-5 mt-5 md:mt-0">
-              <div className=" flex h-12.5 items-center justify-center">
-                <Image
-                  className=" w-12.5 object-cover rounded-full border-2 border-[#ffffff]"
-                  src="/images/person1.jpg"
-                  alt="bg image"
-                  width={50}
-                  height={50}
-                  priority
-                />
-                <Image
-                  className=" w-12.5 object-cover rounded-full border-2 border-[#ffffff] -translate-x-1/2"
-                  src="/images/person2.jpg"
-                  alt="bg image"
-                  width={48}
-                  height={48}
-                  priority
-                />
-                <Image
-                  className=" w-12.5 object-cover rounded-full border-2 border-[#ffffff] -translate-x-full"
-                  src="/images/person3.jpg"
-                  alt="bg image"
-                  width={48}
-                  height={48}
-                  priority
-                />
-                <div className="w-12.5 aspect-square object-cover rounded-full border-2 border-[#ffffff] translate-x-[-150%] flex items-center justify-center bg-[#F6DDBE] text-[#B5651D] ">
-                  <p className=" text-2xl leading-0 -translate-y-1 w-fit text-center">
-                    +
-                  </p>
-                </div>
-              </div>
-              <div className=" -translate-x-15 leading-0">
-                <h3 className={`${libertinus.className} text-2xl text-[#2B1D14]`}>18k+ </h3>
-                <p className={`${poppins.className} text-[#2B1D14] text-base`}>
-                  Individual Travellers
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
+
       <div className=" w-full h-full absolute top-0 left-0 bg-[#F4EBDD] z-0">
         <Image
           className="object-cover"
