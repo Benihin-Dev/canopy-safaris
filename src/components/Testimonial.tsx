@@ -177,7 +177,7 @@ export default function SliderForTestimonial() {
                           &quot;{r.comment}&quot;
                         </p>
 
-                        <div className="mt-6 flex items-center gap-4">
+                        <div className="mt-4 flex items-center gap-4">
                           {r.image ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img
