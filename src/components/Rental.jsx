@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { IoArrowForward, IoCheckmarkCircleOutline } from "react-icons/io5";
 import Link from "next/link";
-import { Dancing_Script } from "next/font/google";
+import { Dancing_Script, Libertinus_Serif } from "next/font/google";
 import { rentals as items } from "@/data/rentals";
 
 const dancing = Dancing_Script({ subsets: ["latin"], weight: "600" });
+const libertinus = Libertinus_Serif({ subsets: ["latin"], weight: "600" });
 
 /* Replace this placeholder content with your own.
    Add a `price` (for example "$25") to show it next to the title.
@@ -103,9 +104,21 @@ export default function PeekShowcase() {
           <p className={`${dancing.className} text-[34px] leading-[1.1] text-[#a15f21]`}>
             Explore at your own pace
           </p>
-          <h2 className="font-libertinus_Math text-4xl sm:text-5xl lg:text-6xl leading-[1.05] font-medium text-[#2b1d10] pt-2">
-            Scooter Rentals
-            <span className="block text-[#a15f21]">&amp; Tuk-tuk Hire</span>
+          <h2
+            className={`${libertinus.className} mt-2.5 text-[40px] leading-[1.08] text-[#2b1d10] md:text-[52px]`}
+          >
+            Rent a{" "}
+            <span
+              className={`${dancing.className} text-[48px] text-[#a15f21] md:text-[64px]`}
+            >
+              Scooter
+            </span>{" "}
+            or{" "}
+            <span
+              className={`${dancing.className} text-[48px] text-[#a15f21] md:text-[64px]`}
+            >
+              Tuk Tuk
+            </span>
           </h2>
           <p className="hidden md:block font-poppins text-sm leading-7 text-[#5b4733] pt-5 max-w-md">
             Rent a scooter or a tuk-tuk and explore the area around Kumana at
