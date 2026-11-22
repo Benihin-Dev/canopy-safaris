@@ -1,7 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { IoArrowForward, IoCheckmarkCircleOutline } from "react-icons/io5";
+import {
+  IoArrowForward,
+  IoCheckmark,
+  IoCheckmarkCircleOutline,
+} from "react-icons/io5";
 import Link from "next/link";
 import { Dancing_Script, Libertinus_Serif } from "next/font/google";
 import { rentals as items } from "@/data/rentals";
@@ -121,10 +125,24 @@ export default function PeekShowcase() {
             </span>
           </h2>
           <p className="hidden md:block font-poppins text-sm leading-7 text-[#5b4733] pt-5 max-w-md">
-            Rent a scooter or a tuk-tuk and explore the area around Kumana at
-            your own pace. Insurance and 24/7 support are included with every
-            rental.
+            Rent a scooter or tuk-tuk and discover the areas around Kumana at
+            your own pace. Enjoy the freedom to explore with insurance coverage
+            and 24/7 support included with every rental.
           </p>
+
+          <ul className="hidden md:flex flex-col gap-3 pt-5">
+            {["Flexible Rentals", "Easy Paperwork", "24/7 Support"].map((h) => (
+              <li
+                key={h}
+                className="flex items-center gap-3 font-poppins text-sm font-medium text-[#2b1d10]"
+              >
+                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-[#a15f21] text-white ring-4 ring-[#a15f21]/15">
+                  <IoCheckmark aria-hidden="true" className="size-4" />
+                </span>
+                {h}
+              </li>
+            ))}
+          </ul>
 
           <Link
             href="/rentals"
