@@ -3,7 +3,10 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { IoArrowForward, IoCheckmarkCircleOutline } from "react-icons/io5";
 import Link from "next/link";
+import { Dancing_Script } from "next/font/google";
 import { rentals as items } from "@/data/rentals";
+
+const dancing = Dancing_Script({ subsets: ["latin"], weight: "600" });
 
 /* Replace this placeholder content with your own.
    Add a `price` (for example "$25") to show it next to the title.
@@ -97,16 +100,17 @@ export default function PeekShowcase() {
       <div className="w-full sm:w-11/12 lg:max-w-350 mx-auto px-5 sm:px-0 grid grid-cols-1 md:grid-cols-[minmax(0,450px)_minmax(0,1fr)] items-center gap-6 md:gap-x-18">
         {/* ---------- Left: stays in place ---------- */}
         <div className="w-full min-w-0">
-          <p className="font-poppins text-xs font-semibold uppercase tracking-[0.25em] text-[#a15f21]">
-            Your small heading
+          <p className={`${dancing.className} text-[34px] leading-[1.1] text-[#a15f21]`}>
+            Explore at your own pace
           </p>
           <h2 className="font-libertinus_Math text-4xl sm:text-5xl lg:text-6xl leading-[1.05] font-medium text-[#2b1d10] pt-2">
             Scooter Rentals
-            <span className="block text-[#a15f21]">second line</span>
+            <span className="block text-[#a15f21]">&amp; Tuk-tuk Hire</span>
           </h2>
           <p className="hidden md:block font-poppins text-sm leading-7 text-[#5b4733] pt-5 max-w-md">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
-            tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+            Rent a scooter or a tuk-tuk and explore the area around Kumana at
+            your own pace. Insurance and 24/7 support are included with every
+            rental.
           </p>
 
           <Link
