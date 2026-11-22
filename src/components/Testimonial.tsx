@@ -77,7 +77,7 @@ export default function SliderForTestimonial() {
           <div className="absolute inset-0 -z-10">
             <div className=" w-full h-full flex justify-center items-center">
               <Image
-                src="/images/map.png"
+                src="/images/testimonial/map.png"
                 alt={`Photo of worldmap`}
                 width={500}
                 height={100}
