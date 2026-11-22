@@ -111,7 +111,10 @@ const css = `
 .sp-fl svg{width:14px;height:14px;flex:none;color:var(--sp-accent)}
 .sp-fv{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sp-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:12px 0 0;padding:0;list-style:none}
-.sp-chips li{display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid var(--sp-card-border);border-radius:999px;padding:5px 8px;font-size:.72rem;line-height:1.25;color:var(--sp-body)}
+.sp-chips li{max-width:100%;border:1px solid var(--sp-card-border);border-radius:999px;padding:4px 10px;font-size:.75rem;color:var(--sp-body);justify-self:start}
+.sp-chips li:nth-child(2){justify-self:center;text-align:center}
+.sp-chips li:nth-child(3){justify-self:end;text-align:right}
+.sp-chips li:nth-child(2):last-child{justify-self:end;text-align:right}
 .sp-cta{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--sp-accent);color:#fff;border-radius:14px;padding:12px;font-size:.9rem;font-weight:500;transition:background .2s ease}
 .sp-cta:hover{background:var(--sp-accent-hover)}
 .sp-cta:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
