@@ -175,7 +175,7 @@ export default function Gallery() {
   }, [itemW, items.length]);
 
   return (
-    <section id="gallery" className="scroll-mt-24 relative w-full overflow-hidden bg-[#1a1410] py-16">
+    <section id="gallery" className="scroll-mt-24 relative w-full overflow-hidden bg-[#1a1410] py-8">
       
       {/* header */}
       <div className="mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-[1400px]">
