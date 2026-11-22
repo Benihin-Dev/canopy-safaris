@@ -165,7 +165,7 @@ export default function SliderForTestimonial() {
                             {r.heading}
                           </h3>
                         </div>
-                        <div className="my-3 pl-[60px] flex gap-1 text-[#f59e0b]">
+                        <div className="mt-2 mb-0 pl-[60px] flex gap-1 text-[#f59e0b]">
                           {Array.from({ length: 5 }).map((_, s) => (
                             <FaStar
                               key={s}
@@ -173,7 +173,7 @@ export default function SliderForTestimonial() {
                             />
                           ))}
                         </div>
-                        <p className="font-inter text-base leading-7 mt-2 text-stone-400">
+                        <p className="font-inter text-base leading-7 mt-1 text-stone-400">
                           &quot;{r.comment}&quot;
                         </p>
 
