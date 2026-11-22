@@ -144,7 +144,8 @@ const css = `
 .sp-side:focus-visible{opacity:1;outline:2px solid var(--sp-accent);outline-offset:3px}
 .sp-side-l{left:calc(50% - var(--sp-w) * .92 - 24px)}
 .sp-side-r{right:calc(50% - var(--sp-w) * .92 - 24px)}
-.sp-stage:hover .sp-side{opacity:1}
+.sp-stage:has(.sp-card:hover) .sp-side{opacity:1}
+.sp-side:hover{opacity:1}
 @media (min-width:1024px) and (hover:hover){.sp-side{display:grid}}
 .sp-dots{display:flex;gap:8px}
 .sp-dot{height:8px;width:8px;padding:0;border-radius:999px;border:0;background:rgba(161,95,33,.28);cursor:pointer;transition:width .3s ease,background .3s ease}
