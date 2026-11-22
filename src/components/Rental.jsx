@@ -113,7 +113,7 @@ export default function PeekShowcase() {
             >
               Scooter
            </span>{" "}
-            and{" "}
+            &{" "}
             <span
               className={`${dancing.className} text-[48px] text-[#a15f21] md:text-[64px]`}
             >
