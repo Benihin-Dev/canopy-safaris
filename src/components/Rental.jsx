@@ -107,7 +107,6 @@ export default function PeekShowcase() {
           <h2
             className={`${libertinus.className} mt-2.5 text-[40px] leading-[1.08] text-[#2b1d10] md:text-[52px]`}
           >
-            A{" "}
             <span
               className={`${dancing.className} text-[48px] text-[#a15f21] md:text-[64px]`}
             >
