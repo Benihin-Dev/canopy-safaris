@@ -177,46 +177,27 @@ export default function SliderForTestimonial() {
                           &quot;{r.comment}&quot;
                         </p>
 
-                        <div className="mt-4 flex items-center gap-4">
-                          {r.image ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={r.image}
-                              alt={`Photo of ${r.name}`}
-                              width={56}
-                              height={56}
-                              referrerPolicy="no-referrer"
-                              className="size-14 rounded-full border-2 border-[#f59e0b] bg-[#2a2119] object-cover"
-                            />
-                          ) : (
-                            <span
-                              className={`${bebas.className} flex size-14 items-center justify-center rounded-full border-2 border-[#f59e0b] bg-[#2a2119] text-xl text-[#f59e0b]`}
-                            >
-                              {initials(r.name)}
-                            </span>
-                          )}
-                          <div>
-                            <h4 className="font-bebas text-xl uppercase tracking-widest text-white">
-                              {r.name}
-                            </h4>
-                            <p className="font-inter text-sm text-stone-400">
-                              {r.country}
-                            </p>
-                          </div>
-                        </div>
+<div className="mt-4 flex items-center justify-between gap-4">
+  <div className="flex items-center gap-4">
+    {r.image ? ( ...image or initials... )}
+    <div>
+      <h4 ...>{r.name}</h4>
+      <p ...>{r.country}</p>
+    </div>
+  </div>
 
-                        {r.link && (
-                          <a
-                            href={r.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-inter mt-5 inline-flex items-center gap-2 text-sm text-[#f59e0b] transition-colors hover:text-white"
-                          >
-                            View review
-                            <FaExternalLinkAlt className="size-3" />
-                          </a>
-                        )}
-                      </div>
+  {r.link && (
+    <a
+      href={r.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="font-inter shrink-0 inline-flex items-center gap-2 text-sm text-[#f59e0b] transition-colors hover:text-white"
+    >
+      View review
+      <FaExternalLinkAlt className="size-3" />
+    </a>
+  )}
+</div>
                     </div>
                   </div>
                 </div>
