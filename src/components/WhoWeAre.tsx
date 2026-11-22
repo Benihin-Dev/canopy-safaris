@@ -4,6 +4,11 @@ import { FaMapSigns } from "react-icons/fa";
 import { GiJeep, GiPawPrint } from "react-icons/gi";
 import { TbCertificate2 } from "react-icons/tb";
 import { IoArrowBackOutline } from "react-icons/io5";
+import { Dancing_Script, Libertinus_Serif, Poppins } from "next/font/google";
+
+const dancing = Dancing_Script({ subsets: ["latin"], weight: "600" });
+const libertinus = Libertinus_Serif({ subsets: ["latin"], weight: "600" });
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
 export default function WhoWeAre() {
   const features = [
@@ -14,19 +19,19 @@ export default function WhoWeAre() {
       icon: FaMapSigns,
     },
     {
-      title: "Customized Jeeps",
+      title: "Comfortable Safari Jeeps",
       description:
         "Explore wildlife in our comfortable open-air safari jeeps for a smooth, immersive wilderness experience.",
       icon: GiJeep,
     },
     {
-      title: "Best Leopard Tracking",
+      title: "Responsible Wildlife Tracking",
       description:
         "Ethical and responsible wildlife tracking guided by experienced local naturalists.",
       icon: GiPawPrint,
     },
     {
-      title: "Expert Naturalists",
+      title: "Experienced Naturalists",
       description:
         "Experienced naturalists bringing expert field knowledge to every memorable safari journey.",
       icon: TbCertificate2,
@@ -90,10 +95,18 @@ export default function WhoWeAre() {
   }}
 />
           </div>
-          <h2 className=" text-5xl text-[#2B1D14] pt-2 font-geologica font-bold">
-            Sri Lanka&apos;s Safari Experts
+          <h2
+            className={`${libertinus.className} pt-2 text-[40px] leading-[1.08] text-[#2b1d10] md:text-[52px]`}
+          >
+            Sri Lanka&apos;s{" "}
+            <span
+              className={`${dancing.className} text-[48px] text-[#a15f21] md:text-[64px]`}
+            >
+              Safari
+            </span>{" "}
+            Experts
           </h2>
-          <p className=" pt-2 text-[#5A4636] font-poppins text-xl xl:pr-10">
+          <p className={`${poppins.className} pt-2 text-[#5A4636] text-xl text-justify xl:pr-10`}>
             At The Canofy, we bring together a passion for wildlife, authentic nature experiences 
             and genuine hospitality to create unforgettable safari journeys across Sri Lanka.
           </p>
@@ -111,10 +124,10 @@ export default function WhoWeAre() {
                     </div>
                   </div>
                   <div className="w-full">
-                    <h3 className="font-bold text-[#2B1D14] text-lg">
+                    <h3 className={`${libertinus.className} text-xl text-[#2B1D14]`}>
                       {item.title}
                     </h3>
-                    <p className="text-sm leading-4 text-[#5A4636]">
+                    <p className={`${poppins.className} text-sm leading-5 text-justify text-[#5A4636]`}>
                       {item.description}
                     </p>
                   </div>
@@ -123,7 +136,7 @@ export default function WhoWeAre() {
             })}
           </div>
           <div className=" w-full md:flex items-center gap-5 mt-10">
-            <div className=" px-8 h-12 text-center flex items-center justify-center cursor-pointer bg-[#D9822B] text-[#2B1D14] text-sm font-poppins rounded-full relative group overflow-hidden">
+            <div className={`${poppins.className} px-8 h-12 text-center flex items-center justify-center cursor-pointer bg-[#D9822B] text-[#2B1D14] text-sm rounded-full relative group overflow-hidden`}>
               <div
                 className=" relative z-20 translate-y-0 group-hover:-translate-y-30
                  group-hover:transition-transform group-hover:duration-600"
@@ -172,8 +185,8 @@ export default function WhoWeAre() {
                 </div>
               </div>
               <div className=" -translate-x-15 leading-0">
-                <h3 className=" text-2xl font-semibold text-[#2B1D14]">18k+ </h3>
-                <p className=" text-[#2B1D14] text-base">
+                <h3 className={`${libertinus.className} text-2xl text-[#2B1D14]`}>18k+ </h3>
+                <p className={`${poppins.className} text-[#2B1D14] text-base`}>
                   Individual Travellers
                 </p>
               </div>
