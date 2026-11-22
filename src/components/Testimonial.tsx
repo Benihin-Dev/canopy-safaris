@@ -1,60 +1,19 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
-import { FaStar, FaQuoteLeft, FaExternalLinkAlt } from "react-icons/fa";
+import { FaStar, FaQuoteLeft } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
+import { reviews as allReviews } from "@/data/reviews";
 import { Bebas_Neue } from "next/font/google";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 
-/* Google Sheet web app (Apps Script) that returns the reviews as JSON */
-const SHEET_URL =
-  "https://script.google.com/macros/s/AKfycbxrIFP0fxhzQixDyDbKs7Z-LS_iIg1RDI6vj9O0SvSAMsTe3HN3eb2nFOOtQbjJnm_S/exec";
-
-type Review = {
-  heading: string;
-  stars: number;
-  comment: string;
-  name: string;
-  country: string;
-  image: string;
-  link: string;
-};
-
-function initials(name: string) {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase())
-    .join("");
-}
-
 export default function SliderForTestimonial() {
   const sliderRef = useRef<Slider>(null);
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
-
-  // load the reviews from the Google Sheet
-  useEffect(() => {
-    let cancelled = false;
-    fetch(SHEET_URL)
-      .then((res) => res.json())
-      .then((data) => {
-        if (cancelled) return;
-        setReviews(Array.isArray(data.reviews) ? data.reviews : []);
-        setStatus("ready");
-      })
-      .catch(() => {
-        if (!cancelled) setStatus("error");
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const reviews = allReviews.filter((r) => r.featured);
 
   return (
     <div id="guestbook" className="scroll-mt-24 w-full bg-[#1a1410] px-6 py-16 md:px-12">
@@ -118,7 +77,7 @@ export default function SliderForTestimonial() {
           <div className="absolute inset-0 -z-10">
             <div className=" w-full h-full flex justify-center items-center">
               <Image
-                src="/images/map.png"
+                src="/images/testimonial/map.png"
                 alt={`Photo of worldmap`}
                 width={500}
                 height={100}
@@ -126,103 +85,68 @@ export default function SliderForTestimonial() {
               />
             </div>
           </div>
+          {/* Cards slider */}
+          <Slider
+            ref={sliderRef}
+            rtl
+            dots={false}
+            arrows={false}
+            infinite
+            speed={800}
+            slidesToShow={1}
+            slidesToScroll={1}
+            autoplay
+            autoplaySpeed={4000}
+          >
+            {reviews.map((r, i) => (
+              <div key={i}>
+                <div className="review-card relative mx-8 mt-10 overflow-hidden border-b border-white/10 py-8">
+                  {/* amber glow, top-left */}
+                  <div className="pointer-events-none absolute inset-0" />
 
-          {/* Loading / error / empty messages */}
-          {status !== "ready" || reviews.length === 0 ? (
-            <div className="mx-8 mt-10 border-b border-white/10 py-8">
-              <p className="font-inter text-base leading-7 text-stone-400">
-                {status === "loading" && "Loading reviews..."}
-                {status === "error" && "Reviews could not be loaded right now."}
-                {status === "ready" && "No reviews yet."}
-              </p>
-            </div>
-          ) : (
-            /* Cards slider (key restarts the slider when the review count changes) */
-            <Slider
-              key={reviews.length}
-              ref={sliderRef}
-              rtl
-              dots={false}
-              arrows={false}
-              infinite
-              speed={800}
-              slidesToShow={1}
-              slidesToScroll={1}
-              autoplay
-              autoplaySpeed={4000}
-            >
-              {reviews.map((r, i) => (
-                <div key={i}>
-                  <div className="review-card relative mx-8 mt-10 overflow-hidden border-b border-white/10 py-8">
-                    {/* amber glow, top-left */}
-                    <div className="pointer-events-none absolute inset-0" />
+                  <div className="relative flex gap-5 md:gap-6">
+                    <div>
+                      <div className=" w-full flex items-center gap-5">
+                        <FaQuoteLeft className="size-8 shrink-0 text-[#f59e0b] md:size-10" />
+                        <h3 className={`${bebas.className} text-3xl uppercase tracking-wide text-white md:text-4xl`}>
+                          {r.title}
+                        </h3>
+                      </div>
+                      <div className="my-3 pl-[60px] flex gap-1 text-[#f59e0b]">
+                        {Array.from({ length: 5 }).map((_, s) => (
+                          <FaStar
+                            key={s}
+                            className={`size-4 ${s < r.rating ? "" : "opacity-25"}`}
+                          />
+                        ))}
+                      </div>
+                      <p className="font-inter text-base leading-7 mt-5 text-stone-400">
+                        &quot;{r.text}&quot;
+                      </p>
 
-                    <div className="relative flex gap-5 md:gap-6">
-                      <div>
-                        <div className=" w-full flex items-center gap-5">
-                          <FaQuoteLeft className="size-8 shrink-0 text-[#f59e0b] md:size-10" />
-                          <h3 className={`${bebas.className} text-3xl uppercase tracking-wide text-white md:text-4xl`}>
-                            {r.heading}
-                          </h3>
+                      <div className="mt-6 flex items-center gap-4">
+                        <Image
+                          src={r.photo}
+                          alt={`Photo of ${r.name}`}
+                          width={56}
+                          height={56}
+                          className="size-14 rounded-full border-2 border-[#f59e0b] bg-[#2a2119] object-cover"
+                        />
+                        <div>
+                          <h4 className="font-bebas text-xl uppercase tracking-widest text-white">
+                            {r.name}
+                          </h4>
+                          <p className="font-inter text-sm text-stone-400">
+                            {r.location}
+                          </p>
                         </div>
-                        <div className="my-3 pl-[60px] flex gap-1 text-[#f59e0b]">
-                          {Array.from({ length: 5 }).map((_, s) => (
-                            <FaStar
-                              key={s}
-                              className={`size-4 ${s < r.stars ? "" : "opacity-25"}`}
-                            />
-                          ))}
-                        </div>
-                        <p className="font-inter text-base leading-7 mt-5 text-stone-400">
-                          &quot;{r.comment}&quot;
-                        </p>
-
-                        <div className="mt-6 flex items-center gap-4">
-                          {r.image ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={r.image}
-                              alt={`Photo of ${r.name}`}
-                              width={56}
-                              height={56}
-                              referrerPolicy="no-referrer"
-                              className="size-14 rounded-full border-2 border-[#f59e0b] bg-[#2a2119] object-cover"
-                            />
-                          ) : (
-                            <span
-                              className={`${bebas.className} flex size-14 items-center justify-center rounded-full border-2 border-[#f59e0b] bg-[#2a2119] text-xl text-[#f59e0b]`}
-                            >
-                              {initials(r.name)}
-                            </span>
-                          )}
-                          <div>
-                            <h4 className="font-bebas text-xl uppercase tracking-widest text-white">
-                              {r.name}
-                            </h4>
-                            <p className="font-inter text-sm text-stone-400">
-                              {r.country}
-                            </p>
-                          </div>
-                        </div>
-
-                        {r.link && (
-                          <a
-                            href={r.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-inter mt-5 inline-flex items-center gap-2 text-sm text-[#f59e0b] transition-colors hover:text-white"
-                          >
-                            View review
-                            <FaExternalLinkAlt className="size-3" />
-                          </a>
-                        )}
                       </div>
                     </div>
                   </div>
                 </div>
-              ))}
-            </Slider>
-          )}
+              </div>
+            ))}
+          </Slider>
 
           {/* Controls: bottom of the right side */}
           <div className="mt-6 translate-x-6 flex items-center justify-between z-20">
@@ -250,4 +174,3 @@ export default function SliderForTestimonial() {
     </div>
   );
 }
-
