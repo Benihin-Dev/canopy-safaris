@@ -138,12 +138,13 @@ const css = `
 .sp-nav{width:46px;height:46px;border-radius:50%;background:var(--sp-accent);border:0;color:#fff;font-size:1.2rem;cursor:pointer;display:grid;place-items:center;transition:background .2s ease}
 .sp-nav:hover{background:var(--sp-accent-hover)}
 .sp-nav:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
-.sp-side{position:absolute;top:50%;z-index:10;width:48px;height:48px;margin-top:-24px;padding:0;border-radius:50%;background:rgba(255,250,242,.35);border:1px solid rgba(161,95,33,.55);color:var(--sp-accent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);cursor:pointer;display:none;place-items:center;transition:background .2s ease,border-color .2s ease,transform .2s ease}
+.sp-side{position:absolute;top:50%;z-index:10;width:48px;height:48px;margin-top:-24px;padding:0;border-radius:50%;background:rgba(255,250,242,.35);border:1px solid rgba(161,95,33,.55);color:var(--sp-accent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);cursor:pointer;display:none;place-items:center;opacity:0;transition:opacity .3s ease,background .2s ease,border-color .2s ease,transform .2s ease}
 .sp-side svg{width:20px;height:20px;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;fill:none}
 .sp-side:hover{background:rgba(255,250,242,.75);border-color:var(--sp-accent);transform:scale(1.08)}
-.sp-side:focus-visible{outline:2px solid var(--sp-accent);outline-offset:3px}
+.sp-side:focus-visible{opacity:1;outline:2px solid var(--sp-accent);outline-offset:3px}
 .sp-side-l{left:calc(50% - var(--sp-w) * .92 - 24px)}
 .sp-side-r{right:calc(50% - var(--sp-w) * .92 - 24px)}
+.sp-stage:hover .sp-side{opacity:1}
 @media (min-width:1024px) and (hover:hover){.sp-side{display:grid}}
 .sp-dots{display:flex;gap:8px}
 .sp-dot{height:8px;width:8px;padding:0;border-radius:999px;border:0;background:rgba(161,95,33,.28);cursor:pointer;transition:width .3s ease,background .3s ease}
