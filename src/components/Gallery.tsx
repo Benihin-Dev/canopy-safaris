@@ -234,9 +234,7 @@ export default function Gallery() {
           </div>
                ))}
       </div>
-
-      {/* view more button */}
-            {/* view more link */}
+             {/* view more link */}
       <div className="mt-3 flex justify-center">
         <Link
           href="/gallery"
@@ -249,4 +247,6 @@ export default function Gallery() {
           />
         </Link>
       </div>
-       
+    </section>
+  );
+}
