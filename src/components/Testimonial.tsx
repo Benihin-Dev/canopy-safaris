@@ -57,7 +57,7 @@ export default function SliderForTestimonial() {
   }, []);
 
   return (
-    <div id="guestbook" className="scroll-mt-24 w-full bg-[#1a1410] px-6 pt-8 pb-16 md:px-12">
+    <div id="guestbook" className="scroll-mt-24 w-full bg-[#1a1410] px-6 pt-2.5 pb-16 md:px-12">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
         {/* ================= LEFT SIDE ================= */}
         <div>
@@ -153,12 +153,12 @@ export default function SliderForTestimonial() {
             >
               {reviews.map((r, i) => (
                 <div key={i}>
-                  <div className="review-card relative mx-8 mt-10 overflow-hidden border-b border-white/10 py-8">
+                  <div className="review-card relative mx-8 mt-0 overflow-hidden border-b border-white/10 py-8">
                     {/* amber glow, top-left */}
                     <div className="pointer-events-none absolute inset-0" />
 
-                    <div className="relative flex gap-5 md:gap-6">
-                      <div>
+                      <div className="relative flex gap-5 md:gap-6">
+                    <div className="w-full">
                         <div className=" w-full flex items-center gap-5">
                           <FaQuoteLeft className="size-8 shrink-0 text-[#f59e0b] md:size-10" />
                           <h3 className={`${bebas.className} text-3xl uppercase tracking-wide text-white md:text-4xl`}>
@@ -173,7 +173,7 @@ export default function SliderForTestimonial() {
                             />
                           ))}
                         </div>
-                        <p className="font-inter text-base leading-7 mt-1 text-stone-400">
+                        <p className="font-inter text-base leading-7 mt-4 text-justify text-stone-400">
                           &quot;{r.comment}&quot;
                         </p>
 
