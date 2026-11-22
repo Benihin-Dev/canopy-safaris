@@ -173,7 +173,7 @@ export default function SliderForTestimonial() {
                             />
                           ))}
                         </div>
-                        <p className="font-inter text-base leading-7 mt-5 text-stone-400">
+                        <p className="font-inter text-base leading-7 mt-2 text-stone-400">
                           &quot;{r.comment}&quot;
                         </p>
 
