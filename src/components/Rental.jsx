@@ -1,13 +1,31 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { IoArrowForward, IoCheckmarkCircleOutline } from "react-icons/io5";
+import {
+  IoArrowForward,
+  IoCalendarOutline,
+  IoCheckmarkCircleOutline,
+} from "react-icons/io5";
 import Link from "next/link";
 import { Dancing_Script, Libertinus_Serif } from "next/font/google";
 import { rentals as items } from "@/data/rentals";
 
 const dancing = Dancing_Script({ subsets: ["latin"], weight: "600" });
 const libertinus = Libertinus_Serif({ subsets: ["latin"], weight: "600" });
+
+/* WhatsApp number: country code + number, no + or spaces */
+const WHATSAPP = "94754540123";
+const wa = (msg) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+
+/* ----- currency ----- */
+const FALLBACK_RATE = 300; // used only if the live rate cannot be loaded
+const usdNumber = (price) => Number(String(price).replace(/[^0-9.]/g, ""));
+const formatPrice = (price, currency, rate) => {
+  const usd = usdNumber(price);
+  if (currency === "usd" || !usd) return price; // e.g. "$12"
+  const lkr = Math.round((usd * rate) / 100) * 100; // nearest 100 rupees
+  return `≈ Rs ${lkr.toLocaleString("en-US")}`;
+};
 
 /* Replace this placeholder content with your own.
    Add a `price` (for example "$25") to show it next to the title.
@@ -74,8 +92,42 @@ function cardStyle(pos) {
 export default function PeekShowcase() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [currency, setCurrency] = useState("usd");
+  const [rate, setRate] = useState(FALLBACK_RATE);
+  const [live, setLive] = useState(false);
 
   const go = (i) => setActive(((i % N) + N) % N);
+
+  // remember the visitor's currency choice
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("currency");
+      if (saved === "usd" || saved === "lkr") setCurrency(saved);
+    } catch {}
+  }, []);
+  const pickCurrency = (c) => {
+    setCurrency(c);
+    try {
+      localStorage.setItem("currency", c);
+    } catch {}
+  };
+
+  // load today's rate (cached on the server, see src/app/api/rate/route.ts)
+  useEffect(() => {
+    let off = false;
+    fetch("/api/rate")
+      .then((r) => r.json())
+      .then((d) => {
+        if (!off && d?.rate > 0) {
+          setRate(d.rate);
+          setLive(!!d.live);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      off = true;
+    };
+  }, []);
 
   // auto-advance (pauses while the mouse is over the cards)
   useEffect(() => {
@@ -111,8 +163,8 @@ export default function PeekShowcase() {
               className={`${dancing.className} text-[48px] text-[#a15f21] md:text-[64px]`}
             >
               Scooter
-           </span>{" "}
-            &{" "}
+            </span>{" "}
+            &amp;{" "}
             <span
               className={`${dancing.className} text-[48px] text-[#a15f21] md:text-[64px]`}
             >
@@ -179,9 +231,42 @@ export default function PeekShowcase() {
         <div
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
-          className="relative min-w-0 grid justify-items-center items-center py-8 md:translate-x-8 [--cw:min(76vw,340px)] md:[--cw:clamp(250px,28vw,370px)]"
+          className="relative min-w-0 grid justify-items-center items-center pt-14 pb-10 md:translate-x-8 [--cw:min(76vw,340px)] md:[--cw:clamp(250px,28vw,370px)]"
           style={{ perspective: "1600px" }}
         >
+          {/* currency switch */}
+          <div className="absolute right-0 top-0 z-30 flex items-center gap-2 font-poppins text-[11.5px] text-[#7a6550]">
+            <span className="hidden sm:inline">Show prices in</span>
+            <div
+              role="group"
+              aria-label="Currency"
+              className="relative grid grid-cols-2 rounded-full border border-[#c9a36a] bg-[#fffaf2]/90 p-[3px] shadow-[0_6px_16px_-8px_rgba(97,61,29,0.5)]"
+            >
+              <span
+                aria-hidden="true"
+                className={`absolute inset-y-[3px] left-[3px] w-[calc(50%-3px)] rounded-full bg-[#a15f21] transition-transform duration-300 ${
+                  currency === "lkr" ? "translate-x-full" : ""
+                }`}
+              />
+              {[
+                ["usd", "USD $"],
+                ["lkr", "LKR Rs"],
+              ].map(([c, label]) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => pickCurrency(c)}
+                  aria-pressed={currency === c}
+                  className={`relative z-10 min-w-[58px] rounded-full px-3.5 py-2 text-xs font-medium transition-colors duration-300 ${
+                    currency === c ? "text-white" : "text-[#7a6550]"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {items.map((r, i) => {
             const pos = getPos(i, active);
             const isActive = pos === 0;
@@ -202,12 +287,12 @@ export default function PeekShowcase() {
                 }`}
               >
                 {/* top ribbon */}
-                <div className="bg-[#a15f21] py-2 text-center font-poppins text-[11px] font-bold uppercase tracking-[0.2em] text-white">
+                <div className="bg-[#a15f21] py-2 text-center font-poppins text-[10.5px] font-semibold uppercase tracking-[0.2em] text-white">
                   {r.ribbon}
                 </div>
 
-                {/* image + badge */}
-                <div className="relative w-full aspect-16/9">
+                {/* image + badge + price pill */}
+                <div className="relative w-full aspect-16/10 bg-[#e6d9bf]">
                   <Image
                     src={r.img}
                     alt={r.title}
@@ -216,50 +301,84 @@ export default function PeekShowcase() {
                     className="object-cover"
                     priority={i === 0}
                   />
-                  <span className="absolute top-3 left-3 rounded-full bg-[#2b1d10] px-3 py-1 font-poppins text-[11px] font-semibold text-white">
+                  <span className="absolute left-3 top-3 rounded-full bg-[#2b1d10] px-3 py-1 font-poppins text-[11px] font-medium text-white">
                     {r.badge}
                   </span>
+                  {r.price && (
+                    <span className="absolute -bottom-4 right-3 z-10 whitespace-nowrap rounded-full border-[3px] border-[#fffaf2] bg-[#a15f21] px-3.5 py-1.5 font-poppins text-sm font-medium text-white">
+                      {formatPrice(r.price, currency, rate)}{" "}
+                      <span className="text-[11px] font-normal opacity-90">
+                        / day
+                      </span>
+                    </span>
+                  )}
                 </div>
 
                 {/* details */}
-                <div className="px-5 pt-5 pb-5">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="font-libertinus_Math text-2xl font-semibold text-[#2b1d10]">
-                      {r.title}
-                    </h3>
-                    {r.price && (
-                      <span className="font-libertinus_Math text-2xl font-semibold text-[#a15f21] whitespace-nowrap">
-                        {r.price}
-                      </span>
-                    )}
-                  </div>
-                  <p className="font-poppins text-xs text-[#7a6550] pt-1">
+                <div className="px-[18px] pb-[18px] pt-7">
+                  <h3
+                    className={`${libertinus.className} text-[23px] text-[#2b1d10]`}
+                  >
+                    {r.title}
+                  </h3>
+                  <p className="pt-0.5 font-poppins text-xs text-[#7a6550]">
                     {r.sub}
                   </p>
-                  <p className="font-poppins text-sm leading-6 text-[#3d2c1b] pt-3">
+                  <p className="pt-2.5 font-poppins text-[13px] leading-[1.55] text-[#5b4733]">
                     {r.desc}
                   </p>
 
-                  <ul className="space-y-1.5 pt-4 font-poppins text-xs text-[#5b4733]">
+                  <div className="mt-3 border-t border-[#c9a36a]/50" />
+                  <ul className="flex flex-col gap-2 py-3 font-poppins text-[12.5px] text-[#5b4733]">
                     {r.features.map((text) => (
                       <li key={text} className="flex items-center gap-2">
-                        <IoCheckmarkCircleOutline className="size-4 shrink-0 text-[#e77b2a]" />
+                        <IoCheckmarkCircleOutline
+                          aria-hidden="true"
+                          className="size-[18px] shrink-0 text-[#e77b2a]"
+                        />
                         {text}
                       </li>
                     ))}
                   </ul>
+                  <div className="border-t border-[#c9a36a]/50" />
 
+                  <a
+                    href={wa(`Hi, I'd like to rent the ${r.title}.`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    tabIndex={isActive ? 0 : -1}
+                    className="mt-3.5 flex items-center justify-center gap-2 rounded-[14px] bg-[#a15f21] py-3 font-poppins text-sm font-medium text-white transition hover:bg-[#7d4a19] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a15f21]"
+                  >
+                    <IoCalendarOutline aria-hidden="true" className="size-4" />
+                    Book now
+                  </a>
                   <Link
                     href={`/rentals/${r.slug}`}
                     tabIndex={isActive ? 0 : -1}
-                    className="..."
+                    className="mt-3 flex items-center justify-center gap-1.5 font-poppins text-sm font-medium text-[#a15f21] underline underline-offset-4 transition hover:text-[#7d4a19]"
                   >
-                    {r.cta}
+                    View more
+                    <IoArrowForward aria-hidden="true" className="size-3" />
                   </Link>
                 </div>
               </article>
             );
           })}
+
+          {/* rate note + required credit for the free rate service */}
+          {currency === "lkr" && (
+            <p className="absolute bottom-0 right-0 z-30 font-poppins text-[10.5px] text-[#7a6550]">
+              {live ? "Today's rate" : "Approx. rate"} ·{" "}
+              <a
+                href="https://www.exchangerate-api.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                Rates by ExchangeRate-API
+              </a>
+            </p>
+          )}
         </div>
         <Link
           href="/rentals"
@@ -271,3 +390,4 @@ export default function PeekShowcase() {
     </section>
   );
 }
+
