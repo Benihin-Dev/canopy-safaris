@@ -250,3 +250,4 @@ export default function SliderForTestimonial() {
     </div>
   );
 }
+
