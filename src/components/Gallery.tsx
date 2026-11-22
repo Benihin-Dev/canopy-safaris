@@ -207,7 +207,7 @@ export default function Gallery() {
       <div
         ref={wrapRef}
         className="relative w-full overflow-hidden"
-        style={{ perspective: `${PERSPECTIVE}px`, height: itemW * RATIO + 40 }}
+        style={{ perspective: `${PERSPECTIVE}px`, height: itemW * RATIO + 30 }}
         onMouseEnter={() => (paused.current = true)}
         onMouseLeave={() => (paused.current = false)}
         onTouchStart={() => (paused.current = true)}
@@ -235,7 +235,7 @@ export default function Gallery() {
                ))}
       </div>
              {/* view more link */}
-      <div className="mt-3 flex justify-center">
+      <div className="mt-0 flex justify-center">
         <Link
           href="/gallery"
           className="group inline-flex items-center gap-1.5 font-inter text-sm font-medium text-[#f59e0b] underline underline-offset-4 transition-colors hover:text-[#fbbf24] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f59e0b]"
