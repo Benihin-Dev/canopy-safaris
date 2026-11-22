@@ -236,10 +236,11 @@ export default function Gallery() {
       </div>
 
       {/* view more button */}
-      <div className="mt-10 flex justify-center">
+            {/* view more link */}
+      <div className="mt-3 flex justify-center">
         <Link
           href="/gallery"
-          className="group inline-flex items-center gap-2 rounded-full border border-[#f59e0b] px-7 py-3 font-inter text-sm font-medium text-[#f59e0b] transition-colors hover:bg-[#f59e0b] hover:text-[#1a1410] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f59e0b]"
+          className="group inline-flex items-center gap-1.5 font-inter text-sm font-medium text-[#f59e0b] underline underline-offset-4 transition-colors hover:text-[#fbbf24] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f59e0b]"
         >
           View more
           <FaArrowRight
@@ -248,6 +249,4 @@ export default function Gallery() {
           />
         </Link>
       </div>
-    </section>
-  );
-}
+       
