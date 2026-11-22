@@ -207,7 +207,7 @@ export default function Gallery() {
       <div
         ref={wrapRef}
         className="relative w-full overflow-hidden"
-        style={{ perspective: `${PERSPECTIVE}px`, height: itemW * RATIO + 30 }}
+        style={{ perspective: `${PERSPECTIVE}px`, height: itemW * RATIO + 28 }}
         onMouseEnter={() => (paused.current = true)}
         onMouseLeave={() => (paused.current = false)}
         onTouchStart={() => (paused.current = true)}
