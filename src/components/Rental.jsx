@@ -107,19 +107,19 @@ export default function PeekShowcase() {
           <h2
             className={`${libertinus.className} mt-2.5 text-[40px] leading-[1.08] text-[#2b1d10] md:text-[52px]`}
           >
-            Rent a{" "}
+            A{" "}
             <span
               className={`${dancing.className} text-[48px] text-[#a15f21] md:text-[64px]`}
             >
               Scooter
            </span>{" "}
-            or{" "}
+            and{" "}
             <span
               className={`${dancing.className} text-[48px] text-[#a15f21] md:text-[64px]`}
             >
-              Tuk Tuk
+              Tuk-Tuk
             </span>{" "}
-            Rentals
+            for Every Journey
           </h2>
           <p className="hidden md:block font-poppins text-sm leading-7 text-[#5b4733] text-justify pt-5 max-w-md">
             Rent a scooter or tuk-tuk and discover the areas around Kumana at
