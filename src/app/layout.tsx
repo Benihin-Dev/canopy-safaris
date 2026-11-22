@@ -108,7 +108,7 @@ export default function RootLayout({
         <div className="fixed top-0 left-0 -z-10 h-full w-full">
           <Image
             className="object-cover"
-            src="/images/common/fixedBg.png"
+            src="/images/banner/fixedBg.png"
             alt=""
             fill
             priority
