@@ -97,15 +97,13 @@ export default function ScrollBanner() {
           </p>
 
           <div className="mt-5 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-            <a
-              href={wa("Hi, I'd like to book a camping stay.")}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/book?service=camping&type=tent-stay"
               className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-[13px] font-medium text-[#0b2e18] transition hover:bg-[#1ebe5b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               <FaWhatsapp aria-hidden="true" className="size-[18px]" />
               Book camping
-            </a>
+            </Link>
 
             <a
               href={wa("Hi, what is included in the camping stay?")}
