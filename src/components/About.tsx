@@ -65,9 +65,9 @@ function getSource(raw: string): Source | null {
 }
 
 const parks = [
-  { n: "01", name: "Yala" },
-  { n: "02", name: "Udawalawe" },
-  { n: "03", name: "Wilpattu" },
+  { n: "01", name: "Yala", slug: "yala-safari" },
+  { n: "02", name: "Udawalawe", slug: "udawalawe-safari" },
+  { n: "03", name: "Wilpattu", slug: "wilpattu-safari" },
 ];
 
 const css = `
@@ -377,8 +377,9 @@ export default function About() {
               </div>
               <div className="relative grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-3">
                 {parks.map((p) => (
-                  <div
+                  <Link
                     key={p.name}
+                    href={`/packages/${p.slug}`}
                     className="ab-card relative flex items-center gap-3 overflow-hidden rounded-[18px] py-4 pl-5 pr-4"
                     style={{
                       background: "linear-gradient(150deg, #4a3320, #2b1d10)",
@@ -400,7 +401,7 @@ export default function About() {
                         National Park
                       </span>
                     </span>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
