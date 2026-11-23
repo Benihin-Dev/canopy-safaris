@@ -1,5 +1,3 @@
-/* Put this file at: src/app/rentals/[slug]/page.tsx  (replace the old one) */
-
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
