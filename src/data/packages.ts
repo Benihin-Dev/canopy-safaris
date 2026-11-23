@@ -43,10 +43,10 @@ export const packages: SafariPackage[] = [
     img: "/images/safari/kumana.jpg",
     highlights: ["Fewer Crowds", "Leopard Sightings", "Rich Biodiversity"],
     duration: "Half / Full day",
-    groupSize: "2 – 6 guests",
-    bestTime: "Apr – Jul",
+    groupSize: "1 – 6 guests",
+    bestTime: "All year",
     price: "From $120",
-    overview: lorem + " " + lorem,
+    overview: "Discover the natural beauty and incredible wildlife of Kumana National Park with an unforgettable safari experience. Known for its rich biodiversity, diverse birdlife and exciting wildlife encounters, Kumana offers a rewarding experience in a relatively peaceful and less crowded environment. Choose between our Half-Day or Full-Day Safari options to suit your preferences. Enhance your adventure with flexible meal options, including breakfast, lunch, snacks and beverages, along with a complimentary bottle of drinking water. With flexible packages and reasonable rate, enjoy a comfortable and memorable luxury safari experience tailored to your preferences.",
     included: [...baseIncluded, "Breakfast or packed lunch"],
     excluded: baseExcluded,
     itinerary: [
@@ -69,10 +69,11 @@ export const packages: SafariPackage[] = [
       "Elephant Encounters",
     ],
     duration: "Evening · 4 hrs",
-    groupSize: "2 – 6 guests",
+    groupSize: "1 – 6 guests",
     bestTime: "All year",
     price: "From $95",
-    overview: lorem + " " + lorem,
+        overview:
+      "Experience the magic of the eastern wilderness with an unforgettable Night Safari adventure. Begin your evening at Elephant Rock, where you can enjoy a beautiful sunset overlooking the ocean. As darkness falls, continue your journey with a night safari through the Kumana National Park buffer zone, exploring the surroundings and discovering nocturnal wildlife in their natural habitat. For an even more memorable evening, a bonfire dinner can also be arranged upon request, allowing you to relax and enjoy the peaceful atmosphere under the starry sky.",
     included: [...baseIncluded, "Spotlight & night-vision gear"],
     excluded: baseExcluded,
     itinerary: [
@@ -91,10 +92,11 @@ export const packages: SafariPackage[] = [
     img: "/images/safari/adventure.jpg",
     highlights: ["Scenic Hiking", "Ocean Surfing", "Night Exploration"],
     duration: "4 Hours",
-    groupSize: "2 – 6 guests",
+    groupSize: "1 – 6 guests",
     bestTime: "All Year",
     price: "From $150",
-    overview: lorem + " " + lorem,
+    overview:
+      "Discover an exciting blend of nature, adventure and exploration with our unforgettable Adventure Safari experience. Enjoy scenic hiking through the wilderness of Kudumbigala, where breathtaking landscapes and natural surroundings create a memorable outdoor adventure. Experience the thrill of ocean surfing at Peanut Farm, one of the area's beautiful coastal spots, offering an exciting escape by the sea. As the day comes to an end, continue your adventure with a Night Safari in the Kumana National Park buffer zone, where you can explore the wilderness after dark and discover nocturnal wildlife in their natural surroundings. Combining scenic hiking, ocean surfing and night exploration, this experience offers a unique way to enjoy the adventurous side of Sri Lanka's eastern wilderness.",
     included: [...baseIncluded, "Lunch", "Local activity guide"],
     excluded: baseExcluded,
     itinerary: [
@@ -112,10 +114,11 @@ export const packages: SafariPackage[] = [
     img: "/images/safari/wilpattu.jpg",
     highlights: ["Largest Park", "Dry Landscapes", "Wildlife Diversity"],
     duration: "Half/Full day",
-    groupSize: "2 – 6 guests",
+    groupSize: "1 – 6 guests",
     bestTime: "All Years",
     price: "On request",
-    overview: lorem + " " + lorem,
+    overview:
+      "Discover the natural beauty and incredible wildlife of Wilpattu National Park with an unforgettable safari experience. Known as Sri Lanka's largest national park, Wilpattu features vast wilderness, dense forests, natural lakes and diverse wildlife, offering a peaceful and immersive safari experience. Choose between our Half-Day or Full-Day Safari options to suit your preferences. Enhance your adventure with flexible meal options, including breakfast, lunch, snacks and beverages, along with a complimentary bottle of drinking water. With flexible packages and reasonable pricing, enjoy a comfortable and memorable luxury safari experience tailored to your preferences.",
     included: [...baseIncluded, "Breakfast or packed lunch"],
     excluded: baseExcluded,
     itinerary: [
@@ -134,10 +137,11 @@ export const packages: SafariPackage[] = [
     img: "/images/safari/yala.jpg",
     highlights: ["Famous Destination", "Leopard Encounters", "Rich Biodiversity"],
     duration: "Half / Full day",
-    groupSize: "2 – 6 guests",
-    bestTime: "Feb – Jul",
+    groupSize: "1 – 6 guests",
+    bestTime: "All year",
     price: "On request",
-    overview: lorem + " " + lorem,
+    overview:
+      "Discover the natural beauty and incredible wildlife of Yala National Park with an unforgettable safari experience. Renowned as one of Sri Lanka's most iconic safari destinations, Yala is especially famous for its leopard sightings, diverse wildlife and rich natural landscapes. Choose between our Half-Day or Full-Day Safari options to suit your preferences. Enhance your adventure with flexible meal options, including breakfast, lunch, snacks and beverages, along with a complimentary bottle of drinking water. With flexible packages and reasonable pricing, enjoy a comfortable and memorable luxury safari experience tailored to your preferences.",
     included: [...baseIncluded, "Breakfast or packed lunch"],
     excluded: baseExcluded,
     itinerary: [
@@ -156,10 +160,11 @@ export const packages: SafariPackage[] = [
     img: "/images/safari/udawalawe.jpg",
     highlights: ["Peaceful safari", "Elephant Sightings", "Wildlife Watching"],
     duration: "Half / Full day",
-    groupSize: "2 – 6 guests",
+    groupSize: "1 – 6 guests",
     bestTime: "All year",
     price: "On request",
-    overview: lorem + " " + lorem,
+    overview:
+      "Discover the natural beauty and incredible wildlife of Udawalawe National Park with an unforgettable safari experience. Especially renowned for its large elephant population and frequent elephant encounters, Udawalawe offers wonderful opportunities to observe these majestic animals in their natural habitat. Choose between our Half-Day or Full-Day Safari options to suit your preferences. Enhance your adventure with flexible meal options, including breakfast, lunch, snacks and beverages, along with a complimentary bottle of drinking water. With flexible packages and reasonable pricing, enjoy a comfortable and memorable luxury safari experience tailored to your preferences.",
     included: [...baseIncluded, "Breakfast or packed lunch"],
     excluded: baseExcluded,
     itinerary: [
