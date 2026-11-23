@@ -15,6 +15,7 @@ export default function ItinerarySwitch({
 
   return (
     <div>
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
       <h2 className="font-bebas text-4xl uppercase tracking-wide text-[#2b1d10]">
         Sample itinerary
       </h2>
@@ -23,7 +24,7 @@ export default function ItinerarySwitch({
         <div
           role="group"
           aria-label="Safari length"
-          className="relative mt-4 inline-grid grid-cols-2 rounded-full border border-[#c9a36a] bg-[#fffaf2]/90 p-[3px] shadow-[0_6px_16px_-8px_rgba(97,61,29,0.5)]"
+          className="relative inline-grid grid-cols-2 rounded-full border border-[#c9a36a] bg-[#fffaf2]/90 p-[3px] shadow-[0_6px_16px_-8px_rgba(97,61,29,0.5)]"
         >
           <span
             aria-hidden="true"
@@ -51,6 +52,7 @@ export default function ItinerarySwitch({
           ))}
         </div>
       )}
+      </div>
 
       <ol className="mt-6 space-y-6 border-l border-[#c9a36a] pl-8">
         {steps.map((s) => (
