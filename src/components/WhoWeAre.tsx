@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Dancing_Script, Libertinus_Serif, Poppins } from "next/font/google";
 
 const dancing = Dancing_Script({ subsets: ["latin"], weight: "600" });
@@ -141,8 +142,8 @@ export default function WhoWeAre() {
           </div>
 
           {/* start booking button (same hover effect as before) */}
-          <div className=" w-full mt-8">
-            <div className={`${poppins.className} px-8 h-12 w-fit text-center flex items-center justify-center cursor-pointer bg-[#D9822B] text-[#2B1D14] text-sm rounded-full relative group overflow-hidden`}>
+                  <div className=" w-full mt-8">
+            <Link href="/book" className={`${poppins.className} px-8 h-12 w-fit text-center flex items-center justify-center cursor-pointer bg-[#D9822B] text-[#2B1D14] text-sm rounded-full relative group overflow-hidden`}>
               <div
                 className=" relative z-20 translate-y-0 group-hover:-translate-y-30
                  group-hover:transition-transform group-hover:duration-600"
@@ -157,7 +158,7 @@ export default function WhoWeAre() {
               </p>
               <div className=" absolute w-full  aspect-square rounded-full group-hover:scale-120 bg-[#2B1D14] top-full group-hover:-translate-y-2/5 left-0  group-hover:transition-transform group-hover:duration-300 delay-100"></div>
               <div className=" absolute -top-full left-0 w-full h-full bg-[#2B1D14] group-hover:translate-y-full duration-200 delay-300 rotate-180"></div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
