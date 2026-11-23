@@ -13,9 +13,11 @@ const MAX_DAYS = 30;
 export default function RentalBookingCard({
   title,
   price,
+  slug,
 }: {
   title: string;
   price: string; // "$12"
+  slug: string;
 }) {
   const unit = Number(price.replace(/[^0-9.]/g, "")) || 0;
   const [days, setDays] = useState(3);
@@ -86,15 +88,12 @@ export default function RentalBookingCard({
         &asymp; Rs {lkr.toLocaleString("en-US")}
       </p>
 
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        href={`/book?service=rental&type=${slug}`}
         className="font-inter mt-5 flex items-center justify-center gap-2 rounded-full bg-[#a15f21] py-3.5 text-sm font-semibold text-white transition hover:bg-[#7d4a19]"
       >
-        <FaWhatsapp aria-hidden="true" className="size-[18px]" />
-        Book on WhatsApp
-      </a>
+        Book now
+      </Link>
       <Link
         href="/rentals"
         className="font-inter mt-3 block rounded-full border border-[#c9a36a] py-3.5 text-center text-sm font-semibold text-[#5b4733] transition hover:bg-[#f0eee5]"
