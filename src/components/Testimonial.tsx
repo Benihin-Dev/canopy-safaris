@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
-import { FaStar, FaQuoteLeft, FaExternalLinkAlt } from "react-icons/fa";
+import { FaStar, FaQuoteLeft, FaExternalLinkAlt, FaPen } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
 import { Bebas_Neue } from "next/font/google";
 
@@ -13,6 +13,9 @@ const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 /* Google Sheet web app (Apps Script) that returns the reviews as JSON */
 const SHEET_URL =
   "https://script.google.com/macros/s/AKfycbxrIFP0fxhzQixDyDbKs7Z-LS_iIg1RDI6vj9O0SvSAMsTe3HN3eb2nFOOtQbjJnm_S/exec";
+
+/* Where the "Write a review" link goes (Google review link, Google Form, TripAdvisor...) */
+const REVIEW_URL = "https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID";
 
 type Review = {
   heading: string;
@@ -90,28 +93,40 @@ export default function SliderForTestimonial() {
             </div>
           </div>
 
-          {/* Happy clients */}
-          <div className="flex items-center gap-4 pt-6">
-            <div className="flex items-center">
-              {["/images/person1.jpg", "/images/person2.jpg"].map((src, i) => (
-                <Image
-                  key={i}
-                  src={src}
-                  alt="Happy client"
-                  width={48}
-                  height={48}
-                  className="-ml-3 size-12 rounded-full border-2 border-[#1a1410] bg-[#2a2119] object-cover first:ml-0"
-                />
-              ))}
-              <span className="-ml-3 flex size-12 items-center justify-center rounded-full bg-[#f59e0b] font-bebas text-lg text-[#1a1410]">
-                50K
-              </span>
+          {/* Happy clients + review link */}
+          <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 pt-6">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center">
+                {["/images/person1.jpg", "/images/person2.jpg"].map((src, i) => (
+                  <Image
+                    key={i}
+                    src={src}
+                    alt="Happy client"
+                    width={48}
+                    height={48}
+                    className="-ml-3 size-12 rounded-full border-2 border-[#1a1410] bg-[#2a2119] object-cover first:ml-0"
+                  />
+                ))}
+                <span className="-ml-3 flex size-12 items-center justify-center rounded-full bg-[#f59e0b] font-bebas text-lg text-[#1a1410]">
+                  50K
+                </span>
+              </div>
+              <p className="font-bebas text-lg uppercase leading-tight text-white">
+                Our happy clients <br /> worldwide
+              </p>
             </div>
-            <p className="font-bebas text-lg uppercase leading-tight text-white">
-              Our happy clients <br /> worldwide
-            </p>
+
+            <a
+              href={REVIEW_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-inter inline-flex items-center gap-2 text-sm text-[#f59e0b] transition-colors hover:text-white"
+            >
+              <FaPen aria-hidden="true" className="size-3" />
+              Write a review
+              <FaExternalLinkAlt aria-hidden="true" className="size-3" />
+            </a>
           </div>
-        </div>
 
         {/* ================= RIGHT SIDE ================= */}
         <div className="min-w-0 relative z-20">
