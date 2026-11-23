@@ -36,7 +36,7 @@ export default function Footer() {
             Ready to Start Your Next Adventure?
           </h2>
           <Link
-            href="/contact"
+           href="/book"
             className="rounded-full bg-white px-6 py-2.5 text-sm font-medium text-[#3b2a17] transition hover:bg-[#e77b2a] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Plan Your Safari Now
