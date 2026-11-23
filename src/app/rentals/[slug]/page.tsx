@@ -201,7 +201,11 @@ export default async function RentalPage({ params }: Props) {
 
         {/* sticky booking card */}
         <aside className="lg:sticky lg:top-8 lg:self-start">
-          <RentalBookingCard title={rental.title} price={rental.price} />
+          <RentalBookingCard
+            title={rental.title}
+            price={rental.price}
+            slug={rental.slug}
+          />
         </aside>
       </section>
 
