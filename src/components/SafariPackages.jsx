@@ -475,18 +475,16 @@ export default function SafariPackages() {
                   </ul>
                 </div>
                 <div className="sp-actions">
-                  <a
+                  <Link
                     className="sp-cta font-inter"
-                    href={wa(`Hi! I would like to book the ${p.title}.`)}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={`/book?service=safari&type=${p.slug}`}
                     aria-label={`Book ${p.title}`}
                     tabIndex={pos === "center" ? 0 : -1}
                     onClick={(e) => e.stopPropagation()}
                   >
                     <FaRegCalendarCheck aria-hidden="true" />
                     Book now
-                  </a>
+                  </Link>
                   <Link
                     className="sp-more font-inter"
                     href={`/packages/${p.slug}`}
