@@ -8,9 +8,9 @@ import { IoMenu, IoClose, IoChevronDown } from "react-icons/io5";
 
 /* "About us" groups three sections of the home page */
 const aboutLinks = [
-  { name: "Our story", link: "/#about" },
+  { name: "About us", link: "/#about" },
   { name: "Who we are", link: "/#who-we-are" },
-  { name: "Guestbook", link: "/#guestbook" },
+  { name: "Reviews", link: "/#guestbook" },
 ];
 
 /* same order as the home page, top to bottom */
