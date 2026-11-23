@@ -127,6 +127,7 @@ export default function SliderForTestimonial() {
               <FaExternalLinkAlt aria-hidden="true" className="size-3" />
             </a>
           </div>
+        </div>         
 
         {/* ================= RIGHT SIDE ================= */}
         <div className="min-w-0 relative z-20">
