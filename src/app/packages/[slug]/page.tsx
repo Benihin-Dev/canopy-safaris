@@ -11,6 +11,7 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import { packages, getPackage } from "@/data/packages";
+import ItinerarySwitch from "@/components/ItinerarySwitch";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -113,27 +114,7 @@ export default async function PackagePage({ params }: Props) {
             </ul>
           </div>
 
-          <div>
-            <h2 className="font-bebas text-4xl uppercase tracking-wide text-[#2b1d10]">
-              Sample itinerary
-            </h2>
-            <ol className="mt-6 space-y-6 border-l border-[#c9a36a] pl-8">
-              {pkg.itinerary.map((s) => (
-                <li key={s.title} className="relative">
-                  <span className="absolute -left-[39px] top-1 h-3 w-3 rounded-full bg-[#a15f21] ring-4 ring-[#f0eee5]" />
-                  <p className="font-inter text-xs font-semibold uppercase tracking-wider text-[#a15f21]">
-                    {s.time}
-                  </p>
-                  <h3 className="font-bebas text-2xl tracking-wide text-[#2b1d10]">
-                    {s.title}
-                  </h3>
-                  <p className="font-inter mt-1 text-sm leading-relaxed text-[#5b4733]">
-                    {s.text}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </div>
+          <ItinerarySwitch half={pkg.itinerary} full={pkg.fullItinerary} />
 
           <div className="grid gap-8 sm:grid-cols-2">
             <div>
