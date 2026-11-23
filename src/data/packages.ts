@@ -18,6 +18,9 @@ export type SafariPackage = {
   itinerary: { time: string; title: string; text: string }[];
 };
 
+const lorem =
+  "i need to knw where it going to change leo.";
+
 const baseIncluded = [
   "Private open-air jeep",
   "Expert naturalist guide",
