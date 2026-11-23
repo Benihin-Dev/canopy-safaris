@@ -339,16 +339,14 @@ export default function PeekShowcase() {
                   </ul>
                   <div className="border-t border-[#c9a36a]/50" />
 
-                  <a
-                    href={wa(`Hi, I'd like to rent the ${r.title}.`)}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href={`/book?service=rental&type=${r.slug}`}
                     tabIndex={isActive ? 0 : -1}
                     className="mt-3.5 flex items-center justify-center gap-2 rounded-[14px] bg-[#a15f21] py-3 font-poppins text-sm font-medium text-white transition hover:bg-[#7d4a19] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a15f21]"
                   >
                     <IoCalendarOutline aria-hidden="true" className="size-4" />
                     Book now
-                  </a>
+                  </Link>
                   <Link
                     href={`/rentals/${r.slug}`}
                     tabIndex={isActive ? 0 : -1}
