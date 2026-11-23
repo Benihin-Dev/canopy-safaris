@@ -177,7 +177,7 @@ export default async function PackagePage({ params }: Props) {
             <p className="font-inter text-xs text-[#7a6550]">per person</p>
 
             <Link
-              href={`/contact?package=${pkg.slug}`}
+             href={`/book?service=safari&type=${pkg.slug}`}
               className="font-inter mt-6 block rounded-full bg-[#a15f21] py-3.5 text-center text-sm font-semibold text-white transition hover:bg-[#7d4a19]"
             >
               Book this safari
