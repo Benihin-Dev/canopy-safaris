@@ -15,6 +15,9 @@ import ItinerarySwitch from "@/components/ItinerarySwitch";
 
 type Props = { params: Promise<{ slug: string }> };
 
+/* WhatsApp number: country code + number, no + and no spaces */
+const WHATSAPP = "94754540123";
+
 export function generateStaticParams() {
   return packages.map((p) => ({ slug: p.slug }));
 }
@@ -169,6 +172,16 @@ export default async function PackagePage({ params }: Props) {
             >
               Compare packages
             </Link>
+            <a
+              href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
+                `Hi! I would like to enquire about the ${pkg.title}.`,
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-inter mt-4 block text-center text-sm font-medium text-[#5b4733] underline decoration-[#c9a36a] underline-offset-4 transition hover:text-[#a15f21]"
+            >
+              WhatsApp inquiry
+            </a>
           </div>
         </aside>
       </section>
