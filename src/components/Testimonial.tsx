@@ -4,8 +4,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
-import { FaStar, FaQuoteLeft, FaExternalLinkAlt, FaPen } from "react-icons/fa";
-import { GoArrowLeft } from "react-icons/go";
+import { FaStar, FaQuoteLeft, FaExternalLinkAlt } from "react-icons/fa";
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { Bebas_Neue } from "next/font/google";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
@@ -120,11 +120,12 @@ export default function SliderForTestimonial() {
               href={REVIEW_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-inter inline-flex items-center gap-2 text-sm text-[#f59e0b] transition-colors hover:text-white"
+              className="group font-inter inline-flex items-center gap-3.5 rounded-full bg-[#fffaf2] py-1.5 pl-6 pr-1.5 text-sm font-medium text-[#2b1d10] transition-colors duration-300 hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f59e0b]"
             >
-              <FaPen aria-hidden="true" className="size-3" />
               Write a review
-              <FaExternalLinkAlt aria-hidden="true" className="size-3" />
+              <span className="grid size-9 place-items-center rounded-full bg-[#f59e0b] text-[#1a1410] transition-transform duration-300 group-hover:translate-x-1">
+                <GoArrowRight aria-hidden="true" className="size-[17px]" />
+              </span>
             </a>
           </div>
         </div>         
