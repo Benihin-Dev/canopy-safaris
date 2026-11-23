@@ -239,8 +239,8 @@ export default function NavBar() {
               +94 754540123
             </a>
             <Link
-              href="/#contact"
-              onClick={(e) => handleNav(e, "/#contact")}
+              href="/book"
+              onClick={(e) => handleNav(e, "/book")}
               className="hidden rounded-full bg-[#a15f21] px-5 py-2 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#7d4a19] sm:block"
             >
               Book Now
@@ -308,8 +308,8 @@ export default function NavBar() {
             ),
           )}
           <Link
-            href="/#contact"
-            onClick={(e) => handleNav(e, "/#contact")}
+            href="/book"
+            onClick={(e) => handleNav(e, "/book")}
             className="mx-4 mt-2 rounded-full bg-[#a15f21] px-5 py-2.5 text-center text-sm font-semibold text-white sm:hidden"
           >
             Book Now
