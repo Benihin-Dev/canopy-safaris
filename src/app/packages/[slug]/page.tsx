@@ -99,7 +99,7 @@ export default async function PackagePage({ params }: Props) {
             <h2 className="font-bebas text-4xl uppercase tracking-wide text-[#2b1d10]">
               Overview
             </h2>
-            <p className="font-inter mt-4 leading-relaxed text-[#5b4733]">
+            <p className="font-inter mt-4 text-justify leading-relaxed text-[#5b4733]">
               {pkg.overview}
             </p>
             <ul className="font-inter mt-6 flex flex-wrap gap-2">
