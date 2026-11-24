@@ -131,7 +131,21 @@ export default async function PackagePage({ params }: Props) {
 
           <ItinerarySwitch half={pkg.itinerary} full={pkg.fullItinerary} />
 
+          {pkg.notes && pkg.notes.length > 0 && (
+            <div className="rounded-[22px] border-l-[5px] border-[#d9822b] bg-[#fef5ec] py-4 pl-5 pr-6">
+              <p className="font-inter text-[13px] font-bold uppercase tracking-[.14em] text-[#1a1410]">
+                Note
+              </p>
+              <div className="font-inter mt-1.5 space-y-2 text-[15px] italic leading-relaxed text-[#2b1d10]">
+                {pkg.notes.map((n) => (
+                  <p key={n}>{n}</p>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="grid gap-8 sm:grid-cols-2">
+            
             <div>
               <h2 className="font-bebas text-3xl uppercase tracking-wide text-[#2b1d10]">
                 Included
@@ -159,22 +173,6 @@ export default async function PackagePage({ params }: Props) {
               </ul>
             </div>
           </div>
-
-          {pkg.notes && pkg.notes.length > 0 && (
-            <div className="rounded-2xl border border-[#c9a36a] bg-[#fffaf2] p-6">
-              <h2 className="font-bebas text-3xl uppercase tracking-wide text-[#2b1d10]">
-                Note
-              </h2>
-              <ul className="font-inter mt-4 space-y-2 text-sm leading-relaxed text-[#5b4733]">
-                {pkg.notes.map((n) => (
-                  <li key={n} className="flex gap-3">
-                    <span className="mt-2 size-1.5 flex-none rounded-full bg-[#a15f21]" />
-                    {n}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
 
         {/* sticky booking card */}
