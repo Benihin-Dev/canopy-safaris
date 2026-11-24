@@ -4,7 +4,7 @@ export type SafariPackage = {
   badge: string;
   title: string; // first word = big, the rest = small grey on the card
   tagline: string;
-  desc: string; // keep it about 140–150 characters so it fits 4 lines
+  desc: string; // keep it short (about 150–190 characters) so it fits the card
   img: string;
   highlights: string[];
   duration: string;
@@ -23,24 +23,6 @@ export type SafariPackage = {
 };
 
 type Step = { time: string; title: string; text: string };
-
-const halfDay = (park: string): Step[] => [
-  { time: "05:30", title: "Hotel pickup", text: "Pickup from your hotel or preferred pickup point." },
-  { time: "06:00", title: `Enter ${park} National Park`, text: "Begin your wildlife exploration." },
-  { time: "08:00", title: "Breakfast break", text: "Enjoy breakfast during the safari." },
-  { time: "10:30", title: "Refreshment break", text: "Take a break for beverages or snacks." },
-  { time: "12:00", title: "Return to hotel", text: "Complete your half-day safari experience." },
-];
-
-const fullDay = (park: string): Step[] => [
-  { time: "05:30", title: "Hotel pickup", text: "Pickup from your hotel or preferred pickup point." },
-  { time: "06:00", title: `Enter ${park} National Park`, text: "Begin your wildlife exploration." },
-  { time: "08:00", title: "Breakfast break", text: "Enjoy breakfast during the safari." },
-  { time: "10:30", title: "Beverage or snack break", text: "Take a break for beverages or snacks." },
-  { time: "12:30", title: "Lunch break", text: "Enjoy lunch during your full-day safari." },
-  { time: "15:00", title: "Refreshment break", text: "Take some time to relax and enjoy refreshments." },
-  { time: "18:00", title: "Exit the national park", text: "Conclude your full-day wildlife adventure." },
-];
 
 const kumanaHalfDay: Step[] = [
   { time: "05:30 AM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
