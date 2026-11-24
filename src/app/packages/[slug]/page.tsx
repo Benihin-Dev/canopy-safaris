@@ -147,6 +147,22 @@ export default async function PackagePage({ params }: Props) {
               </ul>
             </div>
           </div>
+
+          {pkg.notes && pkg.notes.length > 0 && (
+            <div className="rounded-2xl border border-[#c9a36a] bg-[#fffaf2] p-6">
+              <h2 className="font-bebas text-3xl uppercase tracking-wide text-[#2b1d10]">
+                Note
+              </h2>
+              <ul className="font-inter mt-4 space-y-2 text-sm leading-relaxed text-[#5b4733]">
+                {pkg.notes.map((n) => (
+                  <li key={n} className="flex gap-3">
+                    <span className="mt-2 size-1.5 flex-none rounded-full bg-[#a15f21]" />
+                    {n}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         {/* sticky booking card */}
@@ -166,22 +182,22 @@ export default async function PackagePage({ params }: Props) {
             >
               Book this safari
             </Link>
-            <Link
-              href="/#packages"
-              className="font-inter mt-3 block rounded-full border border-[#c9a36a] py-3.5 text-center text-sm font-semibold text-[#5b4733] transition hover:bg-[#f0eee5]"
-            >
-              Compare packages
-            </Link>
             <a
               href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
                 `Hi! I would like to enquire about the ${pkg.title}.`,
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-inter mt-4 block text-center text-sm font-medium text-[#5b4733] underline decoration-[#c9a36a] underline-offset-4 transition hover:text-[#a15f21]"
+              className="font-inter mt-3 block rounded-full border border-[#c9a36a] py-3.5 text-center text-sm font-semibold text-[#5b4733] transition hover:bg-[#f0eee5]"
             >
               WhatsApp inquiry
             </a>
+            <Link
+              href="/#packages"
+              className="font-inter mt-4 block text-center text-sm font-medium text-[#5b4733] underline decoration-[#c9a36a] underline-offset-4 transition hover:text-[#a15f21]"
+            >
+              Compare packages
+            </Link>
           </div>
         </aside>
       </section>
