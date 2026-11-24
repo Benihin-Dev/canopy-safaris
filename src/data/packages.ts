@@ -91,14 +91,24 @@ export const packages: SafariPackage[] = [
     bestTime: "All year",
     price: "From $95",
     overview:
-      "Experience the magic of the eastern wilderness with an unforgettable Night Safari adventure. Begin your evening at Elephant Rock, where you can enjoy a beautiful sunset overlooking the ocean. As darkness falls, continue your journey with a night safari through the Kumana National Park buffer zone, exploring the surroundings and discovering nocturnal wildlife in their natural habitat. For an even more memorable evening, a bonfire dinner can also be arranged upon request, allowing you to relax and enjoy the peaceful atmosphere under the starry sky.",
-    included: [...baseIncluded, "Spotlight & night-vision gear"],
-    excluded: baseExcluded,
+      "Experience the beauty of Sri Lanka's eastern wilderness with an unforgettable Night Safari adventure. Begin your evening at **Elephant Rock**, enjoying breathtaking sunset views over the **ocean** and **lagoon**. As night falls, venture into the surrounding **Kumana National Park** buffer zone for a unique night safari, where you can explore the wilderness and discover nocturnal wildlife. To make your evening even more special, enjoy an optional bonfire dinner upon request, surrounded by the peaceful atmosphere of the night sky.",
+    included: ["4×4 Safari Jeep", "Bottled Drinking Water", "Local Safari Guide"],
+    excluded: [
+      "Personal Expenses",
+      "Meals and Refreshments",
+      "Optional Bonfire Dinner",
+    ],
+    notes: [
+      "The bonfire dinner is optional, is not included in the package price, and can be arranged upon request according to your preferences.",
+      "In accordance with applicable government regulations, night safari activities take place in the surrounding buffer zone rather than inside Kumana National Park.",
+      "Upon request, we can also arrange a hike at Kudumbigala Mountain, a visit to Uhana Murugan Kovil, or a visit to Muhudu Maha Viharaya Temple.",
+    ],
     itinerary: [
-      { time: "17:00", title: "Pickup & briefing", text: lorem },
-      { time: "18:00", title: "Sunset at Elephant Rock", text: lorem },
-      { time: "19:30", title: "Nocturnal wildlife spotting", text: lorem },
-      { time: "21:00", title: "Return transfer", text: lorem },
+      { time: "05:00 PM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
+      { time: "05:15 PM", title: "Elephant Rock Viewpoint", text: "Enjoy a beautiful sunset with breathtaking views of the ocean and lagoon." },
+      { time: "06:00 PM", title: "Night Safari", text: "Explore the Kumana buffer zone on a night safari and spot nocturnal wildlife." },
+      { time: "09:00 PM", title: "Return to Hotel", text: "Return to your hotel after an exciting evening of adventure." },
+      { time: "09:30 PM", title: "Optional Bonfire Dinner", text: "End your adventure with a relaxing bonfire dinner featuring traditional Tamil dishes. Enjoy authentic local flavours and discover dishes you may not have tried before." },
     ],
   },
   {
