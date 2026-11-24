@@ -18,6 +18,18 @@ type Props = { params: Promise<{ slug: string }> };
 /* WhatsApp number: country code + number, no + and no spaces */
 const WHATSAPP = "94754540123";
 
+/* words wrapped in **double stars** become highlighted */
+const withBold = (text: string) =>
+  text.split("**").map((part, i) =>
+    i % 2 ? (
+      <strong key={i} className="font-semibold text-[#a15f21]">
+        {part}
+      </strong>
+    ) : (
+      part
+    ),
+  );
+
 export function generateStaticParams() {
   return packages.map((p) => ({ slug: p.slug }));
 }
@@ -103,7 +115,7 @@ export default async function PackagePage({ params }: Props) {
               Overview
             </h2>
             <p className="font-inter mt-4 text-justify leading-relaxed text-[#5b4733]">
-              {pkg.overview}
+              {withBold(pkg.overview)}
             </p>
             <ul className="font-inter mt-6 flex flex-wrap gap-2">
               {pkg.highlights.map((h) => (
