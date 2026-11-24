@@ -55,6 +55,10 @@ export default async function PackagePage({ params }: Props) {
     { Icon: FaSun, label: "Best time", value: pkg.bestTime },
   ];
   const others = packages.filter((p) => p.slug !== pkg.slug);
+  const itineraryOptions = pkg.itineraryOptions ?? [
+    { label: "Half-day", steps: pkg.itinerary },
+    ...(pkg.fullItinerary ? [{ label: "Full-day", steps: pkg.fullItinerary }] : []),
+  ];
 
   return (
     <main className="bg-[#f0eee5] text-[#3d2c1b]">
@@ -129,7 +133,7 @@ export default async function PackagePage({ params }: Props) {
             </ul>
           </div>
 
-          <ItinerarySwitch half={pkg.itinerary} full={pkg.fullItinerary} />
+          <ItinerarySwitch options={itineraryOptions} />
 
           {pkg.notes && pkg.notes.length > 0 && (
             <div className="font-inter text-[12px] leading-relaxed text-[#7a6550]">
