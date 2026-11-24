@@ -129,7 +129,7 @@ export const packages: SafariPackage[] = [
     badge: "National Park",
     title: "Kumana Safari",
     tagline: "Beyond The Crowds",
-    desc: "Explore the rich biodiversity and diverse birdlife of Kumana National Park with our Half-Day or Full-Day Safari options. Enjoy exciting wildlife encounters, flexible meal choices and comfortable safari experiences tailored to your preferences.",
+    desc: "Explore Kumana National Park's rich biodiversity and diverse birdlife with our Half-Day or Full-Day Safari experiences, offering memorable wildlife encounters in a peaceful wilderness.",
     img: "/images/safari/kumana.jpg",
     highlights: ["Fewer Crowds", "Leopard Sightings", "Rich Biodiversity"],
     duration: "Half / Full day",
