@@ -134,7 +134,7 @@ export default async function PackagePage({ params }: Props) {
           {pkg.notes && pkg.notes.length > 0 && (
             <div className="font-inter text-[12px] leading-relaxed text-[#7a6550]">
               <p className="font-semibold text-[#5b4733]">Note</p>
-              <div className="mt-0.5 space-y-1 pl-4 italic">
+              <div className="mt-0.5 space-y-1 pl-4 text-justify italic">
                 {pkg.notes.map((n) => (
                   <p key={n}>{n}</p>
                 ))}
