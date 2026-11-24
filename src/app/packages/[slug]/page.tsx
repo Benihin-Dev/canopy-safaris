@@ -18,6 +18,9 @@ type Props = { params: Promise<{ slug: string }> };
 /* WhatsApp number: country code + number, no + and no spaces */
 const WHATSAPP = "94754540123";
 
+/* ONE hero picture shared by every safari package page */
+const SAFARI_HERO = "/images/safaripackages/safarihero.jpg";
+
 /* words wrapped in **double stars** become highlighted */
 const withBold = (text: string) =>
   text.split("**").map((part, i) =>
@@ -65,7 +68,7 @@ export default async function PackagePage({ params }: Props) {
       {/* hero */}
       <section className="relative h-[70vh] min-h-[460px] w-full overflow-hidden">
         <Image
-          src={pkg.img}
+          src={SAFARI_HERO}
           alt={pkg.title}
           fill
           priority
