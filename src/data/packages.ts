@@ -62,6 +62,25 @@ const kumanaFullDay: Step[] = [
   { time: "06:30 PM", title: "Return to Hotel", text: "Arrive back at your hotel after a memorable full-day safari experience." },
 ];
 
+const wilpattuHalfDay: Step[] = [
+  { time: "05:30 AM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
+  { time: "06:00 AM", title: "Enter Wilpattu National Park (Hunuwilagama Entrance)", text: "Begin your safari adventure and explore the park's diverse landscapes and wildlife." },
+  { time: "08:00 AM", title: "Breakfast Break", text: "Enjoy a breakfast break with a selection of food and fresh fruits." },
+  { time: "10:30 AM", title: "Refreshment Break", text: "Take a short break to enjoy refreshments, beverages or snacks." },
+  { time: "10:30 AM", title: "Return to Hotel", text: "Conclude your half-day safari experience and return to your hotel." },
+];
+
+const wilpattuFullDay: Step[] = [
+  { time: "05:30 AM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
+  { time: "06:00 AM", title: "Enter Wilpattu National Park (Hunuwilagama Entrance)", text: "Begin your safari adventure and explore the park's diverse landscapes and wildlife." },
+  { time: "08:00 AM", title: "Breakfast Break", text: "Enjoy a breakfast break with a selection of food and fresh fruits." },
+  { time: "10:30 AM", title: "Refreshment Break", text: "Take a short break to enjoy refreshments, beverages or snacks." },
+  { time: "12:30 PM", title: "Lunch Break", text: "Enjoy a relaxing lunch surrounded by the natural beauty of the wilderness." },
+  { time: "03:30 PM", title: "Refreshment Break", text: "Take another short break to enjoy refreshments, beverages or snacks." },
+  { time: "05:30 PM", title: "Exit Wilpattu National Park", text: "Conclude your wildlife exploration and exit the national park." },
+  { time: "06:00 PM", title: "Return to Hotel", text: "Arrive back at your hotel after a memorable full-day safari experience." },
+];
+
 const baseIncluded = [
   "Private open-air jeep",
   "Expert naturalist guide",
@@ -187,11 +206,21 @@ export const packages: SafariPackage[] = [
     bestTime: "All Years",
     price: "On request",
     overview:
-      "Discover the natural beauty and incredible wildlife of Wilpattu National Park with an unforgettable safari experience. Known as Sri Lanka's largest national park, Wilpattu features vast wilderness, dense forests, natural lakes and diverse wildlife, offering a peaceful and immersive safari experience. Choose between our Half-Day or Full-Day Safari options to suit your preferences. Enhance your adventure with flexible meal options, including breakfast, lunch, snacks and beverages, along with a complimentary bottle of drinking water. With flexible packages and reasonable pricing, enjoy a comfortable and memorable luxury safari experience tailored to your preferences.",
-    included: [...baseIncluded, "Breakfast or packed lunch"],
-    excluded: baseExcluded,
-    itinerary: halfDay("Wilpattu"),
-    fullItinerary: fullDay("Wilpattu"),
+      "Discover the natural beauty and incredible wildlife of **Wilpattu National Park** with an unforgettable safari experience. Known as Sri Lanka's largest national park, Wilpattu features vast wilderness, dense forests, natural lakes and diverse wildlife, offering a peaceful and immersive safari experience. Our safaris operate through the **Hunuwilagama Entrance**, providing access to explore the park's remarkable landscapes and wildlife. Choose between our **Half-Day or Full-Day Safari** options to suit your preferences. Enhance your adventure with flexible meal options, including breakfast, lunch, snacks and beverages, along with complimentary bottled drinking water. With flexible packages and competitive pricing, enjoy a comfortable and memorable safari experience tailored to your preferences.",
+    included: [
+      "4×4 Safari Jeep",
+      "Bottled Drinking Water",
+      "Experienced Naturalist Guide (Selected Option)",
+      "National Park Entrance Fees (Selected Option)",
+      "Breakfast or Packed Lunch (Selected Option)",
+    ],
+    excluded: [
+      "Personal Expenses",
+      "Additional Meals Not Specified in the Package",
+      "Additional Beverages Not Specified in the Package",
+    ],
+    itinerary: wilpattuHalfDay,
+    fullItinerary: wilpattuFullDay,
   },
   {
     slug: "yala-safari",
