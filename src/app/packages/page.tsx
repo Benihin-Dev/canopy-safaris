@@ -67,7 +67,7 @@ export default function PackagesPage() {
                     <h3 className="font-bebas text-5xl uppercase leading-none tracking-wide text-[#2b1d10] md:text-6xl">
                       {p.title}
                     </h3>
-                    <p className="mt-4 line-clamp-3 font-inter text-sm leading-6 text-[#3d2c1b]">
+                    <p className="mt-4 line-clamp-3 text-justify font-inter text-sm leading-6 text-[#3d2c1b]">
                       {p.desc}
                     </p>
 
