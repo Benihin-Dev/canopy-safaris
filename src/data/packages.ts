@@ -124,6 +124,7 @@ export const packages: SafariPackage[] = [
     notes: [
       "The bonfire dinner is optional and not included in the package. It can be arranged upon request according to your preferences.",
       "As per government regulations, night safari activities take place in the surrounding buffer zone rather than inside Kumana National Park.",
+      "Upon request, we can arrange a sunset visit to Elephant Rock, a visit to Uhana Murugan Kovil, or a visit to Muhudu Maha Viharaya Temple.",
     ],
     itinerary: [
       { time: "04:00 PM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
