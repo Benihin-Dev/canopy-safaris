@@ -132,11 +132,9 @@ export default async function PackagePage({ params }: Props) {
           <ItinerarySwitch half={pkg.itinerary} full={pkg.fullItinerary} />
 
           {pkg.notes && pkg.notes.length > 0 && (
-            <div className="rounded-[22px] border-l-[5px] border-[#d9822b] bg-[#fef5ec] py-4 pl-5 pr-6">
-              <p className="font-inter text-[13px] font-bold uppercase tracking-[.14em] text-[#1a1410]">
-                Note
-              </p>
-              <div className="font-inter mt-1.5 space-y-2 text-[15px] italic leading-relaxed text-[#2b1d10]">
+            <div className="font-inter text-[12px] leading-relaxed text-[#7a6550]">
+              <p className="font-semibold text-[#5b4733]">Note</p>
+              <div className="mt-0.5 space-y-1 pl-4 italic">
                 {pkg.notes.map((n) => (
                   <p key={n}>{n}</p>
                 ))}
