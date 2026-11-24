@@ -15,6 +15,7 @@ export type SafariPackage = {
   overview: string;
   included: string[];
   excluded: string[];
+  notes?: string[]; // optional "Note" box on the detail page
   itinerary: { time: string; title: string; text: string }[]; // half-day (or the only itinerary)
   fullItinerary?: { time: string; title: string; text: string }[]; // full-day, optional
 };
@@ -108,18 +109,29 @@ export const packages: SafariPackage[] = [
     desc: "Combine wildlife exploration with outdoor adventures for an unforgettable journey. Enjoy scenic hikes, surfing experiences and exciting night safaris around the buffer zone.",
     img: "/images/safari/adventure.jpg",
     highlights: ["Scenic Hiking", "Ocean Surfing", "Night Exploration"],
-    duration: "4 Hours",
+    duration: "5 Hours",
     groupSize: "1 – 6 guests",
     bestTime: "All Year",
     price: "From $150",
     overview:
-      "Discover an exciting blend of nature, adventure and exploration with our unforgettable Adventure Safari experience. Enjoy scenic hiking through the wilderness of Kudumbigala, where breathtaking landscapes and natural surroundings create a memorable outdoor adventure. Experience the thrill of ocean surfing at Peanut Farm, one of the area's beautiful coastal spots, offering an exciting escape by the sea. As the day comes to an end, continue your adventure with a Night Safari in the Kumana National Park buffer zone, where you can explore the wilderness after dark and discover nocturnal wildlife in their natural surroundings. Combining scenic hiking, ocean surfing and night exploration, this experience offers a unique way to enjoy the adventurous side of Sri Lanka's eastern wilderness.",
-    included: [...baseIncluded, "Lunch", "Local activity guide"],
-    excluded: baseExcluded,
+      "Discover the perfect blend of nature, adventure and exploration with our unforgettable Adventure Safari experience. Enjoy a scenic hike up Kudumbigala Mountain, offering breathtaking views of the ocean, Kumana National Park and Yala National Park. Experience the thrill of ocean surfing at Peanut Farm, one of the area's beautiful coastal destinations. As evening falls, embark on a Night Safari in the Kumana National Park buffer zone, discovering nocturnal wildlife and experiencing the wilderness after dark.",
+    included: ["4×4 Safari Jeep", "Bottled Drinking Water", "Local Activity Guide"],
+    excluded: [
+      "Personal expenses",
+      "Surfboard Rental or Surfing Lessons",
+      "Optional Bonfire Dinner",
+    ],
+    notes: [
+      "The bonfire dinner is optional and not included in the package. It can be arranged upon request according to your preferences.",
+      "In accordance with government regulations, night safaris are not permitted inside Kumana National Park. Therefore, our night safari experience takes place in the surrounding buffer zone.",
+    ],
     itinerary: [
-      { time: "Morning", title: "Hiking", text: lorem },
-      { time: "Afternoon", title: "Surfing", text: lorem },
-      { time: "Evening", title: "Night safari around buffer zone", text: lorem },
+      { time: "04:00 PM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
+      { time: "04:15 PM", title: "Kudumbigala Mountain Climb", text: "Enjoy a scenic hike up Kudumbigala Mountain with breathtaking views." },
+      { time: "05:30 PM", title: "Peanut Farm Surfing", text: "Experience the excitement of ocean surfing at Peanut Farm." },
+      { time: "06:30 PM", title: "Night Safari", text: "Explore the Kumana buffer zone on a night safari and spot nocturnal wildlife." },
+      { time: "08:30 PM", title: "Return to Hotel", text: "Return to your hotel after an exciting evening of adventure." },
+      { time: "09:00 PM", title: "Optional Bonfire Dinner", text: "End your adventure with a relaxing bonfire dinner featuring traditional Tamil food. Enjoy authentic local dishes and discover flavors you may not have experienced before." },
     ],
   },
   {
