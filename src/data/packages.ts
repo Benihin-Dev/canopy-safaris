@@ -18,10 +18,9 @@ export type SafariPackage = {
   notes?: string[]; // optional "Note" box on the detail page
   itinerary: { time: string; title: string; text: string }[]; // half-day (or the only itinerary)
   fullItinerary?: { time: string; title: string; text: string }[]; // full-day, optional
+  // optional: any number of itineraries with your own labels (replaces itinerary/fullItinerary on the page)
+  itineraryOptions?: { label: string; steps: { time: string; title: string; text: string }[] }[];
 };
-
-const lorem =
-  "i need to knw where it going to change leo.";
 
 type Step = { time: string; title: string; text: string };
 
@@ -66,7 +65,6 @@ const wilpattuHalfDay: Step[] = [
   { time: "05:30 AM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
   { time: "06:00 AM", title: "Enter Wilpattu National Park (Hunuwilagama Entrance)", text: "Begin your safari adventure and explore the park's diverse landscapes and wildlife." },
   { time: "08:00 AM", title: "Breakfast Break", text: "Enjoy a breakfast break with a selection of food and fresh fruits." },
-  { time: "10:30 AM", title: "Refreshment Break", text: "Take a short break to enjoy refreshments, beverages or snacks." },
   { time: "10:30 AM", title: "Return to Hotel", text: "Conclude your half-day safari experience and return to your hotel." },
 ];
 
@@ -85,7 +83,6 @@ const yalaHalfDay: Step[] = [
   { time: "05:30 AM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
   { time: "06:00 AM", title: "Enter Yala National Park", text: "Begin your safari adventure and explore the park's diverse landscapes and wildlife." },
   { time: "08:00 AM", title: "Breakfast Break", text: "Enjoy a breakfast break with a selection of food and fresh fruits." },
-  { time: "10:30 AM", title: "Refreshment Break", text: "Take a short break to enjoy refreshments, beverages or snacks." },
   { time: "10:30 AM", title: "Return to Hotel", text: "Conclude your half-day safari experience and return to your hotel." },
 ];
 
@@ -100,16 +97,30 @@ const yalaFullDay: Step[] = [
   { time: "06:00 PM", title: "Return to Hotel", text: "Arrive back at your hotel after a memorable full-day safari experience." },
 ];
 
-const baseIncluded = [
-  "Private open-air jeep",
-  "Expert naturalist guide",
-  "Park entrance fees",
-  "Bottled water",
+const udawalaweThreeHour: Step[] = [
+  { time: "05:30 AM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
+  { time: "06:00 AM", title: "Enter Udawalawe National Park", text: "Begin your safari adventure and explore the park's diverse landscapes and wildlife." },
+  { time: "08:00 AM", title: "Breakfast Break", text: "Enjoy a breakfast break with a selection of food and fresh fruits." },
+  { time: "09:00 AM", title: "Return to Hotel", text: "Conclude your half-day safari experience and return to your hotel." },
 ];
-const baseExcluded = [
-  "Personal expenses",
-  "Tips & gratuities",
-  "Travel insurance",
+
+const udawalaweSixHour: Step[] = [
+  { time: "05:30 AM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
+  { time: "06:00 AM", title: "Enter Udawalawe National Park", text: "Begin your safari adventure and explore the park's diverse landscapes and wildlife." },
+  { time: "08:00 AM", title: "Breakfast Break", text: "Enjoy a breakfast break with a selection of food and fresh fruits." },
+  { time: "10:30 AM", title: "Refreshment Break", text: "Take a short break to enjoy refreshments, beverages or snacks." },
+  { time: "12:00 PM", title: "Return to Hotel", text: "Conclude your half-day safari experience and return to your hotel." },
+];
+
+const udawalaweFullDay: Step[] = [
+  { time: "05:30 AM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
+  { time: "06:00 AM", title: "Enter Udawalawe National Park", text: "Begin your safari adventure and explore the park's diverse landscapes and wildlife." },
+  { time: "08:00 AM", title: "Breakfast Break", text: "Enjoy a breakfast break with a selection of food and fresh fruits." },
+  { time: "10:30 AM", title: "Refreshment Break", text: "Take a short break to enjoy refreshments, beverages or snacks." },
+  { time: "12:30 PM", title: "Lunch Break", text: "Enjoy a relaxing lunch surrounded by the natural beauty of the wilderness." },
+  { time: "03:30 PM", title: "Refreshment Break", text: "Take another short break to enjoy refreshments, beverages or snacks." },
+  { time: "05:30 PM", title: "Exit Udawalawe National Park", text: "Conclude your wildlife exploration and exit the national park." },
+  { time: "06:00 PM", title: "Return to Hotel", text: "Arrive back at your hotel after a memorable full-day safari experience." },
 ];
 
 export const packages: SafariPackage[] = [
@@ -188,7 +199,7 @@ export const packages: SafariPackage[] = [
     highlights: ["Scenic Hiking", "Ocean Surfing", "Night Exploration"],
     duration: "5 Hours",
     groupSize: "1 – 6 guests",
-    bestTime: "All Year",
+    bestTime: "All year",
     price: "From $150",
     overview:
       "Discover the perfect blend of nature, adventure and exploration with our unforgettable Adventure Safari experience. Enjoy a scenic hike up Kudumbigala Mountain, offering breathtaking views of the ocean, Kumana National Park and Yala National Park. Experience the thrill of ocean surfing at Peanut Farm, one of the area's beautiful coastal destinations. As evening falls, embark on a Night Safari in the Kumana National Park buffer zone, discovering nocturnal wildlife and experiencing the wilderness after dark.",
@@ -222,7 +233,7 @@ export const packages: SafariPackage[] = [
     highlights: ["Largest Park", "Dry Landscapes", "Wildlife Diversity"],
     duration: "Half/Full day",
     groupSize: "1 – 6 guests",
-    bestTime: "All Years",
+    bestTime: "All year",
     price: "On request",
     overview:
       "Discover the natural beauty and incredible wildlife of **Wilpattu National Park** with an unforgettable safari experience. Known as Sri Lanka's largest national park, Wilpattu features vast wilderness, dense forests, natural lakes and diverse wildlife, offering a peaceful and immersive safari experience. Our safaris operate through the **Hunuwilagama Entrance**, providing access to explore the park's remarkable landscapes and wildlife. Choose between our **Half-Day or Full-Day Safari** options to suit your preferences. Enhance your adventure with flexible meal options, including breakfast, lunch, snacks and beverages, along with complimentary bottled drinking water. With flexible packages and competitive pricing, enjoy a comfortable and memorable safari experience tailored to your preferences.",
@@ -278,16 +289,30 @@ export const packages: SafariPackage[] = [
     desc: "Enjoy a peaceful safari through the beautiful landscapes of Udawalawe National Park. Famous for its remarkable elephant population, it offers wonderful opportunities to observe these magnificent animals in their natural habitat.",
     img: "/images/safari/udawalawe.jpg",
     highlights: ["Peaceful safari", "Elephant Sightings", "Wildlife Watching"],
-    duration: "Half / Full day",
+    duration: "3 hrs / 6 hrs / Full day",
     groupSize: "1 – 6 guests",
     bestTime: "All year",
     price: "On request",
     overview:
-      "Discover the natural beauty and incredible wildlife of Udawalawe National Park with an unforgettable safari experience. Especially renowned for its large elephant population and frequent elephant encounters, Udawalawe offers wonderful opportunities to observe these majestic animals in their natural habitat. Choose between our Half-Day or Full-Day Safari options to suit your preferences. Enhance your adventure with flexible meal options, including breakfast, lunch, snacks and beverages, along with a complimentary bottle of drinking water. With flexible packages and reasonable pricing, enjoy a comfortable and memorable luxury safari experience tailored to your preferences.",
-    included: [...baseIncluded, "Breakfast or packed lunch"],
-    excluded: baseExcluded,
-    itinerary: halfDay("Udawalawe"),
-    fullItinerary: fullDay("Udawalawe"),
+      "Discover the natural beauty and incredible wildlife of **Udawalawe National Park** with an unforgettable safari experience. Famous for its large elephant population and frequent elephant sightings, Udawalawe offers wonderful opportunities to observe these majestic animals in their natural habitat. Choose between our **Half-Day or Full-Day Safari** options to suit your preferences. Enhance your adventure with flexible meal options, including breakfast, lunch, snacks and beverages, along with complimentary bottled drinking water. With flexible packages and competitive pricing, enjoy a comfortable and memorable safari experience tailored to your preferences.",
+    included: [
+      "4×4 Safari Jeep",
+      "Bottled Drinking Water",
+      "Experienced Naturalist Guide (Selected Option)",
+      "National Park Entrance Fees (Selected Option)",
+      "Breakfast or Packed Lunch (Selected Option)",
+    ],
+    excluded: [
+      "Personal Expenses",
+      "Additional Meals Not Specified in the Package",
+      "Additional Beverages Not Specified in the Package",
+    ],
+    itinerary: udawalaweThreeHour,
+    itineraryOptions: [
+      { label: "3 hours", steps: udawalaweThreeHour },
+      { label: "6 hours", steps: udawalaweSixHour },
+      { label: "Full-day", steps: udawalaweFullDay },
+    ],
   },
 ];
 
