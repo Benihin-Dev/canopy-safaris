@@ -81,6 +81,25 @@ const wilpattuFullDay: Step[] = [
   { time: "06:00 PM", title: "Return to Hotel", text: "Arrive back at your hotel after a memorable full-day safari experience." },
 ];
 
+const yalaHalfDay: Step[] = [
+  { time: "05:30 AM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
+  { time: "06:00 AM", title: "Enter Yala National Park", text: "Begin your safari adventure and explore the park's diverse landscapes and wildlife." },
+  { time: "08:00 AM", title: "Breakfast Break", text: "Enjoy a breakfast break with a selection of food and fresh fruits." },
+  { time: "10:30 AM", title: "Refreshment Break", text: "Take a short break to enjoy refreshments, beverages or snacks." },
+  { time: "10:30 AM", title: "Return to Hotel", text: "Conclude your half-day safari experience and return to your hotel." },
+];
+
+const yalaFullDay: Step[] = [
+  { time: "05:30 AM", title: "Hotel Pickup", text: "Pickup from your hotel or preferred meeting point." },
+  { time: "06:00 AM", title: "Enter Yala National Park", text: "Begin your safari adventure and explore the park's diverse landscapes and wildlife." },
+  { time: "08:00 AM", title: "Breakfast Break", text: "Enjoy a breakfast break with a selection of food and fresh fruits." },
+  { time: "10:30 AM", title: "Refreshment Break", text: "Take a short break to enjoy refreshments, beverages or snacks." },
+  { time: "12:30 PM", title: "Lunch Break", text: "Enjoy a relaxing lunch surrounded by the natural beauty of the wilderness." },
+  { time: "03:30 PM", title: "Refreshment Break", text: "Take another short break to enjoy refreshments, beverages or snacks." },
+  { time: "05:30 PM", title: "Exit Yala National Park", text: "Conclude your wildlife exploration and exit the national park." },
+  { time: "06:00 PM", title: "Return to Hotel", text: "Arrive back at your hotel after a memorable full-day safari experience." },
+];
+
 const baseIncluded = [
   "Private open-air jeep",
   "Expert naturalist guide",
@@ -235,11 +254,21 @@ export const packages: SafariPackage[] = [
     bestTime: "All year",
     price: "On request",
     overview:
-      "Discover the natural beauty and incredible wildlife of Yala National Park with an unforgettable safari experience. Renowned as one of Sri Lanka's most iconic safari destinations, Yala is especially famous for its leopard sightings, diverse wildlife and rich natural landscapes. Choose between our Half-Day or Full-Day Safari options to suit your preferences. Enhance your adventure with flexible meal options, including breakfast, lunch, snacks and beverages, along with a complimentary bottle of drinking water. With flexible packages and reasonable pricing, enjoy a comfortable and memorable luxury safari experience tailored to your preferences.",
-    included: [...baseIncluded, "Breakfast or packed lunch"],
-    excluded: baseExcluded,
-    itinerary: halfDay("Yala"),
-    fullItinerary: fullDay("Yala"),
+      "Discover the natural beauty and incredible wildlife of **Yala National Park** with an unforgettable safari experience. Renowned as one of Sri Lanka's most iconic wildlife destinations, Yala is particularly famous for its leopard sightings, diverse wildlife and stunning natural landscapes. Choose between our **Half-Day or Full-Day Safari** options to suit your preferences. Enhance your adventure with flexible meal options, including breakfast, lunch, snacks and beverages, along with complimentary bottled drinking water. With flexible packages and competitive pricing, enjoy a comfortable and memorable safari experience tailored to your preferences.",
+    included: [
+      "4×4 Safari Jeep",
+      "Bottled Drinking Water",
+      "Experienced Naturalist Guide (Selected Option)",
+      "National Park Entrance Fees (Selected Option)",
+      "Breakfast or Packed Lunch (Selected Option)",
+    ],
+    excluded: [
+      "Personal Expenses",
+      "Additional Meals Not Specified in the Package",
+      "Additional Beverages Not Specified in the Package",
+    ],
+    itinerary: yalaHalfDay,
+    fullItinerary: yalaFullDay,
   },
   {
     slug: "udawalawe-safari",
