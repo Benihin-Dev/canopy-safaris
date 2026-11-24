@@ -205,7 +205,7 @@ export default async function PackagePage({ params }: Props) {
               WhatsApp inquiry
             </a>
             <Link
-              href="/#packages"
+              href="/packages"
               className="font-inter mt-4 block text-center text-sm font-medium text-[#5b4733] underline decoration-[#c9a36a] underline-offset-4 transition hover:text-[#a15f21]"
             >
               Compare packages
