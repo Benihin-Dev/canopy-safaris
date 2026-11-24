@@ -19,7 +19,7 @@ type Props = { params: Promise<{ slug: string }> };
 const WHATSAPP = "94754540123";
 
 /* ONE hero picture shared by every safari package page */
-const SAFARI_HERO = "/images/safaripackages/safarihero.jpg";
+const SAFARI_HERO = "/images/SafariPackages/safarihero.jpg";
 
 /* words wrapped in **double stars** become highlighted */
 const withBold = (text: string) =>
