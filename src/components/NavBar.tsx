@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { PiPhoneThin } from "react-icons/pi";
@@ -35,26 +34,23 @@ const SECTION_IDS = [
   "contact",
 ];
 
-/* Cream paper grain drawn with code (SVG noise), so no image file is needed.
-   - FINE_GRAIN: tiny speckles, like the fibres in paper
-   - SOFT_BLOTCH: very slow, wide variation so the cream is not perfectly flat */
-const FINE_GRAIN = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .28  0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
-const SOFT_BLOTCH = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006 .012' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .6  0 0 0 0 .5  0 0 0 0 .35  0 0 0 .5 -.12'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E")`;
+/* ---------------- LOGO: change the file names here ----------------
+   LOGO        = the green logo (shown on the cream glass bar after scrolling).
+                 To try the brown one instead, use "/images/logo-brown.png"
+   LOGO_WHITE  = the white logo (shown on the home page, at the very top)
+   Put both files in /public/images/. If you only have ONE logo, set
+   LOGO_WHITE to null and the normal logo is turned white automatically. */
+const LOGO = "/images/logo.png";
+const LOGO_WHITE: string | null = "/images/logo-white.png";
+const LOGO_ALT = "Canopy Safaris";
+const LOGO_HEIGHT = 64; // px (the bar grows with it)
 
-/* glossy glass + paper texture, used when the bar floats */
+/* glossy cream glass look, used when the bar floats */
 const GLASS: React.CSSProperties = {
-  backgroundColor: "rgba(243,238,225,.84)",
-  backgroundImage: `linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.4) 45%, rgba(255,255,255,0) 60%), linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,0) 55%), ${FINE_GRAIN}, ${SOFT_BLOTCH}`,
-  backgroundSize: "auto, auto, 240px 240px, 600px 300px",
+  background:
+    "linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.45) 45%, rgba(255,255,255,0) 60%), linear-gradient(180deg, rgba(255,255,255,.82) 0%, rgba(255,250,242,.5) 55%, rgba(255,255,255,.62) 100%)",
   boxShadow:
     "0 10px 40px -10px rgba(43,29,16,.35), inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(255,255,255,.35)",
-};
-
-/* same paper look for the dropdown and the mobile menu (a bit more solid so text stays crisp) */
-const PAPER: React.CSSProperties = {
-  backgroundColor: "rgba(243,238,225,.95)",
-  backgroundImage: `${FINE_GRAIN}, ${SOFT_BLOTCH}`,
-  backgroundSize: "240px 240px, 600px 300px",
 };
 
 export default function NavBar() {
@@ -63,25 +59,43 @@ export default function NavBar() {
   const [open, setOpen] = useState(false);
   const [mobilePkg, setMobilePkg] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
-  const offsetRef = useRef(0); // how far the bar has slid up (0 = fully shown)
+  const cur = useRef(0); // where the bar is drawn now (px slid up)
+  const target = useRef(0); // where it is heading
+  const raf = useRef(0);
   const openRef = useRef(false);
   const pathname = usePathname();
 
-  /* slide the bar by `offset` px. While the finger/wheel is moving there is no
-     transition (the bar follows the scroll 1:1). When scrolling stops, it
-     eases the rest of the way open or closed. */
-  const applyOffset = (offset: number, animate: boolean) => {
+  const fullHeight = () => (headerRef.current?.offsetHeight ?? 0) + 12;
+
+  /* draw the bar `cur` px up. It also fades out a little as it leaves. */
+  const draw = () => {
     const el = headerRef.current;
     if (!el) return;
-    const full = el.offsetHeight + 12;
-    offsetRef.current = Math.max(0, Math.min(full, offset));
-    const p = offsetRef.current / full; // 0 shown ... 1 hidden
-    el.style.transition = animate
-      ? "transform 550ms cubic-bezier(.22,1,.36,1), opacity 450ms ease"
-      : "none";
-    el.style.transform = `translate3d(0, ${-offsetRef.current}px, 0)`;
-    el.style.opacity = String(1 - p);
-    el.style.pointerEvents = p >= 1 ? "none" : "";
+    const full = fullHeight();
+    const p = Math.min(1, cur.current / full); // 0 shown ... 1 hidden
+    el.style.transform = `translate3d(0, ${-cur.current}px, 0)`;
+    el.style.opacity = String(1 - p * p); // fades late, so the slide leads
+    el.style.pointerEvents = p >= 0.98 ? "none" : "";
+  };
+
+  /* every frame the bar glides a fraction of the way to its target.
+     This damping is what makes it feel silky instead of jumpy. */
+  const tick = () => {
+    const d = target.current - cur.current;
+    if (Math.abs(d) < 0.15) {
+      cur.current = target.current;
+      draw();
+      raf.current = 0;
+      return;
+    }
+    cur.current += d * 0.14;
+    draw();
+    raf.current = requestAnimationFrame(tick);
+  };
+
+  const moveTo = (t: number) => {
+    target.current = Math.max(0, Math.min(fullHeight(), t));
+    if (!raf.current) raf.current = requestAnimationFrame(tick);
   };
 
   useEffect(() => {
@@ -96,23 +110,21 @@ export default function NavBar() {
       const diff = y - lastY;
       lastY = y;
       setAtTop(y < 24);
-
       if (diff !== 0) dir = diff > 0 ? 1 : -1;
 
       if (y < 24 || openRef.current) {
-        applyOffset(0, offsetRef.current !== 0); // always shown at the top
+        moveTo(0); // always shown at the top
       } else if (diff !== 0) {
-        /* going down hides 1:1 with the scroll, going up shows a bit faster */
-        applyOffset(offsetRef.current + (diff > 0 ? diff : diff * 2), false);
+        /* down: leaves with the scroll. up: comes back a bit quicker */
+        moveTo(target.current + (diff > 0 ? diff : diff * 1.6));
       }
 
-      /* when scrolling stops: scrolling up -> show; down -> finish hiding if past halfway */
+      /* scrolling stopped: scrolling up -> show; down -> finish hiding if past 35% */
       clearTimeout(idle);
       idle = setTimeout(() => {
-        const full = (headerRef.current?.offsetHeight ?? 0) + 12;
-        const hide = dir > 0 && offsetRef.current > full * 0.35;
-        applyOffset(hide && !openRef.current ? full : 0, true);
-      }, 110);
+        const hide = dir > 0 && target.current > fullHeight() * 0.35;
+        moveTo(hide && !openRef.current ? fullHeight() : 0);
+      }, 120);
 
       /* which home section is in view (for the active link) */
       let current = "";
@@ -131,7 +143,7 @@ export default function NavBar() {
       setActiveId(current);
     };
 
-    /* one update per screen frame, so scrolling stays smooth */
+    /* one update per screen frame */
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
@@ -141,14 +153,18 @@ export default function NavBar() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(frame);
+      cancelAnimationFrame(raf.current);
+      raf.current = 0;
       clearTimeout(idle);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* opening the mobile menu always shows the bar */
   useEffect(() => {
     openRef.current = open;
-    if (open) applyOffset(0, true);
+    if (open) moveTo(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   /* on the home page: smooth scroll to the section (or to the top) */
@@ -193,7 +209,7 @@ export default function NavBar() {
   return (
     <header
       ref={headerRef}
-      onFocusCapture={() => applyOffset(0, true)}
+      onFocusCapture={() => moveTo(0)}
       className={`fixed inset-x-0 top-0 z-50 font-poppins transition-[padding,color] duration-500 will-change-transform ${
         atTop ? "px-0 pt-0 text-white" : "px-4 pt-3 text-[#3d2c1b]"
       }`}
@@ -221,21 +237,41 @@ export default function NavBar() {
           }`}
         />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 py-3 sm:px-8">
+        <div className="relative z-10 mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 py-2 sm:px-8">
           <Link
             href="/"
             onClick={(e) => handleNav(e, "/")}
             className="flex items-center"
             aria-label="Canopy Safaris home"
           >
-            <Image
-              className="h-12 w-auto object-contain"
-              src="/images/logo.png"
-              alt="Canopy Safaris"
-              width={180}
-              height={48}
-              priority
-            />
+            <span className="grid" style={{ height: LOGO_HEIGHT }}>
+              {/* normal logo (after scrolling). Without a separate white file it is turned white at the top. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={LOGO}
+                alt={LOGO_ALT}
+                style={{ height: LOGO_HEIGHT }}
+                className={`w-auto object-contain [grid-area:1/1] transition duration-500 ${
+                  atTop
+                    ? LOGO_WHITE
+                      ? "opacity-0"
+                      : "brightness-0 invert"
+                    : "opacity-100"
+                }`}
+              />
+              {LOGO_WHITE && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={LOGO_WHITE}
+                  alt=""
+                  aria-hidden
+                  style={{ height: LOGO_HEIGHT }}
+                  className={`w-auto object-contain [grid-area:1/1] transition-opacity duration-500 ${
+                    atTop ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              )}
+            </span>
           </Link>
 
           {/* Desktop */}
@@ -253,7 +289,7 @@ export default function NavBar() {
                   </button>
                   {/* pt-3 bridges the gap so hover isn't lost */}
                   <div className="invisible absolute left-0 top-full pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                    <div style={PAPER} className="min-w-52 translate-y-2 overflow-hidden rounded-2xl border border-white/70 text-[#3d2c1b] p-2 shadow-xl backdrop-blur-xl transition-transform duration-200 group-hover:translate-y-0 group-focus-within:translate-y-0">
+                    <div className="min-w-52 translate-y-2 overflow-hidden rounded-2xl border border-white/70 text-[#3d2c1b] bg-[#fffaf2]/95 p-2 shadow-xl backdrop-blur-xl transition-transform duration-200 group-hover:translate-y-0 group-focus-within:translate-y-0">
                       {item.children.map((c) => (
                         <Link
                           key={c.name}
@@ -314,7 +350,7 @@ export default function NavBar() {
 
       {/* Mobile menu */}
       {open && (
-        <nav style={PAPER} className="animate-fade-up mx-auto mt-2 flex w-[calc(100%-2rem)] text-[#3d2c1b] max-w-[1400px] flex-col gap-1 rounded-3xl border border-white/70 p-4 shadow-xl backdrop-blur-xl lg:hidden">
+        <nav className="animate-fade-up mx-auto mt-2 flex w-[calc(100%-2rem)] text-[#3d2c1b] max-w-[1400px] flex-col gap-1 rounded-3xl border border-white/70 bg-[#fffaf2]/95 p-4 shadow-xl backdrop-blur-xl lg:hidden">
           {navLinks.map((item) =>
             item.children ? (
               <div key={item.name}>
