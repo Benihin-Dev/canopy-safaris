@@ -42,8 +42,6 @@ export type Service = {
 export const MAX_GUESTS = 12;
 export const MAX_PERIOD = 30;
 
-const toNumber = (price: string) => Number(price.replace(/[^0-9.]/g, "")) || 0;
-
 export const services: Record<ServiceKey, Service> = {
   /* ------------------------------ SAFARI ------------------------------ */
   safari: {
@@ -127,7 +125,9 @@ export const services: Record<ServiceKey, Service> = {
     dateLabel: "Pickup date",
     hasGuests: false,
     periodLabel: "Days",
-    types: rentals.map((r) => ({ slug: r.slug, label: r.title })),
+    types: rentals
+      .filter((r) => r.priceLkr !== null)
+      .map((r) => ({ slug: r.slug, label: r.title })),
     lines: [
       {
         key: "vehicle",
@@ -227,11 +227,15 @@ export function getLines(service: ServiceKey, typeSlug: string): Line[] {
   const over = typeOverrides[typeSlug] ?? {};
   return services[service].lines.map((line) => {
     let price = over[line.key] ?? line.price;
+    let mode = line.mode;
     if (service === "rental" && line.key === "vehicle") {
       const r = rentals.find((x) => x.slug === typeSlug);
-      if (r) price = toNumber(r.price);
+      if (r?.priceLkr) {
+        price = Math.round((r.priceLkr / FALLBACK_RATE) * 100) / 100; // rupees -> dollars
+        if (r.priceUnit === "trip") mode = "group"; // one flat price, not per day
+      }
     }
-    return { ...line, price };
+    return { ...line, price, mode };
   });
 }
 
