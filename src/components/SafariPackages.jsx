@@ -14,10 +14,11 @@ import {
   FaArrowRight,
 } from "react-icons/fa";
 import { packages } from "@/data/packages";
-import { Bebas_Neue, Poppins } from "next/font/google";
+import { Bebas_Neue, Poppins, Playfair_Display } from "next/font/google";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500"] });
+const playfair = Playfair_Display({ subsets: ["latin"], weight: ["500"], style: ["italic"], display: "swap" });
 
 /* "Book now" opens WhatsApp. Put your WhatsApp number here:
    country code + number, no + and no spaces */
@@ -100,7 +101,7 @@ const css = `
 .sp-card[data-pos="side"] .sp-body{opacity:.45}
 .sp-meta h3.sp-name{font-family:var(--font-bebas),sans-serif;display:flex;align-items:baseline;gap:.35em;margin:0 0 6px;white-space:nowrap;overflow:hidden;text-transform:uppercase;line-height:1.05;font-weight:400;letter-spacing:.03em}
 .sp-n1{font-size:clamp(2rem,8vw,2.8rem);color:#1a1410;-webkit-text-stroke:.6px #1a1410}
-.sp-n2{font-size:clamp(1.05rem,4vw,1.4rem);color:#9a8b78}
+.sp-n2{font-size:clamp(1.4rem,5.5vw,2rem);color:#9a8b78;font-style:italic;text-transform:none;letter-spacing:0}
 .sp-meta p{font-size:.95rem;color:var(--sp-text)}
 .sp-meta p.sp-tag{margin:0;font-size:.95rem;color:#7a6550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sp-meta p.sp-desc{margin:10px 0 0;font-size:.9rem;line-height:1.55;color:var(--sp-body);text-align:justify;height:calc(1.55em * 5);display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
@@ -439,9 +440,9 @@ export default function SafariPackages() {
                 <div className="sp-meta">
                   <h3 className="sp-name">
                     <span className="sp-n1">{p.title.split(" ")[0]}</span>
-                    <span className="sp-n2">
-                      {p.title.split(" ").slice(1).join(" ")}
-                    </span>
+                      <span className={`sp-n2 ${playfair.className}`}>
+                        {p.title.split(" ").slice(1).join(" ")}
+                      </span>
                   </h3>
                   <p className="sp-tag font-inter">{p.tagline}</p>
                   <p className="sp-desc font-inter">{p.desc}</p>
