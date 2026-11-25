@@ -287,7 +287,7 @@ export default function NavBar() {
           }`}
         />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 py-2 sm:px-8 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+        <div className="relative z-10 mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 py-3 sm:px-12 lg:grid lg:grid-cols-[1fr_auto_1fr]">
           <Link
             href="/"
             onClick={(e) => handleNav(e, "/")}
