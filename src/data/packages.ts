@@ -139,7 +139,7 @@ export const packages: SafariPackage[] = [
     badge: "After Dark",
     title: "Night Safari",
     tagline: "Wilderness After Dark",
-    desc: "Enjoy sunset views at Elephant Rock, followed by a Kumana buffer zone night safari and an optional traditional bonfire dinner.",
+    desc: "Enjoy sunset views at Elephant Rock, followed by a night safari in the Kumana buffer zone and an optional traditional bonfire dinner under the stars.",
     img: "/images/safari/night.jpg",
     highlights: [
       "Sunset Views",
@@ -176,7 +176,7 @@ export const packages: SafariPackage[] = [
     badge: "Outdoor Adventure",
     title: "Adventure Safari",
     tagline: "Beyond Jeep Track",
-    desc: "Enjoy Kudumbigala Mountain hiking, Peanut Farm surfing and an exciting Kumana buffer zone night safari filled with adventure and wildlife.",
+    desc: "Enjoy an unforgettable hike at Kudumbigala Mountain, surfing at Peanut Farm and an exciting night safari in the Kumana buffer zone, with opportunities to discover nocturnal wildlife and elephants.",
     img: "/images/safari/adventure.jpg",
     highlights: ["Scenic Hiking", "Ocean Surfing", "Night Exploration"],
     duration: "5 Hours",
