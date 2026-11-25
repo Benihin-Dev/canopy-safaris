@@ -36,16 +36,18 @@ export default function RentalsPage() {
                     {r.badge}
                   </span>
                 </div>
-                  <div className="@container p-6">
-                  <p className="mt-2 line-clamp-3 min-h-15 text-justify hyphens-auto font-inter text-sm text-[#3d2c1b]">
+                <div className="@container p-6">
+                  {/* heading: always one line, the font shrinks to fit the card */}
+                  <h3 className="whitespace-nowrap font-bebas text-[length:min(1.875rem,7cqw)] uppercase tracking-wide text-[#2b1d10]">
                     {r.title}
                   </h3>
-                  <p className="mt-2 line-clamp-3 min-h-15 font-inter text-sm text-[#3d2c1b]">
+                  {/* description: up to 3 lines, justified */}
+                  <p className="mt-2 line-clamp-3 min-h-15 text-justify hyphens-auto font-inter text-sm text-[#3d2c1b]">
                     {r.desc}
                   </p>
                   <div className="mt-5 flex items-center justify-between border-t border-[#c9a36a]/50 pt-4">
                     <span className="font-inter text-sm text-[#5b4733]">
-                      <b className="text-xl text-[#a15f21]">${r.price}</b> / day
+                      <b className="text-xl text-[#a15f21]">{r.price}</b> / day
                     </span>
                     <span className="font-inter text-sm font-semibold text-[#a15f21] transition-transform duration-300 group-hover:translate-x-1">
                       View details →
