@@ -37,7 +37,7 @@ export default function Home() {
         style={
           {
             "--wave": "clamp(60px, 9vw, 140px)",
-            marginTop: "calc(var(--wave) * -0.82)",
+            marginTop: "calc(var(--wave) * -0.83)",
             paddingTop: "var(--wave)",
           } as CSSProperties
         }
