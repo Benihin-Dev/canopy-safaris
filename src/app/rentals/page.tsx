@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import { rentals, priceText } from "@/data/rentals";
+import { rentals } from "@/data/rentals";
 
 export const metadata = { title: "Scooter Rentals — Canopy Safaris" };
 
@@ -45,7 +45,7 @@ export default function RentalsPage() {
                   </p>
                   <div className="mt-5 flex items-center justify-between border-t border-[#c9a36a]/50 pt-4">
                     <span className="font-inter text-sm text-[#5b4733]">
-                      <b className="text-xl text-[#a15f21]">{priceText(r)}</b>
+                      <b className="text-xl text-[#a15f21]">${r.price}</b> / day
                     </span>
                     <span className="font-inter text-sm font-semibold text-[#a15f21] transition-transform duration-300 group-hover:translate-x-1">
                       View details →
