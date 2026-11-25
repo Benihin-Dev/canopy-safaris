@@ -26,6 +26,17 @@ const cinzel = Cinzel({ subsets: ["latin"], weight: ["600"], display: "swap" });
 const WHATSAPP = "94754540123";
 const wa = (msg) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 
+/* ----- currency (same as the Rental section) ----- */
+const FALLBACK_RATE = 300; // used only if the live rate cannot be loaded
+const usdNumber = (price) => Number(String(price).replace(/[^0-9.]/g, ""));
+const formatPrice = (price, currency, rate) => {
+  const usd = usdNumber(price);
+  if (currency === "usd" || !usd) return price; // "On request" stays as it is
+  const lkr = Math.round((usd * rate) / 100) * 100; // nearest 100 rupees
+  const prefix = String(price).split("$")[0]; // keeps the word "From "
+  return `${prefix}≈ Rs ${lkr.toLocaleString("en-US")}`;
+};
+
 /* the 4 sides of the rolling box */
 const perks = [
   {
@@ -95,7 +106,7 @@ const css = `
 .sp-media{position:relative;width:100%;aspect-ratio:16/10}
 .sp-img{position:absolute;inset:0;border-radius:20px;overflow:hidden;background:#e6d9bf}
 .sp-img::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.12),transparent 45%,rgba(43,29,16,.12));pointer-events:none}
-.sp-price{position:absolute;right:14px;bottom:-16px;z-index:2;background:var(--sp-accent);color:#fff;font-size:.9rem;font-weight:500;border-radius:999px;padding:7px 16px;border:3px solid var(--sp-card-bg)}
+.sp-price{white-space:nowrap;position:absolute;right:14px;bottom:-16px;z-index:2;background:var(--sp-accent);color:#fff;font-size:.9rem;font-weight:500;border-radius:999px;padding:7px 16px;border:3px solid var(--sp-card-bg)}
 .sp-badge{position:absolute;top:12px;left:12px;z-index:1;padding:6px 12px;border-radius:999px;background:#2b1d10;color:#fff;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
 
 .sp-body{display:flex;flex-direction:column;gap:18px;padding:28px 8px 6px;transition:opacity var(--sp-dur) var(--sp-ease)}
@@ -224,6 +235,42 @@ export default function SafariPackages() {
   };
 
   const router = useRouter();
+
+  /* currency switch (USD / LKR) */
+  const [currency, setCurrency] = useState("usd");
+  const [rate, setRate] = useState(FALLBACK_RATE);
+  const [live, setLive] = useState(false);
+
+  // remember the visitor's choice (same key as the Rental section)
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("currency");
+      if (saved === "usd" || saved === "lkr") setCurrency(saved);
+    } catch {}
+  }, []);
+  const pickCurrency = (c) => {
+    setCurrency(c);
+    try {
+      localStorage.setItem("currency", c);
+    } catch {}
+  };
+
+  // today's rate (the same /api/rate route the Rental section uses)
+  useEffect(() => {
+    let off = false;
+    fetch("/api/rate")
+      .then((r) => r.json())
+      .then((d) => {
+        if (!off && d?.rate > 0) {
+          setRate(d.rate);
+          setLive(!!d.live);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      off = true;
+    };
+  }, []);
 
   /* start the heading animation when the section scrolls into view */
   useEffect(() => {
@@ -361,6 +408,52 @@ export default function SafariPackages() {
               </span>
             </span>
           </span>
+
+          {/* currency switch */}
+          <div className="mt-5 flex items-center gap-2 font-poppins text-[11.5px] text-[#7a6550]">
+            <span className="hidden sm:inline">Show prices in</span>
+            <div
+              role="group"
+              aria-label="Currency"
+              className="relative grid grid-cols-2 rounded-full border border-[#c9a36a] bg-[#fffaf2]/90 p-[3px] shadow-[0_6px_16px_-8px_rgba(97,61,29,0.5)]"
+            >
+              <span
+                aria-hidden="true"
+                className={`absolute inset-y-[3px] left-[3px] w-[calc(50%-3px)] rounded-full bg-[#a15f21] transition-transform duration-300 ${
+                  currency === "lkr" ? "translate-x-full" : ""
+                }`}
+              />
+              {[
+                ["usd", "USD $"],
+                ["lkr", "LKR Rs"],
+              ].map(([c, label]) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => pickCurrency(c)}
+                  aria-pressed={currency === c}
+                  className={`relative z-10 min-w-[58px] cursor-pointer rounded-full px-3.5 py-2 text-xs font-medium transition-colors duration-300 ${
+                    currency === c ? "text-white" : "text-[#7a6550]"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+          {currency === "lkr" && (
+            <p className="mt-2 font-poppins text-[10.5px] text-[#7a6550]">
+              {live ? "Today's rate" : "Approx. rate"} ·{" "}
+              <a
+                href="https://www.exchangerate-api.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                Rates by ExchangeRate-API
+              </a>
+            </p>
+          )}
         </div>
 
         {/* ROLLING BOX (saved for later)
@@ -452,7 +545,9 @@ export default function SafariPackages() {
                   />
                 </div>
                 <span className="sp-badge font-inter">{p.badge}</span>
-                <span className="sp-price font-inter">{p.price}</span>
+                <span className="sp-price font-inter">
+                  {formatPrice(p.price, currency, rate)}
+                </span>
               </div>
 
               <div className="sp-body">
