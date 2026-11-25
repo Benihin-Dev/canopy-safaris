@@ -87,8 +87,10 @@ const css = `
   --sp-accent-hover:#7d4a19;
   --sp-cube-h:100px;
   --sp-half:50px;
+  --sp-after-switch:24px; /* SPACE BELOW THE SWITCH (desktop / tablet) */
 }
-.sp-stage{position:relative;width:100%;padding:70px 0;perspective:1000px;perspective-origin:50% 50%;display:grid;touch-action:pan-y;cursor:grab;user-select:none}
+@media (max-width:639px){.sp-root{--sp-after-switch:16px}} /* SPACE BELOW THE SWITCH (mobile) */
+.sp-stage{position:relative;width:100%;padding:var(--sp-after-switch) 0 70px;perspective:1000px;perspective-origin:50% 50%;display:grid;touch-action:pan-y;cursor:grab;user-select:none}
 .sp-stage.sp-dragging{cursor:grabbing}
 
 .sp-card{
@@ -371,7 +373,7 @@ export default function SafariPackages() {
 
       <div
         ref={headRef}
-        className={`relative mx-auto flex w-full flex-col items-center gap-6 px-5 sm:w-11/12 sm:px-0 lg:max-w-[1400px]${seen ? " sp-go" : ""}`}
+        className={`relative mx-auto flex w-full flex-col items-center gap-0 px-5 sm:w-11/12 sm:px-0 lg:max-w-[1400px]${seen ? " sp-go" : ""}`}
       >
         <div className="flex flex-col items-center text-center">
           {/* small label with side lines */}
@@ -408,9 +410,12 @@ export default function SafariPackages() {
               </span>
             </span>
           </span>
+        </div>
 
-          {/* currency switch */}
-          <div className="mt-5 flex items-center gap-2 font-poppins text-[11.5px] text-[#7a6550]">
+        {/* currency switch: right side, touching the bottom edge of the italic line.
+            SPACE ABOVE THE SWITCH = mt-0 (0px).  Space below = --sp-after-switch in the css above */}
+        <div className="relative mt-0 self-end">
+          <div className="flex items-center gap-2 font-poppins text-[11.5px] text-[#7a6550]">
             <span className="hidden sm:inline">Show prices in</span>
             <div
               role="group"
@@ -441,8 +446,9 @@ export default function SafariPackages() {
               ))}
             </div>
           </div>
+          {/* the rate note hangs below the switch, so the layout never jumps */}
           {currency === "lkr" && (
-            <p className="mt-2 font-poppins text-[10.5px] text-[#7a6550]">
+            <p className="absolute right-0 top-full mt-1 whitespace-nowrap font-poppins text-[10.5px] text-[#7a6550]">
               {live ? "Today's rate" : "Approx. rate"} ·{" "}
               <a
                 href="https://www.exchangerate-api.com"
