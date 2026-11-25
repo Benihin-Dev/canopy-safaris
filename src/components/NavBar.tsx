@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoMenu, IoClose, IoChevronDown } from "react-icons/io5";
+import { FiPhone, FiCopy, FiCheck } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 
 /* "About us" groups three sections of the home page */
 const aboutLinks = [
@@ -45,8 +47,17 @@ const SECTION_IDS = [
 const LOGO = "/images/logo.png";
 const LOGO_WHITE: string | null = null;
 const LOGO_ALT = "Canopy Safaris";
-const LOGO_HEIGHT = 52;
+const LOGO_HEIGHT = 54;
 const LOGO_SHIFT_X = 60;
+
+/* ---------------- CONTACT NUMBER: change these lines ----------------
+   PHONE_DISPLAY = how the number is shown to visitors
+   PHONE_DIGITS  = country code + number, no "+", no spaces (used for the links) */
+const PHONE_DISPLAY = "+94 75 454 0123";
+const PHONE_DIGITS = "94754540123";
+const WHATSAPP_MESSAGE = "Hi, I'd like to ask about a safari.";
+const WHATSAPP_HREF = `https://wa.me/${PHONE_DIGITS}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+const CALL_HREF = `tel:+${PHONE_DIGITS}`;
 
 /* glossy cream glass look, used when the bar floats */
 const GLASS: React.CSSProperties = {
@@ -61,6 +72,10 @@ export default function NavBar() {
   const [activeId, setActiveId] = useState(""); // home section in view
   const [open, setOpen] = useState(false);
   const [mobilePkg, setMobilePkg] = useState(false);
+  const [phoneOpen, setPhoneOpen] = useState(false); // phone popup
+  const [copied, setCopied] = useState(false);
+  const phoneRef = useRef<HTMLDivElement>(null);
+  const phoneBtnRef = useRef<HTMLButtonElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const cur = useRef(0); // where the bar is drawn now (px slid up)
   const target = useRef(0); // where it is heading
@@ -114,6 +129,7 @@ export default function NavBar() {
       lastY = y;
       setAtTop(y < 24);
       if (diff !== 0) dir = diff > 0 ? 1 : -1;
+      if (diff > 0 && y >= 24) setPhoneOpen(false); // bar is leaving, close the popup
 
       if (y < 24 || openRef.current) {
         moveTo(0); // always shown at the top
@@ -170,10 +186,41 @@ export default function NavBar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
+  /* phone popup: close on a click outside it, or on the Esc key */
+  useEffect(() => {
+    if (!phoneOpen) return;
+    const onDown = (e: PointerEvent) => {
+      if (!phoneRef.current?.contains(e.target as Node)) setPhoneOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setPhoneOpen(false);
+        phoneBtnRef.current?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [phoneOpen]);
+
+  const copyNumber = async () => {
+    try {
+      await navigator.clipboard.writeText(`+${PHONE_DIGITS}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      /* clipboard not allowed: the number is still shown on screen */
+    }
+  };
+
   /* on the home page: smooth scroll to the section (or to the top) */
   const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, link: string) => {
     setOpen(false);
     setMobilePkg(false);
+    setPhoneOpen(false);
     if (pathname !== "/") return; // other pages: let Next.js navigate
     if (link === "/") {
       e.preventDefault();
@@ -320,7 +367,79 @@ export default function NavBar() {
             )}
           </nav>
 
-          <div className="flex items-center justify-self-end gap-4">
+          <div className="flex items-center justify-self-end gap-3">
+            {/* phone icon: opens a small card with WhatsApp / Call */}
+            <div ref={phoneRef} className="relative">
+              <button
+                ref={phoneBtnRef}
+                type="button"
+                aria-label="Call or message us"
+                aria-expanded={phoneOpen}
+                aria-controls="phone-popup"
+                onClick={() => setPhoneOpen((o) => !o)}
+                className={`grid size-10 cursor-pointer place-items-center rounded-full border transition-colors duration-300 ${
+                  phoneOpen
+                    ? "border-[#a15f21] bg-[#a15f21] text-white"
+                    : atTop
+                      ? "border-white/60 bg-white/10 text-white hover:bg-white/20"
+                      : "border-[#a15f21]/45 bg-white/55 text-[#7d4a19] hover:bg-white/80"
+                }`}
+              >
+                <FiPhone className="size-[18px]" />
+              </button>
+
+              <div
+                id="phone-popup"
+                role="dialog"
+                aria-label="Call or message us"
+                className={`absolute right-0 top-[calc(100%+18px)] z-20 w-72 origin-top-right rounded-[22px] border border-white/80 bg-[#fffaf2]/97 p-[18px] text-[#3d2c1b] shadow-[0_24px_50px_-16px_rgba(43,29,16,.45)] backdrop-blur-xl transition duration-200 ${
+                  phoneOpen
+                    ? "visible translate-y-0 scale-100 opacity-100"
+                    : "invisible -translate-y-2 scale-95 opacity-0"
+                }`}
+              >
+                {/* little arrow pointing at the icon */}
+                <span
+                  aria-hidden
+                  className="absolute -top-1.5 right-3.5 size-3 rotate-45 border-l border-t border-white/80 bg-[#fffaf2]"
+                />
+                <p className="text-[11px] font-semibold uppercase tracking-[.08em] text-[#7a6550]">
+                  Call or message us
+                </p>
+                <p className="mb-4 mt-1 font-bebas text-3xl leading-none tracking-wide">
+                  {PHONE_DISPLAY}
+                </p>
+                <a
+                  href={WHATSAPP_HREF}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-[42px] items-center justify-center gap-2 rounded-full bg-[#25D366] text-sm font-semibold text-white transition-colors hover:bg-[#1fb957]"
+                >
+                  <FaWhatsapp className="size-5" />
+                  WhatsApp
+                </a>
+                <a
+                  href={CALL_HREF}
+                  className="mt-2 flex h-[42px] items-center justify-center gap-2 rounded-full bg-[#a15f21] text-sm font-semibold text-white transition-colors hover:bg-[#7d4a19]"
+                >
+                  <FiPhone className="size-[18px]" />
+                  Call now
+                </a>
+                <button
+                  type="button"
+                  onClick={copyNumber}
+                  className="mx-auto mt-3 flex cursor-pointer items-center gap-1.5 text-xs text-[#7a6550] hover:text-[#3d2c1b]"
+                >
+                  {copied ? (
+                    <FiCheck className="size-3.5" />
+                  ) : (
+                    <FiCopy className="size-3.5" />
+                  )}
+                  {copied ? "Copied" : "Copy number"}
+                </button>
+              </div>
+            </div>
+
             <Link
               href="/book"
               onClick={(e) => handleNav(e, "/book")}
@@ -390,6 +509,24 @@ export default function NavBar() {
               </Link>
             ),
           )}
+          <div className="mx-4 mt-2 grid grid-cols-2 gap-2">
+            <a
+              href={WHATSAPP_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-11 items-center justify-center gap-2 rounded-full bg-[#25D366] text-sm font-semibold text-white"
+            >
+              <FaWhatsapp className="size-5" />
+              WhatsApp
+            </a>
+            <a
+              href={CALL_HREF}
+              className="flex h-11 items-center justify-center gap-2 rounded-full border border-[#a15f21] text-sm font-semibold text-[#7d4a19]"
+            >
+              <FiPhone className="size-[18px]" />
+              Call
+            </a>
+          </div>
           <Link
             href="/book"
             onClick={(e) => handleNav(e, "/book")}
