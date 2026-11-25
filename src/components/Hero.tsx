@@ -152,10 +152,7 @@ export default function Hero() {
             <p
               className={`${dmSans.className} mx-auto mt-4 max-w-xl text-[15px] font-normal leading-[1.7] text-[#D5DCD4] sm:text-[17px] md:mx-0`}
             >
-              Experience exclusive safari journeys through Kumana with
-              knowledgeable local guides. Explore the wilderness, encounter
-              remarkable wildlife and discover the natural beauty of Sri Lanka,
-              from majestic elephants to elusive leopards and sloth bears.
+               Book a jeep safari, rental or campsite in minutes.
             </p>
 
             {/* ---------- tabs ---------- */}
