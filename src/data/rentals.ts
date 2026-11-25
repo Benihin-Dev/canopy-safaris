@@ -148,7 +148,7 @@ export const rentals: Rental[] = [
     badge: "Custom Experience",
     title: "Tailor-Made Tuk-Tuk Experience",
     sub: "A Journey Designed Around You",
-    desc: "Explore your preferred destinations with a customised tuk-tuk journey tailored to your requirements.",
+    desc: "Explore your preferred destinations with a customised tuk-tuk journey.",
     img: "/images/rental/tuktuk3.jpg",
     price: "$16",
     priceLkr: 4800,
