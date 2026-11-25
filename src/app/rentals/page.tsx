@@ -37,7 +37,7 @@ export default function RentalsPage() {
                   </span>
                 </div>
                   <div className="@container p-6">
-                  <h3 className="whitespace-nowrap font-bebas text-[length:min(1.875rem,7cqw)] uppercase tracking-wide text-[#2b1d10]">
+                  <p className="mt-2 line-clamp-3 min-h-15 text-justify hyphens-auto font-inter text-sm text-[#3d2c1b]">
                     {r.title}
                   </h3>
                   <p className="mt-2 line-clamp-3 min-h-15 font-inter text-sm text-[#3d2c1b]">
