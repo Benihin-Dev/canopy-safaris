@@ -8,6 +8,8 @@ export type Rental = {
   desc: string;
   img: string;
   price: string; // "$12" (pages append "/ day")
+  priceLkr: number | null; // rupees per day (or per trip); null hides it from booking
+  priceUnit?: "day" | "trip"; // defaults to "day"
   features: string[];
   cta: string;
   // detail page
@@ -34,6 +36,8 @@ export const rentals: Rental[] = [
     desc: lorem,
     img: "/images/peek/scooter1.jpg",
     price: "$12",
+    priceLkr: 3600,   // scooter-one
+    priceUnit: "day",
     features: ["First feature line", "Second feature line"],
     cta: "Book now",
     overview: lorem + " " + lorem,
@@ -54,7 +58,9 @@ export const rentals: Rental[] = [
     sub: "Small line under the title",
     desc: lorem,
     img: "/images/peek/scooter2.jpg",
-    price: "$14",
+    price: "$12",
+    priceLkr: 3600,   // scooter-one
+    priceUnit: "day",
     features: ["First feature line", "Second feature line"],
     cta: "Book now",
     overview: lorem + " " + lorem,
@@ -75,7 +81,9 @@ export const rentals: Rental[] = [
     sub: "Small line under the title",
     desc: lorem,
     img: "/images/peek/tuktuk1.jpg",
-    price: "$25",
+    price: "$12",
+    priceLkr: 3600,   // scooter-one
+    priceUnit: "day",
     features: ["First feature line", "Second feature line"],
     cta: "Book now",
     overview: lorem + " " + lorem,
@@ -96,7 +104,55 @@ export const rentals: Rental[] = [
     sub: "Small line under the title",
     desc: lorem,
     img: "/images/peek/tuktuk2.jpg",
-    price: "$28",
+    price: "$12",
+    priceLkr: 3600,   // scooter-one
+    priceUnit: "day",
+    features: ["First feature line", "Second feature line"],
+    cta: "Book now",
+    overview: lorem + " " + lorem,
+    specs: [
+      { label: "Engine", value: "200cc" },
+      { label: "Transmission", value: "Manual" },
+      { label: "Seats", value: "3" },
+      { label: "Fuel", value: "Petrol" },
+    ],
+    included: tuktukIncluded,
+    excluded: baseExcluded,
+  },
+    {
+    slug: "scooter-three",
+    ribbon: "Ribbon text five",
+    badge: "Badge",
+    title: "Card title five",
+    sub: "Small line under the title",
+    desc: lorem,
+    img: "/images/peek/scooter3.jpg",
+    price: "$16",
+    priceLkr: 4800,
+    priceUnit: "day",
+    features: ["First feature line", "Second feature line"],
+    cta: "Book now",
+    overview: lorem + " " + lorem,
+    specs: [
+      { label: "Engine", value: "150cc" },
+      { label: "Transmission", value: "Automatic" },
+      { label: "Seats", value: "2" },
+      { label: "Fuel", value: "Petrol" },
+    ],
+    included: scooterIncluded,
+    excluded: baseExcluded,
+  },
+  {
+    slug: "tuktuk-three",
+    ribbon: "Ribbon text six",
+    badge: "Badge",
+    title: "Card title six",
+    sub: "Small line under the title",
+    desc: lorem,
+    img: "/images/rental/tuktuk3.jpg",
+    price: "$30",
+    priceLkr: 9000,
+    priceUnit: "day",
     features: ["First feature line", "Second feature line"],
     cta: "Book now",
     overview: lorem + " " + lorem,
