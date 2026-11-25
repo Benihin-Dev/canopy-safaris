@@ -35,12 +35,26 @@ const SECTION_IDS = [
   "contact",
 ];
 
-/* glossy glass look, used when the bar floats */
+/* Cream paper grain drawn with code (SVG noise), so no image file is needed.
+   - FINE_GRAIN: tiny speckles, like the fibres in paper
+   - SOFT_BLOTCH: very slow, wide variation so the cream is not perfectly flat */
+const FINE_GRAIN = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .28  0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
+const SOFT_BLOTCH = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006 .012' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .6  0 0 0 0 .5  0 0 0 0 .35  0 0 0 .5 -.12'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E")`;
+
+/* glossy glass + paper texture, used when the bar floats */
 const GLASS: React.CSSProperties = {
-  background:
-    "linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.45) 45%, rgba(255,255,255,0) 60%), linear-gradient(180deg, rgba(255,255,255,.82) 0%, rgba(255,250,242,.5) 55%, rgba(255,255,255,.62) 100%)",
+  backgroundColor: "rgba(243,238,225,.84)",
+  backgroundImage: `linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.4) 45%, rgba(255,255,255,0) 60%), linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,0) 55%), ${FINE_GRAIN}, ${SOFT_BLOTCH}`,
+  backgroundSize: "auto, auto, 240px 240px, 600px 300px",
   boxShadow:
     "0 10px 40px -10px rgba(43,29,16,.35), inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(255,255,255,.35)",
+};
+
+/* same paper look for the dropdown and the mobile menu (a bit more solid so text stays crisp) */
+const PAPER: React.CSSProperties = {
+  backgroundColor: "rgba(243,238,225,.95)",
+  backgroundImage: `${FINE_GRAIN}, ${SOFT_BLOTCH}`,
+  backgroundSize: "240px 240px, 600px 300px",
 };
 
 export default function NavBar() {
@@ -203,7 +217,7 @@ export default function NavBar() {
                   </button>
                   {/* pt-3 bridges the gap so hover isn't lost */}
                   <div className="invisible absolute left-0 top-full pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                    <div className="min-w-52 translate-y-2 overflow-hidden rounded-2xl border border-white/70 text-[#3d2c1b] bg-[#fffaf2]/95 p-2 shadow-xl backdrop-blur-xl transition-transform duration-200 group-hover:translate-y-0 group-focus-within:translate-y-0">
+                    <div style={PAPER} className="min-w-52 translate-y-2 overflow-hidden rounded-2xl border border-white/70 text-[#3d2c1b] p-2 shadow-xl backdrop-blur-xl transition-transform duration-200 group-hover:translate-y-0 group-focus-within:translate-y-0">
                       {item.children.map((c) => (
                         <Link
                           key={c.name}
@@ -264,7 +278,7 @@ export default function NavBar() {
 
       {/* Mobile menu */}
       {open && (
-        <nav className="animate-fade-up mx-auto mt-2 flex w-[calc(100%-2rem)] text-[#3d2c1b] max-w-[1400px] flex-col gap-1 rounded-3xl border border-white/70 bg-[#fffaf2]/95 p-4 shadow-xl backdrop-blur-xl lg:hidden">
+        <nav style={PAPER} className="animate-fade-up mx-auto mt-2 flex w-[calc(100%-2rem)] text-[#3d2c1b] max-w-[1400px] flex-col gap-1 rounded-3xl border border-white/70 p-4 shadow-xl backdrop-blur-xl lg:hidden">
           {navLinks.map((item) =>
             item.children ? (
               <div key={item.name}>
