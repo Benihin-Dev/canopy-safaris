@@ -14,11 +14,12 @@ import {
   FaArrowRight,
 } from "react-icons/fa";
 import { packages } from "@/data/packages";
-import { Bebas_Neue, Poppins, Playfair_Display } from "next/font/google";
+import { Bebas_Neue, Poppins, Playfair_Display, Cinzel } from "next/font/google";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500"] });
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["500"], style: ["italic"], display: "swap" });
+const cinzel = Cinzel({ subsets: ["latin"], weight: ["600"], display: "swap" });
 
 /* "Book now" opens WhatsApp. Put your WhatsApp number here:
    country code + number, no + and no spaces */
@@ -321,28 +322,46 @@ export default function SafariPackages() {
     >
       <style>{css}</style>
 
-<div
-  ref={headRef}
-  className={`relative mx-auto flex w-full flex-col items-center gap-6 px-5 sm:w-11/12 sm:px-0 lg:max-w-[1400px]${seen ? " sp-go" : ""}`}
->
-  <div className="flex flex-col items-center text-center">
-    <h2
-      className={`${bebas.className} text-center text-5xl uppercase leading-[0.95] tracking-wide text-[#2b1d10] sm:text-6xl xl:text-7xl`}
-    >
-      <span className="sp-ln">
-        <span>
-          <span className="sp-pill mr-4 rounded-full border border-[#a15f21] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#a15f21]">
-            Safari
+      <div
+        ref={headRef}
+        className={`relative mx-auto flex w-full flex-col items-center gap-6 px-5 sm:w-11/12 sm:px-0 lg:max-w-[1400px]${seen ? " sp-go" : ""}`}
+      >
+        <div className="flex flex-col items-center text-center">
+          {/* small label with side lines */}
+          <span className="sp-ln">
+            <span style={{ animationDelay: ".05s" }}>
+              <span
+                className={`${cinzel.className} inline-flex items-center gap-3.5 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#a15f21] sm:text-[13px]`}
+              >
+                <span className="h-px w-8 bg-[#a15f21] sm:w-10" />
+                Safari packages
+                <span className="h-px w-8 bg-[#a15f21] sm:w-10" />
+              </span>
+            </span>
           </span>
-          <span className="sm:whitespace-nowrap">Choose your wild adventure</span>
-        </span>
-      </span>
-      <span className="sp-ln text-[#a15f21]">
-        <span>Explore our exclusive safari packages
-        </span>
-      </span>
-    </h2>
-  </div>
+
+          {/* big title */}
+          <h2
+            className={`${bebas.className} mt-3 text-center text-5xl uppercase leading-[0.95] tracking-wide text-[#2b1d10] sm:text-6xl xl:text-7xl`}
+          >
+            <span className="sp-ln">
+              <span style={{ animationDelay: ".15s" }}>
+                Choose your wild adventure
+              </span>
+            </span>
+          </h2>
+
+          {/* italic line */}
+          <span className="sp-ln mt-3">
+            <span style={{ animationDelay: ".3s" }}>
+              <span
+                className={`${playfair.className} text-xl italic leading-[1.4] text-[#a15f21] sm:text-2xl xl:text-3xl`}
+              >
+                Explore our exclusive safari packages
+              </span>
+            </span>
+          </span>
+        </div>
 
         {/* ROLLING BOX (saved for later)
         <div
@@ -440,9 +459,9 @@ export default function SafariPackages() {
                 <div className="sp-meta">
                   <h3 className="sp-name">
                     <span className="sp-n1">{p.title.split(" ")[0]}</span>
-                      <span className={`sp-n2 ${playfair.className}`}>
-                        {p.title.split(" ").slice(1).join(" ")}
-                      </span>
+                    <span className={`sp-n2 ${playfair.className}`}>
+                      {p.title.split(" ").slice(1).join(" ")}
+                    </span>
                   </h3>
                   <p className="sp-tag font-inter">{p.tagline}</p>
                   <p className="sp-desc font-inter">{p.desc}</p>
