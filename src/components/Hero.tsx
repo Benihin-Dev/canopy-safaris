@@ -41,22 +41,32 @@ export default function Hero() {
 
   /* ---------- typewriter: only "Into the Wild." (no cursor) ---------- */
   const [typed, setTyped] = useState("");
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let i = 0;
-    let timer: ReturnType<typeof setInterval> | undefined;
-    const start = setTimeout(() => {
-      timer = setInterval(() => {
-        i = reduce ? HEADLINE.length : i + 1;
-        setTyped(HEADLINE.slice(0, i));
-        if (i >= HEADLINE.length) clearInterval(timer);
-      }, 90);
-    }, 700);
-    return () => {
-      clearTimeout(start);
-      if (timer) clearInterval(timer);
-    };
-  }, []);
+useEffect(() => {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) {
+    setTyped(HEADLINE);
+    return;
+  }
+  let i = 0;
+  let timer: ReturnType<typeof setTimeout>;
+
+  const type = () => {
+    i += 1;
+    setTyped(HEADLINE.slice(0, i));
+    if (i < HEADLINE.length) timer = setTimeout(type, 90);
+    else timer = setTimeout(erase, 3000); // stays 3 seconds, then starts again
+  };
+
+  const erase = () => {
+    i -= 1;
+    setTyped(HEADLINE.slice(0, i));
+    if (i > 0) timer = setTimeout(erase, 45);
+    else timer = setTimeout(type, 400);
+  };
+
+  timer = setTimeout(type, 700);
+  return () => clearTimeout(timer);
+}, []);
 
   /* ---------- booking bar ---------- */
   const [tab, setTab] = useState<ServiceKey>("safari");
