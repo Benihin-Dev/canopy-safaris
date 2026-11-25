@@ -41,7 +41,7 @@ const SECTION_IDS = [
    Put both files in /public/images/. If you only have ONE logo, set
    LOGO_WHITE to null and the normal logo is turned white automatically. */
 const LOGO = "/images/logo.png";
-const LOGO_WHITE: string | null = "/images/logo-white.png";
+const LOGO_WHITE: string | null = null;
 const LOGO_ALT = "Canopy Safaris";
 const LOGO_HEIGHT = 64; // px (the bar grows with it)
 
