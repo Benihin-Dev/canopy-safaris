@@ -38,7 +38,7 @@ export default function RentalsPage() {
                 </div>
                 <div className="@container p-6">
                   {/* heading: always one line, the font shrinks to fit the card */}
-                  <h3 className="whitespace-nowrap font-bebas text-[length:min(3rem,9cqw)] uppercase tracking-wide text-[#2b1d10]">
+                  <h3 className="whitespace-nowrap font-bebas text-[length:min(3rem,9.5cqw)] uppercase tracking-wide text-[#2b1d10]">
                     {r.title}
                   </h3>
                   {/* description: up to 3 lines, justified */}
