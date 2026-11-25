@@ -188,3 +188,9 @@ export const rentals: Rental[] = [
 ];
 
 export const getRental = (slug: string) => rentals.find((r) => r.slug === slug);
+
+/* "Rs 2,500 / day", "Rs 3,500 / trip" or "Contact us" */
+export const priceText = (r: Rental) =>
+  r.priceLkr == null
+    ? "Contact us"
+    : `Rs ${r.priceLkr.toLocaleString("en-US")}${r.priceUnit ? ` / ${r.priceUnit}` : ""}`;
