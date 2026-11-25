@@ -34,13 +34,6 @@ const cinzel = Cinzel({
 
 const TABS: ServiceKey[] = ["safari", "rental", "camping"];
 
-const SAFARI_STATS = [
-  { value: "98%", label: "Guest Satisfaction" },
-  { value: "15+", label: "Years Of Experience" },
-  { value: "1,000+", label: "Safari Tours" },
-  { value: "90%", label: "Leopard Sighting" },
-];
-
 const HEADLINE = "Into the Wild.";
 
 export default function Hero() {
@@ -118,7 +111,7 @@ export default function Hero() {
       </div>
 
       <div className="relative z-20 mx-auto w-full px-5 pb-20 pt-32 sm:w-11/12 sm:px-0 lg:max-w-350">
-        <div className="w-full md:relative md:-left-[3vw]">
+        <div className="w-full md:relative md:-left-[1vw]">
           <div className="w-full text-center md:text-left">
             {/* small top heading */}
             <p
@@ -152,7 +145,7 @@ export default function Hero() {
             <p
               className={`${dmSans.className} mx-auto mt-4 max-w-xl text-[15px] font-normal leading-[1.7] text-[#D5DCD4] sm:text-[17px] md:mx-0`}
             >
-               Book a jeep safari, rental or campsite in minutes.
+              Book a jeep safari, rental or campsite in minutes.
             </p>
 
             {/* ---------- tabs ---------- */}
@@ -181,7 +174,7 @@ export default function Hero() {
 
             {/* ---------- booking bar ---------- */}
             <div
-              className={`${dmSans.className} grid w-full max-w-175 grid-cols-2 gap-1.5 rounded-[22px] border border-[#f1c46b] bg-[#fffdf6] p-2.5 text-left text-[#2b1d10] shadow-[0_30px_60px_-20px_rgba(0,0,0,.8)] ${
+              className={`${dmSans.className} mt-4 grid w-full max-w-175 grid-cols-2 gap-1.5 rounded-[22px] border border-[#f1c46b] bg-[#fffdf6] p-2.5 text-left text-[#2b1d10] shadow-[0_30px_60px_-20px_rgba(0,0,0,.8)] ${
                 service.hasGuests
                   ? "md:grid-cols-[1.3fr_1fr_1fr_auto]"
                   : "md:grid-cols-[1.3fr_1fr_auto]"
@@ -254,22 +247,6 @@ export default function Hero() {
               </button>
             </div>
           </div>
-        </div>
-
-        {/* ---------- stats strip (delete this block if you do not want it) ---------- */}
-        <div className="mt-16 grid w-full grid-cols-2 overflow-hidden rounded-2xl border border-white/30 bg-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl md:grid-cols-4">
-          {SAFARI_STATS.map((item, i) => (
-            <div
-              key={i}
-              className={`px-6 py-5 font-poppins text-white border-white/20
-         ${i % 2 !== 0 ? "border-l" : ""}
-         ${i >= 2 ? "border-t md:border-t-0" : ""}
-         ${i !== 0 ? "md:border-l" : ""}`}
-            >
-              <p className="font-serif text-3xl font-semibold">{item.value}</p>
-              <p className="mt-1 text-xs text-white/80">{item.label}</p>
-            </div>
-          ))}
         </div>
       </div>
     </section>
