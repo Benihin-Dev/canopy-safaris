@@ -11,7 +11,7 @@ import {
   FaTimes,
   FaUsers,
 } from "react-icons/fa";
-import { rentals, getRental, priceText } from "@/data/rentals";
+import { rentals, getRental } from "@/data/rentals";
 import RentalBookingCard from "@/components/RentalBookingCard";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -201,12 +201,7 @@ export default async function RentalPage({ params }: Props) {
 
         {/* sticky booking card */}
         <aside className="lg:sticky lg:top-8 lg:self-start">
-<RentalBookingCard
-  title={rental.title}
-  priceLkr={rental.priceLkr}
-  priceUnit={rental.priceUnit}
-  slug={rental.slug}
-          />
+          <RentalBookingCard title={rental.title} price={rental.price} />
         </aside>
       </section>
 
@@ -237,7 +232,7 @@ export default async function RentalPage({ params }: Props) {
                     {r.title}
                   </h3>
                   <p className="font-inter text-sm text-[#5b4733]">
-                    From {priceText(r)}
+                    From {r.price} / day
                   </p>
                 </div>
               </Link>
