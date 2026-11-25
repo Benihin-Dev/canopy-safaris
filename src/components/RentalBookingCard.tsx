@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 
-/* Put this file at: src/components/RentalBookingCard.tsx */
-
 /* WhatsApp number: country code + number, no + or spaces */
 const WHATSAPP = "94754540123";
 const FALLBACK_RATE = 300; // used only if the live rate cannot be loaded
