@@ -146,7 +146,7 @@ export const rentals: Rental[] = [
     slug: "tuktuk-four",
     ribbon: "Your Journey, Your Choice",
     badge: "Custom Experience",
-    title: "Tailor-Made Tuk-Tuk Experience",
+    title: "Custom Tuk-Tuk Tour",
     sub: "A Journey Designed Around You",
     desc: "Explore your preferred destinations with a customised tuk-tuk journey.",
     img: "/images/rental/tuktuk3.jpg",
