@@ -36,11 +36,11 @@ export default function RentalsPage() {
                     {r.badge}
                   </span>
                 </div>
-                <div className="p-6">
-                  <h3 className="font-bebas text-3xl uppercase tracking-wide text-[#2b1d10]">
+                  <div className="@container p-6">
+                  <h3 className="whitespace-nowrap font-bebas text-[length:min(1.875rem,7cqw)] uppercase tracking-wide text-[#2b1d10]">
                     {r.title}
                   </h3>
-                  <p className="mt-2 line-clamp-2 font-inter text-sm text-[#3d2c1b]">
+                  <p className="mt-2 line-clamp-3 min-h-15 font-inter text-sm text-[#3d2c1b]">
                     {r.desc}
                   </p>
                   <div className="mt-5 flex items-center justify-between border-t border-[#c9a36a]/50 pt-4">
