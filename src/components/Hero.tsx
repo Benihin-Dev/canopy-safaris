@@ -34,39 +34,50 @@ const cinzel = Cinzel({
 
 const TABS: ServiceKey[] = ["safari", "rental", "camping"];
 
-const HEADLINE = "Into the Wild.";
+/* the phrases that type, wait, erase and rotate */
+const PHRASES = [
+  "Into the Wild.",
+  "Discover the Unseen.",
+  "Closer to Nature.",
+  "Explore Without Limits.",
+];
+const LONGEST = PHRASES.reduce((a, b) => (b.length > a.length ? b : a));
 
 export default function Hero() {
   const router = useRouter();
 
-  /* ---------- typewriter: only "Into the Wild." (no cursor) ---------- */
+  /* ---------- typewriter: type -> wait 3 seconds -> erase -> next phrase ---------- */
   const [typed, setTyped] = useState("");
-useEffect(() => {
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce) {
-    setTyped(HEADLINE);
-    return;
-  }
-  let i = 0;
-  let timer: ReturnType<typeof setTimeout>;
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setTyped(PHRASES[0]);
+      return;
+    }
+    let p = 0; // which phrase
+    let i = 0; // how many letters are showing
+    let timer: ReturnType<typeof setTimeout>;
 
-  const type = () => {
-    i += 1;
-    setTyped(HEADLINE.slice(0, i));
-    if (i < HEADLINE.length) timer = setTimeout(type, 90);
-    else timer = setTimeout(erase, 3000); // stays 3 seconds, then starts again
-  };
+    const type = () => {
+      i += 1;
+      setTyped(PHRASES[p].slice(0, i));
+      if (i < PHRASES[p].length) timer = setTimeout(type, 90);
+      else timer = setTimeout(erase, 3000); // stays 3 seconds
+    };
 
-  const erase = () => {
-    i -= 1;
-    setTyped(HEADLINE.slice(0, i));
-    if (i > 0) timer = setTimeout(erase, 45);
-    else timer = setTimeout(type, 400);
-  };
+    const erase = () => {
+      i -= 1;
+      setTyped(PHRASES[p].slice(0, i));
+      if (i > 0) timer = setTimeout(erase, 45);
+      else {
+        p = (p + 1) % PHRASES.length; // next phrase
+        timer = setTimeout(type, 400);
+      }
+    };
 
-  timer = setTimeout(type, 700);
-  return () => clearTimeout(timer);
-}, []);
+    timer = setTimeout(type, 700);
+    return () => clearTimeout(timer);
+  }, []);
 
   /* ---------- booking bar ---------- */
   const [tab, setTab] = useState<ServiceKey>("safari");
@@ -136,16 +147,16 @@ useEffect(() => {
               className={`${playfair.className} mt-4 font-medium leading-[1.1]`}
             >
               <span className="block text-[40px] text-[#F7F3E9] sm:text-5xl md:text-[52px] lg:text-[64px]">
-                Beyond the Ordinary.
+                Beyond the Ordinary,
               </span>
-              <span className="sr-only">{HEADLINE}</span>
+              <span className="sr-only">{PHRASES[0]}</span>
               <span
                 aria-hidden="true"
                 className="relative mt-1 inline-block text-[44px] italic sm:text-[54px] md:text-[58px] lg:text-[72px]"
               >
-                {/* invisible copy keeps the height fixed while typing */}
-                <span className="invisible">{HEADLINE}</span>
-                <span className="absolute left-0 top-0 whitespace-nowrap bg-linear-to-r from-[#ffd77a] to-[#ff9a3c] bg-clip-text text-transparent">
+                {/* invisible copy of the longest phrase keeps the height fixed */}
+                <span className="invisible">{LONGEST}</span>
+                <span className="absolute left-0 top-0 bg-linear-to-r from-[#ffd77a] to-[#ff9a3c] bg-clip-text text-transparent">
                   {typed}
                 </span>
               </span>
