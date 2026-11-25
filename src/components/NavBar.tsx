@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PiPhoneThin } from "react-icons/pi";
 import { IoMenu, IoClose, IoChevronDown } from "react-icons/io5";
 
 /* "About us" groups three sections of the home page */
@@ -34,16 +33,20 @@ const SECTION_IDS = [
   "contact",
 ];
 
-/* ---------------- LOGO: change the file names here ----------------
-   LOGO        = the green logo (shown on the cream glass bar after scrolling).
-                 To try the brown one instead, use "/images/logo-brown.png"
-   LOGO_WHITE  = the white logo (shown on the home page, at the very top)
-   Put both files in /public/images/. If you only have ONE logo, set
-   LOGO_WHITE to null and the normal logo is turned white automatically. */
+/* ---------------- LOGO: change these lines ----------------
+   LOGO        = path of your green logo (a PNG with a transparent background).
+                 Files in /public are served from "/", so
+                 public/images/logo.png  ->  "/images/logo.png"
+   LOGO_WHITE  = null  -> the same logo is turned WHITE by code at the top of
+                 the page (no second file needed). Or put a path to a real
+                 white logo file here.
+   LOGO_HEIGHT = logo height in px (the bar grows with it)
+   LOGO_SHIFT_X = move the logo left (negative) or right (positive), in px */
 const LOGO = "/images/logo.png";
 const LOGO_WHITE: string | null = null;
 const LOGO_ALT = "Canopy Safaris";
-const LOGO_HEIGHT = 64; // px (the bar grows with it)
+const LOGO_HEIGHT = 64;
+const LOGO_SHIFT_X = 0;
 
 /* glossy cream glass look, used when the bar floats */
 const GLASS: React.CSSProperties = {
@@ -196,7 +199,7 @@ export default function NavBar() {
     children.some((c) => isActive(c.link));
 
   const linkCls = (active: boolean) =>
-    `rounded-full px-4 py-2 text-sm font-semibold uppercase transition-colors duration-300 ${
+    `inline-flex h-10 items-center rounded-full px-4 text-sm font-semibold uppercase leading-none transition-colors duration-300 ${
       atTop ? "hover:bg-white/15" : "hover:bg-[#a15f21]/10"
     } ${
       active
@@ -237,11 +240,12 @@ export default function NavBar() {
           }`}
         />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 py-2 sm:px-8">
+        <div className="relative z-10 mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 py-2 sm:px-8 lg:grid lg:grid-cols-[1fr_auto_1fr]">
           <Link
             href="/"
             onClick={(e) => handleNav(e, "/")}
-            className="flex items-center"
+            className="flex items-center justify-self-start"
+            style={{ marginLeft: LOGO_SHIFT_X }}
             aria-label="Canopy Safaris home"
           >
             <span className="grid" style={{ height: LOGO_HEIGHT }}>
@@ -281,7 +285,7 @@ export default function NavBar() {
                 <div key={item.name} className="group relative">
                   <button
                     type="button"
-                    className={`${linkCls(groupActive(item.children))} flex cursor-pointer items-center gap-1`}
+                    className={`${linkCls(groupActive(item.children))} cursor-pointer gap-1`}
                     aria-haspopup="menu"
                   >
                     {item.name}
@@ -316,18 +320,11 @@ export default function NavBar() {
             )}
           </nav>
 
-          <div className="flex items-center gap-4">
-            <a
-              href="tel:+94754540123"
-              className="hidden items-center gap-1.5 text-sm 2xl:flex"
-            >
-              <PiPhoneThin className="size-5" />
-              +94 754540123
-            </a>
+          <div className="flex items-center justify-self-end gap-4">
             <Link
               href="/book"
               onClick={(e) => handleNav(e, "/book")}
-              className="hidden rounded-full bg-[#a15f21] px-5 py-2 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#7d4a19] sm:block"
+              className="hidden h-10 items-center rounded-full bg-[#a15f21] px-6 text-sm font-semibold uppercase leading-none text-white transition-colors duration-300 hover:bg-[#7d4a19] sm:inline-flex"
             >
               Book Now
             </Link>
