@@ -111,7 +111,7 @@ export default function Hero() {
       </div>
 
       <div className="relative z-20 mx-auto w-full px-5 pb-20 pt-32 sm:w-11/12 sm:px-0 lg:max-w-350">
-        <div className="w-full md:relative md:-left-[0.25vw]">
+        <div className="w-full md:relative md:-left-[0vw]">
           <div className="w-full text-center md:text-left">
             {/* small top heading */}
             <p
