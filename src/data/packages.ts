@@ -176,7 +176,7 @@ export const packages: SafariPackage[] = [
     badge: "Outdoor Adventure",
     title: "Adventure Safari",
     tagline: "Beyond Jeep Track",
-    desc: "Enjoy an unforgettable hike at Kudumbigala Mountain, surfing at Peanut Farm and an exciting night safari in the Kumana buffer zone night safari filled with adventure and wildlife.",
+    desc: "Enjoy an unforgettable hike at Kudumbigala Mountain, surfing at Peanut Farm and an exciting night safari in the Kumana buffer zone filled with adventure and wildlife.",
     img: "/images/safari/adventure.jpg",
     highlights: ["Scenic Hiking", "Ocean Surfing", "Night Exploration"],
     duration: "5 Hours",
