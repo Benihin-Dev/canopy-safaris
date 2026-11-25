@@ -59,7 +59,7 @@ export default async function RentalPage({ params }: Props) {
   const rental = getRental(slug);
   if (!rental) notFound();
 
-  const others = rentals.filter((r) => r.slug !== rental.slug).slice(0, 3);
+  const others = rentals.filter((r) => r.slug !== rental.slug);
 
   return (
     <main className="bg-[#f0eee5] text-[#3d2c1b]">
