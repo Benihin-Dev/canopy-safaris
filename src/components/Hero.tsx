@@ -110,8 +110,8 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[linear-gradient(#0b0805f2,#0b0805a0_50%,#0b0805ee)] md:hidden" />
       </div>
 
-      <div className="relative z-20 mx-auto w-full px-5 pb-20 pt-32 sm:w-11/12 sm:px-0 lg:max-w-350">
-        <div className="w-full md:relative md:-left-[-0.5vw]">
+      <div className="relative z-20 mx-auto w-full px-5 pb-32 pt-32 sm:w-11/12 sm:px-0 lg:max-w-350">
+        <div className="w-full md:relative md:-left-[0vw]">
           <div className="w-full text-center md:text-left">
             {/* small top heading */}
             <p
