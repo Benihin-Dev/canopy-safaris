@@ -59,27 +59,60 @@ const PAPER: React.CSSProperties = {
 
 export default function NavBar() {
   const [atTop, setAtTop] = useState(true); // at the very top of the page
-  const [hidden, setHidden] = useState(false); // hidden while scrolling down
   const [activeId, setActiveId] = useState(""); // home section in view
   const [open, setOpen] = useState(false);
   const [mobilePkg, setMobilePkg] = useState(false);
-  const lastY = useRef(0);
+  const headerRef = useRef<HTMLElement>(null);
+  const offsetRef = useRef(0); // how far the bar has slid up (0 = fully shown)
+  const openRef = useRef(false);
   const pathname = usePathname();
 
+  /* slide the bar by `offset` px. While the finger/wheel is moving there is no
+     transition (the bar follows the scroll 1:1). When scrolling stops, it
+     eases the rest of the way open or closed. */
+  const applyOffset = (offset: number, animate: boolean) => {
+    const el = headerRef.current;
+    if (!el) return;
+    const full = el.offsetHeight + 12;
+    offsetRef.current = Math.max(0, Math.min(full, offset));
+    const p = offsetRef.current / full; // 0 shown ... 1 hidden
+    el.style.transition = animate
+      ? "transform 550ms cubic-bezier(.22,1,.36,1), opacity 450ms ease"
+      : "none";
+    el.style.transform = `translate3d(0, ${-offsetRef.current}px, 0)`;
+    el.style.opacity = String(1 - p);
+    el.style.pointerEvents = p >= 1 ? "none" : "";
+  };
+
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
+    let lastY = window.scrollY;
+    let dir = 0;
+    let frame = 0;
+    let idle: ReturnType<typeof setTimeout> | undefined;
+
+    const update = () => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY);
+      const diff = y - lastY;
+      lastY = y;
       setAtTop(y < 24);
 
-      /* hide on scroll down, show on scroll up */
-      const diff = y - lastY.current;
-      if (y < 24) {
-        setHidden(false);
-        lastY.current = y;
-      } else if (Math.abs(diff) > 6) {
-        setHidden(diff > 0 && y > 120);
-        lastY.current = y;
+      if (diff !== 0) dir = diff > 0 ? 1 : -1;
+
+      if (y < 24 || openRef.current) {
+        applyOffset(0, offsetRef.current !== 0); // always shown at the top
+      } else if (diff !== 0) {
+        /* going down hides 1:1 with the scroll, going up shows a bit faster */
+        applyOffset(offsetRef.current + (diff > 0 ? diff : diff * 2), false);
       }
+
+      /* when scrolling stops: scrolling up -> show; down -> finish hiding if past halfway */
+      clearTimeout(idle);
+      idle = setTimeout(() => {
+        const full = (headerRef.current?.offsetHeight ?? 0) + 12;
+        const hide = dir > 0 && offsetRef.current > full * 0.35;
+        applyOffset(hide && !openRef.current ? full : 0, true);
+      }, 110);
 
       /* which home section is in view (for the active link) */
       let current = "";
@@ -97,10 +130,26 @@ export default function NavBar() {
       }
       setActiveId(current);
     };
-    onScroll();
+
+    /* one update per screen frame, so scrolling stays smooth */
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+      clearTimeout(idle);
+    };
   }, []);
+
+  /* opening the mobile menu always shows the bar */
+  useEffect(() => {
+    openRef.current = open;
+    if (open) applyOffset(0, true);
+  }, [open]);
 
   /* on the home page: smooth scroll to the section (or to the top) */
   const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, link: string) => {
@@ -141,23 +190,12 @@ export default function NavBar() {
         : ""
     }`;
 
-  const isHidden = hidden && !open;
-
   return (
     <header
-      onFocusCapture={() => setHidden(false)}
-      style={{
-        transitionDuration: isHidden ? "600ms" : "800ms",
-        transitionTimingFunction: isHidden
-          ? "cubic-bezier(.4,0,.2,1)"
-          : "cubic-bezier(.16,1,.3,1)",
-      }}
-      className={`fixed inset-x-0 top-0 z-50 font-poppins transition-[padding,transform,opacity,color] will-change-transform ${
+      ref={headerRef}
+      onFocusCapture={() => applyOffset(0, true)}
+      className={`fixed inset-x-0 top-0 z-50 font-poppins transition-[padding,color] duration-500 will-change-transform ${
         atTop ? "px-0 pt-0 text-white" : "px-4 pt-3 text-[#3d2c1b]"
-      } ${
-        isHidden
-          ? "pointer-events-none -translate-y-[130%] opacity-0"
-          : "translate-y-0 opacity-100"
       }`}
     >
       {/* soft dark fade behind the white text so it stays readable on any photo */}
@@ -187,19 +225,17 @@ export default function NavBar() {
           <Link
             href="/"
             onClick={(e) => handleNav(e, "/")}
-            className="flex items-center gap-2"
+            className="flex items-center"
+            aria-label="Canopy Safaris home"
           >
             <Image
-              className="size-11 object-contain"
+              className="h-12 w-auto object-contain"
               src="/images/logo.png"
-              alt="Canopy logo"
-              width={44}
-              height={44}
+              alt="Canopy Safaris"
+              width={180}
+              height={48}
               priority
             />
-            <span className="font-libertinus_Math text-2xl font-semibold">
-              Canopy
-            </span>
           </Link>
 
           {/* Desktop */}
