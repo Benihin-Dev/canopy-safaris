@@ -45,8 +45,8 @@ const SECTION_IDS = [
 const LOGO = "/images/logo.png";
 const LOGO_WHITE: string | null = null;
 const LOGO_ALT = "Canopy Safaris";
-const LOGO_HEIGHT = 64;
-const LOGO_SHIFT_X = 15;
+const LOGO_HEIGHT = 52;
+const LOGO_SHIFT_X = 25;
 
 /* glossy cream glass look, used when the bar floats */
 const GLASS: React.CSSProperties = {
