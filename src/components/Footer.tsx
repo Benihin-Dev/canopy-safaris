@@ -156,7 +156,7 @@ export default function Footer() {
         <div className="border-t border-white/30" />
 
         {/* Copyright + popup links */}
-        <div className="flex flex-col items-center justify-between gap-3 py-6 text-xs text-white/80 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-3 py-3 text-xs text-white/80 sm:flex-row">
           <p>© {new Date().getFullYear()}, All Rights Reserved by Canopy Safaris</p>
           <FooterLegalLinks />
         </div>
