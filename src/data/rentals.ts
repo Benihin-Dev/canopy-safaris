@@ -17,6 +17,7 @@ export type Rental = {
   specs: { label: string; value: string }[];
   included: string[];
   excluded: string[];
+  howItWorks?: { title: string; text: string }[];
 };
 
 const lorem =
@@ -40,15 +41,29 @@ export const rentals: Rental[] = [
     priceUnit: "day",
     features: ["Flexible and convenient travel", "Ideal for rentals of less than 3 days"],
     cta: "Book now",
-    overview: "Explore Arugam Bay and its beautiful surroundings at your own pace with our convenient scooter rental. Perfect for short stays, enjoy the freedom to discover nearby beaches, attractions and local highlights.",
+    overview: "Explore Arugam Bay, its beautiful beaches and nearby attractions at your own pace with our convenient scooter rental service. Ideal for short stays, this option offers a flexible and comfortable way to discover the area, enjoy local experiences and travel independently during your visit.",
     specs: [
       { label: "Engine", value: "110cc" },
       { label: "Transmission", value: "Automatic" },
       { label: "Seats", value: "2" },
       { label: "Fuel", value: "Petrol" },
     ],
-    included: scooterIncluded,
-    excluded: baseExcluded,
+    included: ["Scooter rental", "Safety helmets", "Basic roadside assistance"],
+    excluded: ["Fuel", "Personal expenses", "Traffic fines or penalties"],
+    howItWorks: [
+      {
+        title: "Message us",
+        text: "Share your preferred rental dates via WhatsApp or book directly through our online booking link.",
+      },
+      {
+        title: "Show your documents",
+        text: "Provide a valid driving license and a copy of your passport.",
+      },
+      {
+        title: "Pick up and ride",
+        text: "Collect your scooter, receive a brief safety introduction and enjoy your journey.",
+      },
+    ],
   },
   {
     slug: "scooter-two",
