@@ -36,19 +36,26 @@ const SECTION_IDS = [
 ];
 
 /* ---------------- LOGO: change these lines ----------------
-   LOGO        = path of your green logo (a PNG with a transparent background).
-                 Files in /public are served from "/", so
-                 public/images/logo.png  ->  "/images/logo.png"
-   LOGO_WHITE  = null  -> the same logo is turned WHITE by code at the top of
-                 the page (no second file needed). Or put a path to a real
-                 white logo file here.
-   LOGO_HEIGHT = logo height in px (the bar grows with it)
-   LOGO_SHIFT_X = move the logo left (negative) or right (positive), in px */
+   LOGO         = path of your green logo (a PNG with a transparent background).
+                  Files in /public are served from "/", so
+                  public/images/logo.png  ->  "/images/logo.png"
+   LOGO_WHITE   = null -> the same logo is turned WHITE by code at the top of
+                  the page (no second file needed). Or put a path to a real
+                  white logo file here.
+
+   Each has a PHONE value and a DESKTOP value (desktop = screens 640px and wider):
+   LOGO_HEIGHT_*   = logo height in px (the bar grows with it)
+   LOGO_SHIFT_X_*  = move the logo sideways in px.
+                     0 = normal, negative = move left, positive = move right. */
 const LOGO = "/images/logo.png";
 const LOGO_WHITE: string | null = null;
 const LOGO_ALT = "Canopy Safaris";
-const LOGO_HEIGHT = 54;
-const LOGO_SHIFT_X = 60;
+
+const LOGO_HEIGHT_PHONE = 52;
+const LOGO_HEIGHT_DESKTOP = 64;
+
+const LOGO_SHIFT_X_PHONE = 0;
+const LOGO_SHIFT_X_DESKTOP = 0;
 
 /* ---------------- CONTACT NUMBER: change these lines ----------------
    PHONE_DISPLAY = how the number is shown to visitors
@@ -129,7 +136,7 @@ export default function NavBar() {
       lastY = y;
       setAtTop(y < 24);
       if (diff !== 0) dir = diff > 0 ? 1 : -1;
-      if (diff > 0 && y >= 24) setPhoneOpen(false); // bar is leaving, close the popup
+      if (Math.abs(diff) > 4) setPhoneOpen(false); // any real scroll closes the popup
 
       if (y < 24 || openRef.current) {
         moveTo(0); // always shown at the top
@@ -291,18 +298,24 @@ export default function NavBar() {
           <Link
             href="/"
             onClick={(e) => handleNav(e, "/")}
-            className="flex items-center justify-self-start"
-            style={{ marginLeft: LOGO_SHIFT_X }}
+            className="ml-[var(--logo-x-phone)] flex items-center justify-self-start sm:ml-[var(--logo-x-desktop)]"
+            style={
+              {
+                "--logo-x-phone": `${LOGO_SHIFT_X_PHONE}px`,
+                "--logo-x-desktop": `${LOGO_SHIFT_X_DESKTOP}px`,
+                "--logo-h-phone": `${LOGO_HEIGHT_PHONE}px`,
+                "--logo-h-desktop": `${LOGO_HEIGHT_DESKTOP}px`,
+              } as React.CSSProperties
+            }
             aria-label="Canopy Safaris home"
           >
-            <span className="grid" style={{ height: LOGO_HEIGHT }}>
+            <span className="grid h-[var(--logo-h-phone)] sm:h-[var(--logo-h-desktop)]">
               {/* normal logo (after scrolling). Without a separate white file it is turned white at the top. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={LOGO}
                 alt={LOGO_ALT}
-                style={{ height: LOGO_HEIGHT }}
-                className={`w-auto object-contain [grid-area:1/1] transition duration-500 ${
+                className={`h-[var(--logo-h-phone)] w-auto object-contain [grid-area:1/1] transition duration-500 sm:h-[var(--logo-h-desktop)] ${
                   atTop
                     ? LOGO_WHITE
                       ? "opacity-0"
@@ -316,8 +329,7 @@ export default function NavBar() {
                   src={LOGO_WHITE}
                   alt=""
                   aria-hidden
-                  style={{ height: LOGO_HEIGHT }}
-                  className={`w-auto object-contain [grid-area:1/1] transition-opacity duration-500 ${
+                  className={`h-[var(--logo-h-phone)] w-auto object-contain [grid-area:1/1] transition-opacity duration-500 sm:h-[var(--logo-h-desktop)] ${
                     atTop ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -369,14 +381,17 @@ export default function NavBar() {
 
           <div className="flex items-center justify-self-end gap-3">
             {/* phone icon: opens a small card with WhatsApp / Call */}
-            <div ref={phoneRef} className="relative">
+            <div ref={phoneRef} className="sm:relative">
               <button
                 ref={phoneBtnRef}
                 type="button"
                 aria-label="Call or message us"
                 aria-expanded={phoneOpen}
                 aria-controls="phone-popup"
-                onClick={() => setPhoneOpen((o) => !o)}
+                onClick={() => {
+                  setOpen(false);
+                  setPhoneOpen((o) => !o);
+                }}
                 className={`grid size-10 cursor-pointer place-items-center rounded-full border transition-colors duration-300 ${
                   phoneOpen
                     ? "border-[#a15f21] bg-[#a15f21] text-white"
@@ -392,7 +407,7 @@ export default function NavBar() {
                 id="phone-popup"
                 role="dialog"
                 aria-label="Call or message us"
-                className={`absolute right-0 top-[calc(100%+18px)] z-20 w-72 origin-top-right rounded-[22px] border border-white/80 bg-[#fffaf2]/97 p-[18px] text-[#3d2c1b] shadow-[0_24px_50px_-16px_rgba(43,29,16,.45)] backdrop-blur-xl transition duration-200 ${
+                className={`absolute inset-x-4 top-[calc(100%+12px)] z-20 origin-top-right rounded-[22px] border border-[#ead9bd] bg-[#fffaf2]/97 p-[18px] sm:inset-x-auto sm:right-0 sm:top-[calc(100%+18px)] sm:w-72 text-[#3d2c1b] shadow-[0_24px_50px_-16px_rgba(43,29,16,.45)] backdrop-blur-xl transition duration-200 ${
                   phoneOpen
                     ? "visible translate-y-0 scale-100 opacity-100"
                     : "invisible -translate-y-2 scale-95 opacity-0"
@@ -401,7 +416,7 @@ export default function NavBar() {
                 {/* little arrow pointing at the icon */}
                 <span
                   aria-hidden
-                  className="absolute -top-1.5 right-3.5 size-3 rotate-45 border-l border-t border-white/80 bg-[#fffaf2]"
+                  className="absolute -top-1.5 right-[62px] size-3 rotate-45 border-l border-t border-[#ead9bd] bg-[#fffaf2] sm:right-3.5"
                 />
                 <p className="text-[11px] font-semibold uppercase tracking-[.08em] text-[#7a6550]">
                   Call or message us
@@ -413,6 +428,7 @@ export default function NavBar() {
                   href={WHATSAPP_HREF}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => setPhoneOpen(false)}
                   className="flex h-[42px] items-center justify-center gap-2 rounded-full bg-[#25D366] text-sm font-semibold text-white transition-colors hover:bg-[#1fb957]"
                 >
                   <FaWhatsapp className="size-5" />
@@ -420,6 +436,7 @@ export default function NavBar() {
                 </a>
                 <a
                   href={CALL_HREF}
+                  onClick={() => setPhoneOpen(false)}
                   className="mt-2 flex h-[42px] items-center justify-center gap-2 rounded-full bg-[#a15f21] text-sm font-semibold text-white transition-colors hover:bg-[#7d4a19]"
                 >
                   <FiPhone className="size-[18px]" />
@@ -451,7 +468,10 @@ export default function NavBar() {
               type="button"
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
-              onClick={() => setOpen(!open)}
+              onClick={() => {
+                setPhoneOpen(false);
+                setOpen(!open);
+              }}
               className="cursor-pointer lg:hidden"
             >
               {open ? (
@@ -509,24 +529,6 @@ export default function NavBar() {
               </Link>
             ),
           )}
-          <div className="mx-4 mt-2 grid grid-cols-2 gap-2">
-            <a
-              href={WHATSAPP_HREF}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-11 items-center justify-center gap-2 rounded-full bg-[#25D366] text-sm font-semibold text-white"
-            >
-              <FaWhatsapp className="size-5" />
-              WhatsApp
-            </a>
-            <a
-              href={CALL_HREF}
-              className="flex h-11 items-center justify-center gap-2 rounded-full border border-[#a15f21] text-sm font-semibold text-[#7d4a19]"
-            >
-              <FiPhone className="size-[18px]" />
-              Call
-            </a>
-          </div>
           <Link
             href="/book"
             onClick={(e) => handleNav(e, "/book")}
