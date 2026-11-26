@@ -20,13 +20,6 @@ export type Rental = {
   howItWorks?: { title: string; text: string }[];
 };
 
-const lorem =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.";
-
-const scooterIncluded = ["2 helmets", "Insurance", "24/7 support"];
-const tuktukIncluded = ["Insurance", "24/7 support", "Route suggestions"];
-const baseExcluded = ["Fuel", "Personal expenses"];
-
 export const rentals: Rental[] = [
   {
     slug: "scooter-one",
@@ -37,7 +30,7 @@ export const rentals: Rental[] = [
     desc: "Explore Arugam Bay, nearby beaches and local attractions with the freedom of a scooter.",
     img: "/images/peek/scooter1.jpg",
     price: "$12",
-    priceLkr: 3600,   // scooter-one
+    priceLkr: 3600,
     priceUnit: "day",
     features: ["Flexible and convenient travel", "Ideal for rentals of less than 3 days"],
     cta: "Book now",
@@ -74,19 +67,33 @@ export const rentals: Rental[] = [
     desc: "Enjoy extended scooter rentals at a better daily rate while exploring at your own pace.",
     img: "/images/peek/scooter2.jpg",
     price: "$12",
-    priceLkr: 3600,   // scooter-one
+    priceLkr: 3600,
     priceUnit: "day",
     features: ["Perfect for extended stays", "Greater value for longer rentals"],
     cta: "Book now",
-    overview: "Make the most of your time in Arugam Bay with our long-stay scooter rental. Enjoy the flexibility to explore nearby destinations independently while benefiting from a more affordable daily rate.",
+    overview: "Explore Arugam Bay and its surrounding attractions with the freedom and flexibility of an extended scooter rental. Perfect for stays of more than 3 days, enjoy special rental rates with better daily value, giving you more time to discover beautiful beaches, local attractions and hidden gems at your own pace.",
     specs: [
       { label: "Engine", value: "125cc" },
       { label: "Transmission", value: "Automatic" },
       { label: "Seats", value: "2" },
       { label: "Fuel", value: "Petrol" },
     ],
-    included: scooterIncluded,
-    excluded: baseExcluded,
+    included: ["Scooter rental for extended stays", "Safety helmets", "Basic roadside assistance"],
+    excluded: ["Fuel", "Personal expenses", "Traffic fines or penalties"],
+    howItWorks: [
+      {
+        title: "Message us",
+        text: "Share your preferred rental dates via WhatsApp or book directly through our online booking link.",
+      },
+      {
+        title: "Show your documents",
+        text: "Provide a valid driving license and a copy of your passport.",
+      },
+      {
+        title: "Pick up and ride",
+        text: "Collect your scooter, receive a brief safety introduction and enjoy your journey.",
+      },
+    ],
   },
   {
     slug: "tuktuk-one",
@@ -94,22 +101,36 @@ export const rentals: Rental[] = [
     badge: "Daily Rental",
     title: "Tuk-Tuk Rental",
     sub: "Your Journey, Your Way",
-    desc: "Discover Arugam Bay and nearby destinations with the freedom of your own tuk-tuk.",
+    desc: "Discover Arugam Bay and nearby destinations with the freedom of your own tuk-tuk, effortlessly.",
     img: "/images/peek/tuktuk1.jpg",
     price: "$18",
-    priceLkr: 5000,   // scooter-one
+    priceLkr: 5000,
     priceUnit: "day",
     features: ["Convenient daily rental", "Ideal for independent travel"],
     cta: "Book now",
-    overview: "Discover Arugam Bay and its surrounding attractions with the convenience of a tuk-tuk. Enjoy the freedom to travel at your own pace and experience the area with a flexible daily rental option.",
+    overview: "Discover Arugam Bay, its beautiful beaches and surrounding destinations with the freedom of your own tuk-tuk. Enjoy a unique and flexible way to explore local attractions, visit nearby villages and experience the area at your own pace. Perfect for travellers seeking convenience, independence and an authentic local travel experience.",
     specs: [
       { label: "Engine", value: "200cc" },
       { label: "Transmission", value: "Manual" },
       { label: "Seats", value: "3" },
       { label: "Fuel", value: "Petrol" },
     ],
-    included: tuktukIncluded,
-    excluded: baseExcluded,
+    included: ["Tuk-tuk rental", "Basic safety equipment", "Basic roadside assistance"],
+    excluded: ["Fuel", "Personal expenses", "Traffic fines or penalties"],
+    howItWorks: [
+      {
+        title: "Message us",
+        text: "Share your preferred rental dates via WhatsApp or book directly through our online booking link.",
+      },
+      {
+        title: "Show your documents",
+        text: "Provide the required valid driving licence and a copy of your passport for verification.",
+      },
+      {
+        title: "Pick up and ride",
+        text: "Collect your tuk-tuk, receive a brief safety introduction and enjoy exploring Arugam Bay and beyond.",
+      },
+    ],
   },
   {
     slug: "tuktuk-two",
@@ -120,21 +141,35 @@ export const rentals: Rental[] = [
     desc: "Enjoy breathtaking sunset views at Elephant Rock and create unforgettable coastal memories.",
     img: "/images/peek/tuktuk2.jpg",
     price: "$12",
-    priceLkr: 3600,   // scooter-one
+    priceLkr: 3600,
     priceUnit: "day",
     features: ["Visit Elephant Rock", "Enjoy beautiful sunset views"],
     cta: "Book now",
-    overview: "Experience the beauty of an Arugam Bay sunset at the scenic Elephant Rock. Enjoy stunning coastal views and a memorable evening surrounded by the natural beauty of the coastline.",
+    overview: "Experience the beauty of Arugam Bay with a memorable sunset visit to Elephant Rock. Enjoy a scenic journey to one of the area's most picturesque coastal viewpoints, where you can take in stunning ocean views and the peaceful atmosphere as the sun sets over the horizon. Perfect for couples, friends and nature lovers.",
     specs: [
       { label: "Engine", value: "200cc" },
       { label: "Transmission", value: "Manual" },
       { label: "Seats", value: "3" },
       { label: "Fuel", value: "Petrol" },
     ],
-    included: tuktukIncluded,
-    excluded: baseExcluded,
+    included: ["Local driver assistance", "Hotel pick-up and drop-off", "Tuk-tuk transportation to Elephant Rock"],
+    excluded: ["Personal expenses", "Food and beverages", "Additional activities or services"],
+    howItWorks: [
+      {
+        title: "Book your experience",
+        text: "Choose your preferred date and arrange your booking via WhatsApp or through our online booking link.",
+      },
+      {
+        title: "Confirm your pick-up",
+        text: "Share your accommodation details and confirm your preferred pick-up time",
+      },
+      {
+        title: "Enjoy the sunset",
+        text: "Travel to Elephant Rock, take in the beautiful coastal scenery and enjoy a memorable sunset experience",
+      },
+    ],
   },
-    {
+  {
     slug: "tuktuk-three",
     ribbon: "Point-to-Point Ride",
     badge: "One-Way Transfer",
@@ -147,15 +182,29 @@ export const rentals: Rental[] = [
     priceUnit: "day",
     features: ["Arugam Bay to Whisky Point", "Whisky Point to Arugam Bay"],
     cta: "Book now",
-    overview: "Travel conveniently between Arugam Bay and Whisky Point with our reliable tuk-tuk transfer service. Whether you're heading to the beach or returning to your accommodation, enjoy an easy and comfortable journey.",
+    overview: "Enjoy a convenient and comfortable tuk-tuk transfer between Arugam Bay and Whisky Point. Whether you're heading out to explore the coastline, enjoy the beach atmosphere or visit local attractions, our tuk-tuk service offers a simple and flexible way to travel between these popular destinations.",
     specs: [
       { label: "Engine", value: "150cc" },
       { label: "Transmission", value: "Automatic" },
       { label: "Seats", value: "2" },
       { label: "Fuel", value: "Petrol" },
     ],
-    included: scooterIncluded,
-    excluded: baseExcluded,
+    included: ["Tuk-tuk transportation", "Pick-up from Arugam Bay", "Drop-off at Whisky Point"],
+    excluded: ["Personal expenses", "Food and beverages", "Additional stops or detours"],
+    howItWorks: [
+      {
+        title: "Book your ride",
+        text: "Arrange your transfer via WhatsApp or book directly through our online booking link.",
+      },
+      {
+        title: "Confirm your journey",
+        text: "Share your preferred pick-up time and location.",
+      },
+      {
+        title: "Enjoy your ride",
+        text: "Meet your driver and enjoy a comfortable journey from Arugam Bay to Whisky Point.",
+      },
+    ],
   },
   {
     slug: "tuktuk-four",
@@ -170,15 +219,29 @@ export const rentals: Rental[] = [
     priceUnit: "trip",
     features: ["Flexible travel arrangements", "Pricing based on your requirements"],
     cta: "Book now",
-    overview: "Create a journey that suits your plans with our tailor-made tuk-tuk service. Choose your preferred destinations and travel requirements, and we will arrange a flexible experience with pricing based on your request.",
+    overview: "Discover Arugam Bay and its surrounding attractions your way with a personalised tuk-tuk tour. Choose the destinations you wish to visit and enjoy a flexible journey tailored to your interests and schedule. Whether exploring beautiful beaches, local villages or hidden gems, create your own memorable experience at your own pace.",
     specs: [
       { label: "Engine", value: "200cc" },
       { label: "Transmission", value: "Manual" },
       { label: "Seats", value: "3" },
       { label: "Fuel", value: "Petrol" },
     ],
-    included: tuktukIncluded,
-    excluded: baseExcluded,
+    included: ["Local driver assistance", "Tuk-tuk transportation", "Flexible destination selection"],
+    excluded: ["Personal expenses", "Food and beverages", "Entrance fees (where applicable)"],
+    howItWorks: [
+      {
+        title: "Share your plan",
+        text: "Tell us your preferred destinations and travel plans via WhatsApp or through our online booking link.",
+      },
+      {
+        title: "Customize your journey",
+        text: "Discuss your itinerary, preferred schedule and travel requirements with us.",
+      },
+      {
+        title: "Enjoy your tour",
+        text: "Meet your driver and explore your selected destinations at your own pace.",
+      },
+    ],
   },
 ];
 
