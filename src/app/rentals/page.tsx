@@ -47,7 +47,7 @@ export default function RentalsPage() {
                   </p>
                   <div className="mt-5 flex items-center justify-between border-t border-[#c9a36a]/50 pt-4">
                     <span className="font-inter text-sm text-[#5b4733]">
-                      <b className="text-xl text-[#a15f21]">{r.price}</b> / day
+                      <b className="text-xl text-[#a15f21]">{r.price}</b> / {r.priceUnit ?? "day"}
                     </span>
                     <span className="font-inter text-sm font-semibold text-[#a15f21] transition-transform duration-300 group-hover:translate-x-1">
                       View details →
