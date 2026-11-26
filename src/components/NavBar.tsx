@@ -90,6 +90,7 @@ export default function NavBar() {
   const target = useRef(0); // where it is heading
   const raf = useRef(0);
   const openRef = useRef(false);
+  const touchInMenu = useRef(false);
   const pathname = usePathname();
 
   const fullHeight = () => (headerRef.current?.offsetHeight ?? 0) + 12;
@@ -140,7 +141,7 @@ export default function NavBar() {
       if (diff !== 0) dir = diff > 0 ? 1 : -1;
       if (Math.abs(diff) > 4) {
         setPhoneOpen(false); // any real scroll closes the popups
-        if (openRef.current) {
+        if (openRef.current && !touchInMenu.current) {
           openRef.current = false;
           setOpen(false);
           setMobilePkg(false);
@@ -213,6 +214,32 @@ export default function NavBar() {
     };
     document.addEventListener("pointerdown", onDown);
     return () => document.removeEventListener("pointerdown", onDown);
+  }, [open]);
+
+  /* mobile menu: remember if the finger started inside the menu,
+     so scrolling/swiping inside it does not close it */
+  useEffect(() => {
+    if (!open) {
+      touchInMenu.current = false;
+      return;
+    }
+    const onStart = (e: TouchEvent) => {
+      const t = e.target as Node;
+      touchInMenu.current =
+        !!menuRef.current?.contains(t) || !!menuBtnRef.current?.contains(t);
+    };
+    const onEnd = () => {
+      // small delay so the last scroll event is still ignored
+      setTimeout(() => (touchInMenu.current = false), 150);
+    };
+    document.addEventListener("touchstart", onStart, { passive: true });
+    document.addEventListener("touchend", onEnd, { passive: true });
+    document.addEventListener("touchcancel", onEnd, { passive: true });
+    return () => {
+      document.removeEventListener("touchstart", onStart);
+      document.removeEventListener("touchend", onEnd);
+      document.removeEventListener("touchcancel", onEnd);
+    };
   }, [open]);
 
   /* phone popup: close on a click outside it, or on the Esc key */
@@ -533,9 +560,9 @@ export default function NavBar() {
 
       {/* Mobile menu */}
       {open && (
-        <nav
+                <nav
           ref={menuRef}
-          className="animate-fade-up mx-auto mt-2 flex w-[calc(100%-2rem)] text-[#3d2c1b] max-w-[1400px] flex-col gap-1 rounded-3xl border border-white/70 bg-[#fffaf2]/95 p-4 shadow-xl backdrop-blur-xl lg:hidden">
+          className="animate-fade-up mx-auto mt-2 flex w-[calc(100%-2rem)] max-w-[1400px] max-h-[calc(100dvh-6rem)] flex-col gap-1 overflow-y-auto overscroll-contain touch-pan-y rounded-3xl border border-white/70 bg-[#fffaf2]/95 p-4 text-[#3d2c1b] shadow-xl backdrop-blur-xl lg:hidden">
           {navLinks.map((item) =>
             item.children ? (
               <div key={item.name}>
