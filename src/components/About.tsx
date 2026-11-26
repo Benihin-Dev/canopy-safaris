@@ -18,14 +18,17 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600"] });
    Leave it empty to show the dark brown frame only. */
 const POSTER = "";
 
-/* The video that plays inside the frame. YouTube, Vimeo or a direct
-   .mp4 / .webm / .ogg link all work. */
-const VIDEO_URL =
-  "https://www.youtube.com/watch?v=n4xzVr6nRTI&pp=ygULc2FmYXJpIHJpZGU%3D";
+/* The video that plays inside the frame.*/
+const VIDEO_URL = "/images/about/AboutCover.mp4";
 
 type Source = { kind: "iframe" | "video"; src: string };
 
 function getSource(raw: string): Source | null {
+  // local file inside /public
+  if (raw.startsWith("/") && /\.(mp4|webm|ogg)$/i.test(raw)) {
+    return { kind: "video", src: raw };
+  }
+
   let u: URL;
   try {
     u = new URL(raw);
@@ -241,7 +244,8 @@ export default function About() {
           </div>
 
           {/* floating card: jeep (moves up and down) */}
-          <div
+          <Link
+            href="/packages"
             className="ab-fl-a absolute bottom-[70px] left-2 z-20 flex items-center gap-3.5 rounded-[20px] border border-[#c9a36a] bg-[#fffaf2] px-5 py-3.5 sm:-left-7"
             style={{ boxShadow: "0 20px 40px -18px rgba(97,61,29,.5)" }}
           >
@@ -254,13 +258,14 @@ export default function About() {
                 Open-air · Expert guides
               </span>
             </span>
-          </div>
+          </Link>
 
           {/* floating card: scooter (moves left and right) */}
-          <div
-            className="ab-fl-b absolute right-0 top-12 z-20 flex items-center gap-3.5 rounded-[20px] bg-[#2b1d10] px-5 py-3.5 text-white"
-            style={{ boxShadow: "0 20px 40px -18px rgba(97,61,29,.6)" }}
-          >
+        <Link
+        href="/rentals"
+        className="ab-fl-b absolute right-0 top-12 z-20 flex items-center gap-3.5 rounded-[20px] bg-[#2b1d10] px-5 py-3.5 text-white"
+        style={{ boxShadow: "0 20px 40px -18px rgba(97,61,29,.6)" }}
+        >
             <span className="flex size-[46px] items-center justify-center rounded-full bg-[#a15f21]">
               <ScooterIcon />
             </span>
@@ -270,7 +275,7 @@ export default function About() {
                 Arugam Bay region
               </span>
             </span>
-          </div>
+          </Link>
         </div>
 
         {/* Right: content */}
