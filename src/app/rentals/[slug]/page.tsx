@@ -16,19 +16,6 @@ import RentalBookingCard from "@/components/RentalBookingCard";
 
 type Props = { params: Promise<{ slug: string }> };
 
-/* ----- "How renting works" (edit the words here) ----- */
-const steps = [
-  { title: "Message us", text: "Tell us your dates on WhatsApp." },
-  {
-    title: "Show your documents",
-    text: "A valid licence and a copy of your passport.", // <- put your real rules here
-  },
-  {
-    title: "Pick up and ride",
-    text: "We hand over the keys and a quick safety brief.",
-  },
-];
-
 /* picks an icon for each spec by its label (Engine, Seats, Fuel...) */
 const specIcon = (label: string) => {
   const l = label.toLowerCase();
@@ -177,12 +164,13 @@ export default async function RentalPage({ params }: Props) {
             )}
           </div>
 
+          {rental.howItWorks && rental.howItWorks.length > 0 && (
           <div>
             <h2 className="font-bebas text-4xl uppercase tracking-wide text-[#2b1d10]">
               How renting works
             </h2>
             <ol className="mt-6 space-y-6 border-l border-[#c9a36a] pl-8">
-              {steps.map((s, i) => (
+              {rental.howItWorks.map((s, i) => (
                 <li key={s.title} className="relative">
                   <span className="font-inter absolute -left-[47px] top-0 grid size-8 place-items-center rounded-full bg-[#a15f21] text-xs font-semibold text-white ring-4 ring-[#f0eee5]">
                     {i + 1}
@@ -197,6 +185,7 @@ export default async function RentalPage({ params }: Props) {
               ))}
             </ol>
           </div>
+          )}
         </div>
 
         {/* sticky booking card */}
