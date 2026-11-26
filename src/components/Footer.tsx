@@ -122,7 +122,7 @@ export default function Footer() {
           <div className="order-first flex items-center justify-center border-white/30 sm:order-0 sm:border-x">
             <Link href="/" aria-label="Canopy Safaris home">
               <Image
-                className="size-20 object-contain brightness-0 invert sm:size-24"
+                className="size-28 object-contain brightness-0 invert sm:size-64"
                 src="/images/logo.png"
                 alt="Canopy Safaris logo"
                 width={250}
