@@ -194,7 +194,7 @@ export default function PeekShowcase() {
             href="/rentals"
             className="hidden md:inline-flex items-center gap-3 mt-7 rounded-full bg-[#a15f21] pl-6 pr-2 py-2 font-poppins text-sm font-semibold text-white transition hover:bg-[#7d4a19] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a15f21]"
           >
-            Read more
+            View all rentals
             <span className="grid size-9 place-items-center rounded-full bg-white text-[#a15f21]">
               <IoArrowForward className="size-4" />
             </span>
@@ -377,9 +377,9 @@ export default function PeekShowcase() {
         </div>
         <Link
           href="/rentals"
-          className="md:hidden justify-self-center font-poppins text-sm font-semibold text-[#a15f21] underline underline-offset-4"
+          className="md:hidden justify-self-center inline-flex items-center gap-1.5 rounded-full border border-[#a15f21] px-[22px] py-[9px] font-poppins text-[0.9rem] font-medium text-[#a15f21] transition-colors duration-200 hover:bg-[#a15f21] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[#a15f21]"
         >
-          View all rentals →
+          View all rentals
         </Link>
       </div>
     </section>
