@@ -83,6 +83,8 @@ export default function NavBar() {
   const [copied, setCopied] = useState(false);
   const phoneRef = useRef<HTMLDivElement>(null);
   const phoneBtnRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLElement>(null);
+  const menuBtnRef = useRef<HTMLButtonElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const cur = useRef(0); // where the bar is drawn now (px slid up)
   const target = useRef(0); // where it is heading
@@ -136,7 +138,14 @@ export default function NavBar() {
       lastY = y;
       setAtTop(y < 24);
       if (diff !== 0) dir = diff > 0 ? 1 : -1;
-      if (Math.abs(diff) > 4) setPhoneOpen(false); // any real scroll closes the popup
+      if (Math.abs(diff) > 4) {
+        setPhoneOpen(false); // any real scroll closes the popups
+        if (openRef.current) {
+          openRef.current = false;
+          setOpen(false);
+          setMobilePkg(false);
+        }
+      }
 
       if (y < 24 || openRef.current) {
         moveTo(0); // always shown at the top
@@ -191,6 +200,19 @@ export default function NavBar() {
     openRef.current = open;
     if (open) moveTo(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  /* mobile menu: close on a tap outside it */
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => {
+      const t = e.target as Node;
+      if (menuRef.current?.contains(t) || menuBtnRef.current?.contains(t)) return;
+      setOpen(false);
+      setMobilePkg(false);
+    };
+    document.addEventListener("pointerdown", onDown);
+    return () => document.removeEventListener("pointerdown", onDown);
   }, [open]);
 
   /* phone popup: close on a click outside it, or on the Esc key */
@@ -489,6 +511,7 @@ export default function NavBar() {
               Book Now
             </Link>
             <button
+              ref={menuBtnRef}
               type="button"
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
@@ -510,7 +533,9 @@ export default function NavBar() {
 
       {/* Mobile menu */}
       {open && (
-        <nav className="animate-fade-up mx-auto mt-2 flex w-[calc(100%-2rem)] text-[#3d2c1b] max-w-[1400px] flex-col gap-1 rounded-3xl border border-white/70 bg-[#fffaf2]/95 p-4 shadow-xl backdrop-blur-xl lg:hidden">
+        <nav
+          ref={menuRef}
+          className="animate-fade-up mx-auto mt-2 flex w-[calc(100%-2rem)] text-[#3d2c1b] max-w-[1400px] flex-col gap-1 rounded-3xl border border-white/70 bg-[#fffaf2]/95 p-4 shadow-xl backdrop-blur-xl lg:hidden">
           {navLinks.map((item) =>
             item.children ? (
               <div key={item.name}>
