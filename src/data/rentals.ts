@@ -45,7 +45,7 @@ export const rentals: Rental[] = [
     excluded: ["Fuel", "Personal expenses", "Traffic fines or penalties"],
     howItWorks: [
       {
-        title: "Message us",
+        title: "Start Your Booking",
         text: "Share your preferred rental dates via WhatsApp or book directly through our online booking link.",
       },
       {
@@ -82,7 +82,7 @@ export const rentals: Rental[] = [
     excluded: ["Fuel", "Personal expenses", "Traffic fines or penalties"],
     howItWorks: [
       {
-        title: "Message us",
+        title: "Start Your Booking",
         text: "Share your preferred rental dates via WhatsApp or book directly through our online booking link.",
       },
       {
@@ -119,7 +119,7 @@ export const rentals: Rental[] = [
     excluded: ["Fuel", "Personal expenses", "Traffic fines or penalties"],
     howItWorks: [
       {
-        title: "Message us",
+        title: "Start Your Booking",
         text: "Share your preferred rental dates via WhatsApp or book directly through our online booking link.",
       },
       {
