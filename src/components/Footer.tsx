@@ -72,7 +72,7 @@ export default function Footer() {
         </div>
 
         {/* Navigation */}
-        <nav aria-label="Footer" className="pb-6">
+        <nav aria-label="Footer" className="pb-3">
           <ul className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-semibold">
             {navLinks.map((link) => (
               <li key={link.label}>
@@ -87,7 +87,7 @@ export default function Footer() {
         <div className="border-t border-white/30" />
 
         {/* Contact (left) / Logo (middle) / Social (right) */}
-        <div className="grid grid-cols-1 gap-8 py-8 text-sm font-semibold sm:grid-cols-3 sm:gap-0">
+        <div className="grid grid-cols-1 gap-4 py-4 text-sm font-semibold sm:grid-cols-3 sm:gap-0">
           {/* Contact us */}
           <div className="flex flex-col justify-center gap-3 sm:pr-6">
             <h3 className="text-base">Contact us</h3>
@@ -156,7 +156,7 @@ export default function Footer() {
         <div className="border-t border-white/30" />
 
         {/* Copyright + popup links */}
-        <div className="flex flex-col items-center justify-between gap-3 py-3 text-xs text-white/80 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-1 py-3 text-xs text-white/80 sm:flex-row">
           <p>© {new Date().getFullYear()}, All Rights Reserved by Canopy Safaris</p>
           <FooterLegalLinks />
         </div>
