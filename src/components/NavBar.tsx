@@ -213,6 +213,25 @@ export default function NavBar() {
     };
   }, [phoneOpen]);
 
+  /* desktop (mouse): the phone card opens when the cursor reaches the icon and
+     closes shortly after it leaves. Touch screens keep the tap-to-open behaviour. */
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const canHover = () =>
+    typeof window !== "undefined" &&
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const hoverOpen = () => {
+    if (!canHover()) return;
+    clearTimeout(hoverTimer.current);
+    setOpen(false);
+    setPhoneOpen(true);
+  };
+  const hoverClose = () => {
+    if (!canHover()) return;
+    clearTimeout(hoverTimer.current);
+    hoverTimer.current = setTimeout(() => setPhoneOpen(false), 250);
+  };
+  useEffect(() => () => clearTimeout(hoverTimer.current), []);
+
   const copyNumber = async () => {
     try {
       await navigator.clipboard.writeText(`+${PHONE_DIGITS}`);
@@ -381,7 +400,12 @@ export default function NavBar() {
 
           <div className="flex items-center justify-self-end gap-3">
             {/* phone icon: opens a small card with WhatsApp / Call */}
-            <div ref={phoneRef} className="sm:relative">
+            <div
+              ref={phoneRef}
+              className="sm:relative"
+              onMouseEnter={hoverOpen}
+              onMouseLeave={hoverClose}
+            >
               <button
                 ref={phoneBtnRef}
                 type="button"
@@ -390,7 +414,7 @@ export default function NavBar() {
                 aria-controls="phone-popup"
                 onClick={() => {
                   setOpen(false);
-                  setPhoneOpen((o) => !o);
+                  setPhoneOpen((o) => (canHover() ? true : !o));
                 }}
                 className={`grid size-10 cursor-pointer place-items-center rounded-full border transition-colors duration-300 ${
                   phoneOpen
