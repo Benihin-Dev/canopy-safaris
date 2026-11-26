@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   IoArrowForward,
@@ -97,6 +97,23 @@ export default function PeekShowcase() {
   const [live, setLive] = useState(false);
 
   const go = (i) => setActive(((i % N) + N) % N);
+
+  // touch swipe: left = next card, right = previous card (loops)
+  const touchStart = useRef(null);
+  const onTouchStart = (e) => {
+    const t = e.touches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY };
+  };
+  const onTouchEnd = (e) => {
+    if (!touchStart.current) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStart.current.x;
+    const dy = t.clientY - touchStart.current.y;
+    touchStart.current = null;
+    // ignore short moves and mostly-vertical moves (normal page scroll)
+    if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+    go(dx < 0 ? active + 1 : active - 1);
+  };
 
   // remember the visitor's currency choice
   useEffect(() => {
@@ -228,7 +245,9 @@ export default function PeekShowcase() {
         <div
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
-          className="relative min-w-0 grid justify-items-center items-center pt-14 pb-10 md:translate-x-8 [--cw:min(76vw,340px)] md:[--cw:clamp(250px,28vw,370px)]"
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          className="relative min-w-0 grid justify-items-center items-center pt-14 pb-10 touch-pan-y md:translate-x-8 [--cw:min(76vw,340px)] md:[--cw:clamp(250px,28vw,370px)]"
           style={{ perspective: "1600px" }}
         >
           {/* currency switch */}
