@@ -116,7 +116,7 @@ export default async function RentalPage({ params }: Props) {
             <h2 className="font-bebas text-4xl uppercase tracking-wide text-[#2b1d10]">
               Overview
             </h2>
-            <p className="font-inter mt-4 leading-relaxed text-[#5b4733]">
+            <p className="font-inter mt-4 text-justify hyphens-auto leading-relaxed text-[#5b4733]">
               {rental.overview}
             </p>
             {rental.features.length > 0 && (
