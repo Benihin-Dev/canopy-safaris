@@ -41,7 +41,7 @@ export const rentals: Rental[] = [
       { label: "Seats", value: "2" },
       { label: "Fuel", value: "Petrol" },
     ],
-    included: ["Scooter rental", "Safety helmets", "Basic roadside assistance"],
+    included: ["24/7 support", "Safety helmets", "Basic roadside assistance"],
     excluded: ["Fuel", "Personal expenses", "Traffic fines or penalties"],
     howItWorks: [
       {
@@ -78,7 +78,7 @@ export const rentals: Rental[] = [
       { label: "Seats", value: "2" },
       { label: "Fuel", value: "Petrol" },
     ],
-    included: ["Scooter rental for extended stays", "Safety helmets", "Basic roadside assistance"],
+    included: ["24/7 support", "Safety helmets", "Basic roadside assistance",],
     excluded: ["Fuel", "Personal expenses", "Traffic fines or penalties"],
     howItWorks: [
       {
@@ -115,7 +115,7 @@ export const rentals: Rental[] = [
       { label: "Seats", value: "3" },
       { label: "Fuel", value: "Petrol" },
     ],
-    included: ["Tuk-tuk rental", "Basic safety equipment", "Basic roadside assistance"],
+    included: ["24/7 support", "Basic safety equipment", "Basic roadside assistance"],
     excluded: ["Fuel", "Personal expenses", "Traffic fines or penalties"],
     howItWorks: [
       {
@@ -189,12 +189,12 @@ export const rentals: Rental[] = [
       { label: "Seats", value: "2" },
       { label: "Fuel", value: "Petrol" },
     ],
-    included: ["Tuk-tuk transportation", "Pick-up from Arugam Bay", "Drop-off at Whisky Point"],
+    included: ["One-way tuk-tuk transfer", "Pick-up from Arugam Bay or Whisky Point", "Drop-off at your requested destination (upon request)"],
     excluded: ["Personal expenses", "Food and beverages", "Additional stops or detours"],
     howItWorks: [
       {
         title: "Book your ride",
-        text: "Arrange your transfer via WhatsApp or book directly through our online booking link.",
+        text: "Book your ride via WhatsApp or directly through our online booking link.",
       },
       {
         title: "Confirm your journey",
@@ -202,7 +202,7 @@ export const rentals: Rental[] = [
       },
       {
         title: "Enjoy your ride",
-        text: "Meet your driver and enjoy a comfortable journey from Arugam Bay to Whisky Point.",
+        text: "Meet your driver and enjoy a comfortable one-way journey between Arugam Bay and Whisky Point, in either direction.",
       },
     ],
   },
@@ -226,7 +226,7 @@ export const rentals: Rental[] = [
       { label: "Seats", value: "3" },
       { label: "Fuel", value: "Petrol" },
     ],
-    included: ["Local driver assistance", "Tuk-tuk transportation", "Flexible destination selection"],
+    included: ["Tuk-tuk transportation", "Local driver assistance", "Flexible destination selection"],
     excluded: ["Personal expenses", "Food and beverages", "Entrance fees (where applicable)"],
     howItWorks: [
       {
