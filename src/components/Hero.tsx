@@ -139,19 +139,27 @@ export default function Hero() {
 
       <div className="relative z-20 mx-auto w-full px-5 pb-20 pt-32 sm:w-11/12 sm:px-0 lg:max-w-350">
         <div className="w-full md:relative md:-right-[1vw]">
-          <div className="w-full text-center md:text-left">
+          <div className="w-full text-left">
             {/* small top heading */}
-            <p
-              className={`${cinzel.className} inline-flex items-center gap-3.5 text-[11px] font-semibold uppercase tracking-[3px] text-[#f1c46b] sm:text-[13px]`}
-            >
+               <p
+                 className={`${cinzel.className} hidden items-center gap-3.5 text-[11px] font-semibold uppercase tracking-[3px] text-[#f1c46b] sm:text-[13px] md:inline-flex`}
+               >
               <span className="hidden h-px w-9 bg-[#f1c46b] md:inline-block" />
               Exclusive adventures in Kumana
             </p>
 
             {/* main heading */}
-            <h1
-              className={`${playfair.className} mt-4 font-medium leading-[1.1]`}
-            >
+            {/* mobile only: fixed heading, no typing */}
+               <h1 className="font-bebas text-[54px] leading-[.92] text-[#F7F3E9] md:hidden">
+                       Beyond the Ordinary,
+                    <span className="block text-[#ff9a3c]">Into the Wild</span>
+                 <span className="mt-2.5 block h-[3px] w-[70px] rounded-sm bg-[#ff9a3c]" />
+               </h1>
+
+{/* desktop only: the existing typing heading */}
+<h1
+  className={`${playfair.className} mt-4 hidden font-medium leading-[1.1] md:block`}
+>
               <span className="block text-[40px] text-[#F7F3E9] sm:text-5xl md:text-[52px] lg:text-[64px]">
                 Beyond the Ordinary,
               </span>
