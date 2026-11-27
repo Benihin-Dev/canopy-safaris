@@ -275,7 +275,8 @@ body {
 .who-tag{
   position:absolute;left:128px;bottom:-2px;z-index:5;
   background:#fff;color:#2b1d10;font-size:12px;font-weight:600;text-decoration:none;
-  padding:9px 16px 9px 26px;transform:rotate(6deg);
+  white-space:nowrap;min-width:150px;
+  padding:9px 22px 9px 26px;transform:rotate(6deg);
   filter:drop-shadow(0 6px 8px rgba(0,0,0,.28));
   clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);
   transition:transform .3s,background .3s;
@@ -284,7 +285,7 @@ body {
   content:"";position:absolute;left:9px;top:50%;width:6px;height:6px;margin-top:-3px;
   border-radius:50%;background:#D9822B;
 }
-.who-tag:hover,.who-tag:focus-visible{transform:rotate(0) scale(1.07);background:#D9822B}
+.who-tag:hover,.who-tag:focus-visible{animation:none;transform:rotate(0) scale(1.07);background:#D9822B}
 
 /* start booking button */
 .who-book{
@@ -333,4 +334,45 @@ body {
 }
 .who-label::before{
   content:"";display:block;width:3px;height:18px;background:#D9822B;border-radius:2px;
+}
+/* portfolio tag: small animations */
+.who-tag{
+  transform-origin:left center;
+  animation:who-tag-swing 3.5s ease-in-out infinite;
+}
+@keyframes who-tag-swing{
+  0%,100%{transform:rotate(6deg)}
+  50%{transform:rotate(2deg)}
+}
+
+/* shine sweeping across */
+.who-tag::after{
+  content:"";position:absolute;top:0;bottom:0;left:-60%;width:35%;
+  background:linear-gradient(100deg,transparent,rgba(217,130,43,.4),transparent);
+  transform:skewX(-20deg);
+  animation:who-shine 4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes who-shine{
+  0%,55%{left:-60%}
+  100%{left:130%}
+}
+
+/* pulsing dot */
+.who-tag::before{animation:who-dot 1.8s ease-in-out infinite}
+@keyframes who-dot{
+  50%{transform:scale(1.6);opacity:.7}
+}
+
+/* arrow nudge */
+.who-tag span{
+  display:inline-block;
+  animation:who-arrow 1.6s ease-in-out infinite;
+}
+@keyframes who-arrow{
+  50%{transform:translate(2px,-2px)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .who-tag,.who-tag::before,.who-tag::after,.who-tag span{animation:none}
 }
