@@ -273,7 +273,7 @@ body {
 
 /* portfolio luggage tag */
 .who-tag{
-  position:absolute;left:150px;bottom:-2px;z-index:5;
+  position:absolute;left:100px;bottom:-2px;z-index:5;
   background:#fff;color:#2b1d10;font-size:12px;font-weight:600;text-decoration:none;
   white-space:nowrap;min-width:150px;
   padding:9px 22px 9px 26px;transform:rotate(6deg);
