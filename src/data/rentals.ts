@@ -142,7 +142,7 @@ export const rentals: Rental[] = [
     img: "/images/peek/tuktuk2.jpg",
     price: "$12",
     priceLkr: 3600,
-    priceUnit: "day",
+    priceUnit: "trip",
     features: ["Visit Elephant Rock", "Enjoy beautiful sunset views"],
     cta: "Book now",
     overview: "Experience the beauty of Arugam Bay with a memorable sunset visit to Elephant Rock. Enjoy a scenic journey to one of the area's most picturesque coastal viewpoints, where you can take in stunning ocean views and the peaceful atmosphere as the sun sets over the horizon. Perfect for couples, friends and nature lovers.",
