@@ -190,10 +190,11 @@ export default async function RentalPage({ params }: Props) {
 
         {/* sticky booking card */}
         <aside className="lg:sticky lg:top-8 lg:self-start">
-         <RentalBookingCard
+          <RentalBookingCard
             title={rental.title}
             price={rental.price}
             slug={rental.slug}
+            priceUnit={rental.priceUnit}
           />
         </aside>
       </section>
@@ -225,7 +226,7 @@ export default async function RentalPage({ params }: Props) {
                     {r.title}
                   </h3>
                   <p className="font-inter text-sm text-[#5b4733]">
-                    From {r.price} / day
+                    From {r.price} / {r.priceUnit ?? "day"}
                   </p>
                 </div>
               </Link>
