@@ -319,3 +319,13 @@ body {
 @media (prefers-reduced-motion:reduce){
   .who-frame,.who-book-circle::before{animation:none}
 }
+/* "Naturalist" label on the guide photo */
+.who-label-fade{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to top,rgba(20,12,6,.65),transparent 50%);
+}
+.who-label{
+  position:absolute;left:10px;bottom:9px;z-index:2;
+  color:#fff;font-size:9px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;
+  padding-top:5px;border-top:2px solid #D9822B;
+}
