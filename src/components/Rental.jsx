@@ -324,7 +324,7 @@ export default function PeekShowcase() {
                     <span className="absolute -bottom-4 right-3 z-10 whitespace-nowrap rounded-full border-[3px] border-[#fffaf2] bg-[#a15f21] px-3.5 py-1.5 font-poppins text-sm font-medium text-white">
                       {formatPrice(r.price, currency, rate)}{" "}
                       <span className="text-[11px] font-normal opacity-90">
-                        / day
+                        / {r.priceUnit ?? "day"}
                       </span>
                     </span>
                   )}
