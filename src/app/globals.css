@@ -358,12 +358,6 @@ body {
   100%{left:130%}
 }
 
-/* pulsing dot */
-.who-tag::before{animation:who-dot 1.8s ease-in-out infinite}
-@keyframes who-dot{
-  50%{transform:scale(1.6);opacity:.7}
-}
-
 /* arrow nudge */
 .who-tag span{
   display:inline-block;
