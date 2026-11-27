@@ -11,8 +11,8 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600"] });
    left / top / w / h are in % of the collage box, rot = tilt in degrees.
    z = which photo sits on top. Change the src to use your own photos. */
 /* ----- portfolio link (shown as a luggage tag on one photo) ----- */
-const PORTFOLIO_URL = "astanric.vercel.app"; // portfolio link
-const PORTFOLIO_LABEL = "Our Portfolio";
+const PORTFOLIO_URL = "https://jastanric.vercel.app/"; // portfolio link
+const PORTFOLIO_LABEL = "My Portfolio";
 
 const photos = [
   {
@@ -51,6 +51,7 @@ const photos = [
     float: "9s",
     delay: "-4s",
     link: true, // the portfolio tag sits on this photo
+    label: "Naturalist", // small word shown on the photo
   },
 ];
 
@@ -94,6 +95,14 @@ export default function WhoWeAre() {
                     sizes="(max-width: 1024px) 40vw, 200px"
                     className="object-cover"
                   />
+                  {p.label && (
+                    <>
+                      <span aria-hidden="true" className="who-label-fade" />
+                      <span className={`${poppins.className} who-label`}>
+                        {p.label}
+                      </span>
+                    </>
+                  )}
                 </div>
                 {p.link && (
                   <a
