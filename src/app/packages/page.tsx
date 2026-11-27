@@ -19,6 +19,7 @@ export default function PackagesPage() {
         eyebrow="Safari"
         title="Choose your wild adventure"
         sub="Curated jeep safaris across Sri Lanka's most iconic parks."
+        img="/images/SafariPackages/safarihero.jpg"
       />
 
       <section className="bg-[#f0eee5] py-20">
