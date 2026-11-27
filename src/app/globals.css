@@ -275,7 +275,7 @@ body {
 .who-tag{
   position:absolute;left:115px;bottom:-2px;z-index:5;
   background:#fff;color:#2b1d10;font-size:12px;font-weight:600;text-decoration:none;
-  white-space:nowrap;min-width:150px;
+  white-space:nowrap;min-width:130px;
   padding:9px 22px 9px 26px;transform:rotate(6deg);
   filter:drop-shadow(0 6px 8px rgba(0,0,0,.28));
   clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);
