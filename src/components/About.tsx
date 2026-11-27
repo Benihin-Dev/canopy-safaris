@@ -385,7 +385,7 @@ export default function About() {
                   <Link
                     key={p.name}
                     href={`/packages/${p.slug}`}
-                    className="ab-card relative flex items-center gap-3 overflow-hidden rounded-[18px] py-4 pl-5 pr-4"
+                    className="group ab-card relative flex items-center gap-3 overflow-hidden rounded-[18px] py-4 pl-5 pr-4"
                     style={{
                       background: "linear-gradient(150deg, #4a3320, #2b1d10)",
                     }}
@@ -405,6 +405,21 @@ export default function About() {
                       <span className="mt-[3px] block text-[11.5px] text-[#e8d9bf]">
                         National Park
                       </span>
+                    </span>
+                    <span className="absolute bottom-2.5 right-2.5 flex size-[26px] items-center justify-center rounded-full border border-white/45 text-white transition group-hover:border-[#e77b2a] group-hover:bg-[#e77b2a] group-hover:text-[#2b1d10]">
+                      <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M7 17L17 7M17 7H8M17 7V16" />
+                      </svg>
                     </span>
                   </Link>
                 ))}
