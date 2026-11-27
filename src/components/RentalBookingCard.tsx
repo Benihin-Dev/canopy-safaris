@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { FaWhatsapp } from "react-icons/fa";
 
 /* WhatsApp number: country code + number, no + or spaces */
 const WHATSAPP = "94754540123";
@@ -11,9 +10,11 @@ const MAX_DAYS = 30;
 export default function RentalBookingCard({
   title,
   price,
+  slug,
 }: {
   title: string;
   price: string; // "$12"
+  slug: string;
 }) {
   const unit = Number(price.replace(/[^0-9.]/g, "")) || 0;
   const [days, setDays] = useState(3);
@@ -36,7 +37,7 @@ export default function RentalBookingCard({
   const total = unit * days;
   const lkr = Math.round((total * rate) / 100) * 100; // nearest 100 rupees
   const dayWord = days === 1 ? "day" : "days";
-  const msg = `Hi, I'd like to rent the ${title} for ${days} ${dayWord} (about $${total}).`;
+  const msg = `Hi! I would like to enquire about renting the ${title} for ${days} ${dayWord} (about $${total}).`;
   const href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 
   return (
@@ -84,20 +85,25 @@ export default function RentalBookingCard({
         &asymp; Rs {lkr.toLocaleString("en-US")}
       </p>
 
+      <Link
+        href={`/book?service=rental&type=${slug}`}
+        className="font-inter mt-5 block rounded-full bg-[#a15f21] py-3.5 text-center text-sm font-semibold text-white transition hover:bg-[#7d4a19]"
+      >
+        Book this rental
+      </Link>
       <a
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="font-inter mt-5 flex items-center justify-center gap-2 rounded-full bg-[#a15f21] py-3.5 text-sm font-semibold text-white transition hover:bg-[#7d4a19]"
+        className="font-inter mt-3 block rounded-full border border-[#c9a36a] py-3.5 text-center text-sm font-semibold text-[#5b4733] transition hover:bg-[#f0eee5]"
       >
-        <FaWhatsapp aria-hidden="true" className="size-[18px]" />
-        Book on WhatsApp
+        WhatsApp inquiry
       </a>
       <Link
         href="/rentals"
-        className="font-inter mt-3 block rounded-full border border-[#c9a36a] py-3.5 text-center text-sm font-semibold text-[#5b4733] transition hover:bg-[#f0eee5]"
+        className="font-inter mt-4 block text-center text-sm font-medium text-[#5b4733] underline decoration-[#c9a36a] underline-offset-4 transition hover:text-[#a15f21]"
       >
-        View all rentals
+        Compare packages
       </Link>
 
       <p className="font-inter mt-4 text-center text-[10.5px] text-[#9a8a77]">
