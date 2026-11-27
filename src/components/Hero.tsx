@@ -42,7 +42,10 @@ const PHRASES = [
   "Explore Without Limits.",
 ];
 const LONGEST = PHRASES.reduce((a, b) => (b.length > a.length ? b : a));
-const WILD = "Into the Wild";
+const MOBILE_PHRASES = ["Into the Wild", "Closer to Nature"];
+const MOBILE_LONGEST = MOBILE_PHRASES.reduce((a, b) =>
+  b.length > a.length ? b : a,
+);
 
 export default function Hero() {
   const router = useRouter();
@@ -80,19 +83,21 @@ export default function Hero() {
     return () => clearTimeout(timer);
   }, []);
 
-/* mobile only: types "Into the Wild", waits 3s, erases, repeats */
-const [wild, setWild] = useState(WILD);
+/* mobile only: types two phrases one after the other */
+const [wild, setWild] = useState(MOBILE_PHRASES[0]);
 useEffect(() => {
   if (window.matchMedia("(min-width: 768px)").matches) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  let i = 0;
+  let p = 0; // which phrase
+  let i = 0; // how many letters are showing
   let erasing = false;
   let timer: ReturnType<typeof setTimeout>;
   const tick = () => {
+    const text = MOBILE_PHRASES[p];
     if (!erasing) {
       i++;
-      setWild(WILD.slice(0, i));
-      if (i === WILD.length) {
+      setWild(text.slice(0, i));
+      if (i === text.length) {
         erasing = true;
         timer = setTimeout(tick, 3000);
         return;
@@ -100,9 +105,10 @@ useEffect(() => {
       timer = setTimeout(tick, 110);
     } else {
       i--;
-      setWild(WILD.slice(0, i));
+      setWild(text.slice(0, i));
       if (i === 0) {
         erasing = false;
+        p = (p + 1) % MOBILE_PHRASES.length;
         timer = setTimeout(tick, 500);
         return;
       }
@@ -184,10 +190,10 @@ useEffect(() => {
             </p>
 
             {/* mobile only: fixed heading, no typing */}
-               <h1 className="font-bebas text-[64px] leading-[1.02] text-[#F7F3E9] md:hidden">
+               <h1 className="font-bebas text-[clamp(40px,14vw,56px)] leading-[1.02] text-[#F7F3E9] md:hidden">
                        Beyond the Ordinary,
                   <span className="relative block text-[#ff9a3c]">
-                    <span className="invisible">{WILD}</span>
+                    <span className="invisible">{MOBILE_LONGEST}</span>
                     <span className="absolute left-0 top-0 whitespace-nowrap">{wild}</span>
                   </span>
                  <span className="mt-2.5 block h-[3px] w-[70px] rounded-sm bg-[#ff9a3c]" />
