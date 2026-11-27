@@ -1,11 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { rentals } from "@/data/rentals";
 
 /* WhatsApp number: country code + number, no + or spaces */
 const WHATSAPP = "94754540123";
 const FALLBACK_RATE = 300; // used only if the live rate cannot be loaded
 const MAX_DAYS = 30;
+
+/* scooter: 3 days or less = Short Stay, 4 days or more = Long Stay */
+const SHORT_SLUG = "scooter-one";
+const LONG_SLUG = "scooter-two";
+const LONG_FROM = 4;
 
 export default function RentalBookingCard({
   title,
@@ -16,9 +22,21 @@ export default function RentalBookingCard({
   price: string; // "$12"
   slug: string;
 }) {
-  const unit = Number(price.replace(/[^0-9.]/g, "")) || 0;
-  const [days, setDays] = useState(3);
+  const [days, setDays] = useState(slug === LONG_SLUG ? LONG_FROM : 3);
   const [rate, setRate] = useState(FALLBACK_RATE);
+
+  // scooters shift between Short Stay and Long Stay by number of days
+  const isScooter = slug === SHORT_SLUG || slug === LONG_SLUG;
+  const stay = isScooter
+    ? rentals.find(
+        (r) => r.slug === (days >= LONG_FROM ? LONG_SLUG : SHORT_SLUG),
+      )
+    : undefined;
+  const curTitle = stay?.title ?? title;
+  const curPrice = stay?.price ?? price;
+  const curSlug = stay?.slug ?? slug;
+
+  const unit = Number(curPrice.replace(/[^0-9.]/g, "")) || 0;
 
   // today's rate (cached on the server, see src/app/api/rate/route.ts)
   useEffect(() => {
@@ -37,7 +55,7 @@ export default function RentalBookingCard({
   const total = unit * days;
   const lkr = Math.round((total * rate) / 100) * 100; // nearest 100 rupees
   const dayWord = days === 1 ? "day" : "days";
-  const msg = `Hi! I would like to enquire about renting the ${title} for ${days} ${dayWord} (about $${total}).`;
+  const msg = `Hi! I would like to enquire about renting the ${curTitle} for ${days} ${dayWord} (about $${total}).`;
   const href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 
   return (
@@ -46,11 +64,17 @@ export default function RentalBookingCard({
         Price
       </p>
       <p className="font-bebas text-5xl tracking-wide text-[#2b1d10]">
-        {price}{" "}
+        {curPrice}{" "}
         <span className="font-inter text-xs normal-case tracking-normal text-[#7a6550]">
           / day
         </span>
       </p>
+      {stay && (
+        <p className="font-inter text-xs font-medium text-[#a15f21]">
+          {stay.badge} rate ·{" "}
+          {days >= LONG_FROM ? "4 days or more" : "up to 3 days"}
+        </p>
+      )}
 
       <p className="font-inter mt-5 text-xs text-[#7a6550]">How many days?</p>
       <div className="mt-1.5 flex items-center justify-between rounded-xl border border-[#d9c7a8] bg-white px-2 py-1.5">
@@ -86,7 +110,7 @@ export default function RentalBookingCard({
       </p>
 
       <Link
-        href={`/book?service=rental&type=${slug}`}
+        href={`/book?service=rental&type=${curSlug}`}
         className="font-inter mt-5 block rounded-full bg-[#a15f21] py-3.5 text-center text-sm font-semibold text-white transition hover:bg-[#7d4a19]"
       >
         Book this rental
