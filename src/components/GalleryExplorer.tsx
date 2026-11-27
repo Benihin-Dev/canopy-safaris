@@ -1,4 +1,5 @@
 "use client";
+import { MAP_PATHS, MAP_VIEWBOX, project } from "@/data/sriLankaMap";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -151,19 +152,25 @@ export default function GalleryExplorer() {
           </p>
 
           <svg
-            viewBox="0 0 180 230"
+            viewBox={MAP_VIEWBOX}
             role="group"
             aria-label="Map of Sri Lanka with national parks"
             className="mx-auto mt-2 w-full max-w-[300px]"
           >
-            <path
-              d="M78 6 L88 10 L92 22 L86 30 L98 46 L106 64 L114 86 L122 110 L126 136 L120 162 L106 188 L90 206 L72 210 L56 198 L46 174 L42 148 L44 120 L48 94 L56 68 L64 46 L72 32 L70 16 Z"
-              fill="#f0eee5"
-              stroke="#a15f21"
-              strokeWidth="1.5"
-            />
+            {MAP_PATHS.map((d, i) => (
+              <path
+                key={i}
+                d={d}
+                fill="#f0eee5"
+                stroke="#c9a36a"
+                strokeWidth="1"
+                strokeLinejoin="round"
+              />
+            ))}
+
             {liveParks.map((p) => {
               const on = p.slug === park.slug;
+              const { x, y } = project(p.lat, p.lng);
               return (
                 <g
                   key={p.slug}
@@ -178,28 +185,30 @@ export default function GalleryExplorer() {
                       pickPark(p.slug);
                     }
                   }}
-                  className="cursor-pointer outline-none [&:focus-visible>circle:last-of-type]:stroke-[#2b1d10]"
+                  className="cursor-pointer outline-none"
                 >
-                  {on && (
-                    <circle cx={p.x} cy={p.y} r="14" fill="#f59e0b" opacity=".35" />
-                  )}
+                  {on && <circle cx={x} cy={y} r="30" fill="#f59e0b" opacity=".35" />}
                   {/* bigger invisible circle = easier to tap on a phone */}
-                  <circle cx={p.x} cy={p.y} r="14" fill="transparent" />
+                  <circle cx={x} cy={y} r="30" fill="transparent" />
                   <circle
-                    cx={p.x}
-                    cy={p.y}
-                    r={on ? 8 : 6}
+                    cx={x}
+                    cy={y}
+                    r={on ? 16 : 11}
                     fill={on ? "#f59e0b" : "#a15f21"}
                     stroke="#2b1d10"
-                    strokeWidth={on ? 1.5 : 0}
+                    strokeWidth={on ? 3 : 0}
                   />
                   <text
-                    x={p.side === "left" ? p.x - 11 : p.x + 11}
-                    y={p.y + 4}
+                    x={p.side === "left" ? x - 22 : x + 22}
+                    y={y + 10}
                     textAnchor={p.side === "left" ? "end" : "start"}
-                    fontSize="11"
+                    fontSize="28"
                     fill="#2b1d10"
-                    fontWeight={on ? 700 : 400}
+                    fontWeight={on ? 700 : 500}
+                    stroke="#f0eee5"
+                    strokeWidth="6"
+                    strokeLinejoin="round"
+                    paintOrder="stroke"
                     className="pointer-events-none select-none font-inter"
                   >
                     {p.name}
@@ -208,6 +217,9 @@ export default function GalleryExplorer() {
               );
             })}
           </svg>
+            <p className="mt-2 text-center font-inter text-[10px] text-[#5b4733]/70">
+            Map: simplemaps.com
+          </p>
         </div>
 
         {/* ================= RIGHT: park name + photos ================= */}
