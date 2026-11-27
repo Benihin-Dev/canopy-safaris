@@ -39,6 +39,9 @@ export default function RentalBookingCard({
   const hasUpDown = slug === UPDOWN_SLUG;
   const [upDown, setUpDown] = useState(false);
   const trips = hasUpDown && upDown ? 2 : 1;
+  const [reverse, setReverse] = useState(false); // false: Arugam Bay first
+  const from = reverse ? "Whisky Point" : "Arugam Bay";
+  const to = reverse ? "Arugam Bay" : "Whisky Point";
 
   // arrived from the other stay page: keep the days the visitor picked
   useEffect(() => {
@@ -78,10 +81,11 @@ export default function RentalBookingCard({
       ? priceLkr * trips // exact rupee price for trips
       : Math.round((total * rate) / 100) * 100; // nearest 100 rupees
   const dayWord = days === 1 ? "day" : "days";
-  const option = hasUpDown ? (upDown ? " (up and down)" : " (one trip)") : "";
-  const msg = perTrip
-    ? `Hi! I would like to enquire about the ${title}${option} (about $${total}, pick-up and drop).`
-    : `Hi! I would like to enquire about renting the ${title} for ${days} ${dayWord} (about $${total}).`;
+  const msg = hasUpDown
+    ? `Hi! I would like to enquire about a tuk-tuk transfer (${upDown ? "up and down" : "one trip"}): pick-up from ${from}, going to ${to} (about $${total}).`
+    : perTrip
+      ? `Hi! I would like to enquire about the ${title} (about $${total} per trip, pick-up and drop).`
+      : `Hi! I would like to enquire about renting the ${title} for ${days} ${dayWord} (about $${total}).`;
   const href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 
   return (
@@ -132,9 +136,31 @@ export default function RentalBookingCard({
                 </button>
               ))}
             </div>
-            <p className="font-inter mt-2 text-xs text-[#7a6550]">
-              Pick-up and drop included.
+            <p className="font-inter mt-4 text-xs text-[#7a6550]">
+              Choose your pick-up point
             </p>
+            <div className="mt-1.5 flex items-center justify-between gap-2 rounded-xl border border-[#d9c7a8] bg-white px-2 py-1.5">
+              <span className="flex-1 text-center font-inter text-sm font-medium text-[#2b1d10]">
+                <span className="block text-[10px] font-normal uppercase tracking-wider text-[#9a8a77]">
+                  From
+                </span>
+                {from}
+              </span>
+              <button
+                type="button"
+                onClick={() => setReverse((r) => !r)}
+                aria-label="Swap pick-up and drop-off"
+                className="grid size-8 shrink-0 place-items-center rounded-full border border-[#c9a36a] bg-[#fffaf2] text-lg leading-none text-[#a15f21] transition hover:bg-[#f0eee5]"
+              >
+                &#8644;
+              </button>
+              <span className="flex-1 text-center font-inter text-sm font-medium text-[#2b1d10]">
+                <span className="block text-[10px] font-normal uppercase tracking-wider text-[#9a8a77]">
+                  To
+                </span>
+                {to}
+              </span>
+            </div>
           </>
         ) : (
           <p className="font-inter mt-5 text-xs text-[#7a6550]">
