@@ -78,6 +78,8 @@ export default function Hero() {
 
     timer = setTimeout(type, 700);
     return () => clearTimeout(timer);
+  }, []);
+
 /* mobile only: types "Into the Wild", waits 3s, erases, repeats */
 const [wild, setWild] = useState(WILD);
 useEffect(() => {
@@ -333,4 +335,3 @@ useEffect(() => {
     </section>
   );
 }
-            
