@@ -298,7 +298,8 @@ export default function About() {
           </h2>
           <p className={`${poppins.className} mt-6 max-w-[620px] text-justify text-base leading-[1.8] text-[#5b4733]`}>
             Welcome to The Canofy, your gateway to Sri Lanka’s unforgettable
-            experiences. From wildlife safaris in Kumana, Yala, Udawalawe and Wilpattu National Parks to exploring the coastline and surrounding
+            experiences. From wildlife safaris in Kumana, Yala, Udawalawe and 
+            Wilpattu National Parks to exploring the coastline and surrounding
             destinations by scooter, we bring together local expertise,
             authentic adventures and genuine hospitality to make every journey
             memorable.
