@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { MdOutlinePhoneInTalk } from "react-icons/md";
 import { IoMailOpenOutline, IoLocationOutline } from "react-icons/io5";
 import {
@@ -11,7 +13,27 @@ import {
   FaWhatsapp,
   FaYoutube,
 } from "react-icons/fa";
+import { FaXTwitter, FaThreads } from "react-icons/fa6";
 import FooterLegalLinks from "@/components/FooterLegalLinks";
+
+/* react-icons has no GetYourGuide icon, so this is a simple "G" badge */
+function GetYourGuideIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <text
+        x="12"
+        y="17.5"
+        textAnchor="middle"
+        fontSize="17"
+        fontWeight="700"
+        fontFamily="Arial, sans-serif"
+        fill="currentColor"
+      >
+        G
+      </text>
+    </svg>
+  );
+}
 
 /* ---- EDIT THESE ---- */
 const PHONE = "+94 754540123";
@@ -19,14 +41,17 @@ const PHONE_LINK = "tel:+94754540123";
 const EMAIL = "jastanric@outlook.com";
 const ADDRESS = ["Kumana", "Sri Lanka"]; // one string per line. Put your real address here.
 
-/* Replace the Facebook, Instagram, YouTube, TikTok and TripAdvisor links with your real pages. */
+/* Replace every link with your real page.*/
 const SOCIALS = [
-  { label: "Facebook", href: "https://www.facebook.com/", Icon: FaFacebookF },
   { label: "Instagram", href: "https://www.instagram.com/", Icon: FaInstagram },
-  { label: "WhatsApp", href: "https://wa.me/94754540123", Icon: FaWhatsapp },
-  { label: "YouTube", href: "https://www.youtube.com/", Icon: FaYoutube },
+  { label: "Facebook", href: "https://www.facebook.com/", Icon: FaFacebookF },
+  { label: "WhatsApp Channel", href: "https://whatsapp.com/channel/YOUR_CHANNEL_ID", Icon: FaWhatsapp },
+  { label: "X", href: "https://x.com/", Icon: FaXTwitter },
+  { label: "Threads", href: "https://www.threads.net/", Icon: FaThreads },
   { label: "TikTok", href: "https://www.tiktok.com/", Icon: FaTiktok },
+  { label: "YouTube", href: "https://www.youtube.com/", Icon: FaYoutube },
   { label: "TripAdvisor", href: "https://www.tripadvisor.com/", Icon: FaTripadvisor },
+  { label: "GetYourGuide", href: "https://www.getyourguide.com/", Icon: GetYourGuideIcon },
 ];
 
 /* Same sections and order as the top menu, so every link goes to a real place */
@@ -41,6 +66,19 @@ const navLinks = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  /* on the home page: smooth scroll to the section.
+     on other pages: Next.js goes to the home page and jumps to it */
+  const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (pathname !== "/" || !href.startsWith("/#")) return;
+    const el = document.getElementById(href.slice(2));
+    if (!el) return;
+    e.preventDefault();
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.pushState(null, "", href);
+  };
+
   return (
     <footer
       id="contact"
@@ -76,9 +114,13 @@ export default function Footer() {
           <ul className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-semibold">
             {navLinks.map((link) => (
               <li key={link.label}>
-                <Link href={link.href} className="transition hover:text-[#e77b2a]">
-                  {link.label}
-                </Link>
+<Link
+  href={link.href}
+  onClick={(e) => handleNav(e, link.href)}
+  className="transition hover:text-[#e77b2a]"
+>
+  {link.label}
+</Link>
               </li>
             ))}
           </ul>
