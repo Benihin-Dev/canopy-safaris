@@ -93,6 +93,12 @@ export default function Hero() {
     return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
   }, []);
 
+  /* "2026-12-05" -> "05/12/2026" */
+  const fmtDate = (v: string) => {
+    const [y, m, d] = v.split("-");
+    return `${d}/${m}/${y}`;
+  };
+
   const changeTab = (key: ServiceKey) => {
     setTab(key);
     setType(services[key].types[0]?.slug ?? "");
@@ -228,13 +234,28 @@ export default function Hero() {
                   {service.dateLabel}
                 </label>
                 <input
-                  id="hero-date"
-                  type="date"
-                  min={today}
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  className={field}
-                />
+                <div className="relative">
+                  {/* mobile only: phones leave an empty date input blank,
+                      so this line shows dd/mm/yyyy instead */}
+                  <span
+                    aria-hidden="true"
+                    className={`${field} pointer-events-none block md:hidden`}
+                  >
+                    {date ? (
+                      fmtDate(date)
+                    ) : (
+                      <span className="text-[#2b1d10]/45">dd/mm/yyyy</span>
+                    )}
+                  </span>
+                  <input
+                    id="hero-date"
+                    type="date"
+                    min={today}
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    className={`${field} absolute inset-0 h-full opacity-0 md:static md:h-auto md:opacity-100`}
+                  />
+                </div>
               </div>
 
               {service.hasGuests && (
