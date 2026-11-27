@@ -51,7 +51,6 @@ const SOCIALS = [
   { label: "TikTok", href: "https://www.tiktok.com/", Icon: FaTiktok },
   { label: "YouTube", href: "https://www.youtube.com/", Icon: FaYoutube },
   { label: "TripAdvisor", href: "https://www.tripadvisor.com/", Icon: FaTripadvisor },
-  { label: "GetYourGuide", href: "https://www.getyourguide.com/", Icon: GetYourGuideIcon },
 ];
 
 /* Same sections and order as the top menu, so every link goes to a real place */
@@ -117,7 +116,7 @@ export default function Footer() {
 <Link
   href={link.href}
   onClick={(e) => handleNav(e, link.href)}
-  className="transition hover:text-[#e77b2a]"
+  className="inline-block transition duration-300 hover:scale-110 hover:text-[#e77b2a]"
 >
   {link.label}
 </Link>
@@ -185,7 +184,7 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     aria-label={label}
                     title={label}
-                    className="flex size-10 items-center justify-center rounded-full border border-white/40 text-white transition hover:border-[#e77b2a] hover:bg-[#e77b2a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                    className="flex size-10 items-center justify-center rounded-full border border-white/40 text-white transition duration-300 hover:scale-110 hover:border-[#e77b2a] hover:bg-[#e77b2a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                   >
                     <Icon className="size-4" aria-hidden="true" />
                   </a>
