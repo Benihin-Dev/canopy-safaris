@@ -106,10 +106,8 @@ export default function ScrollBanner() {
               Book camping
             </Link>
 
-            <a
-              href={wa("Hi, what is included in the camping stay?")}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/camping"
               className="group inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-black/20 px-5 py-2.5 text-[13px] font-medium text-white backdrop-blur-sm transition hover:border-[#D9822B] hover:bg-[#D9822B] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               What is included
@@ -117,7 +115,7 @@ export default function ScrollBanner() {
                 aria-hidden="true"
                 className="size-3 transition-transform group-hover:translate-x-1"
               />
-            </a>
+            </Link>
           </div>
         </div>
 
