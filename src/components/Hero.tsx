@@ -42,10 +42,7 @@ const PHRASES = [
   "Explore Without Limits.",
 ];
 const LONGEST = PHRASES.reduce((a, b) => (b.length > a.length ? b : a));
-const MOBILE_PHRASES = ["Into the Wild", "Closer to Nature"];
-const MOBILE_LONGEST = MOBILE_PHRASES.reduce((a, b) =>
-  b.length > a.length ? b : a,
-);
+const WILD = "Into the Wild";
 
 export default function Hero() {
   const router = useRouter();
@@ -83,43 +80,23 @@ export default function Hero() {
     return () => clearTimeout(timer);
   }, []);
 
-/* mobile only: types two phrases one after the other */
-const [wild, setWild] = useState(MOBILE_PHRASES[0]);
-useEffect(() => {
-  if (window.matchMedia("(min-width: 768px)").matches) return;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  let p = 0; // which phrase
-  let i = 0; // how many letters are showing
-  let erasing = false;
-  let timer: ReturnType<typeof setTimeout>;
-  const tick = () => {
-    const text = MOBILE_PHRASES[p];
-    if (!erasing) {
-      i++;
-      setWild(text.slice(0, i));
-      if (i === text.length) {
-        erasing = true;
-        timer = setTimeout(tick, 3000);
-        return;
-      }
-      timer = setTimeout(tick, 110);
-    } else {
-      i--;
-      setWild(text.slice(0, i));
-      if (i === 0) {
-        erasing = false;
-        p = (p + 1) % MOBILE_PHRASES.length;
-        timer = setTimeout(tick, 500);
-        return;
-      }
-      timer = setTimeout(tick, 50);
-    }
-  };
-  setWild("");
-  timer = setTimeout(tick, 400);
-  return () => clearTimeout(timer);
-}, []);
-
+{/* mobile only: "Into the Wild" types by itself */}
+<h1 className="font-bebas text-[clamp(48px,17vw,68px)] leading-[.9] text-[#F7F3E9] md:hidden">
+  <span className="sr-only">Beyond the Ordinary, Into the Wild</span>
+  <span aria-hidden="true">
+    Beyond the
+    <br />
+    Ordinary,
+    <span className="relative mt-5 block text-[#ff9a3c]">
+      <span className="invisible">{WILD}</span>
+      <span className="absolute left-0 top-0 whitespace-nowrap">
+        {wild}
+        <span className="ml-1 inline-block h-[.75em] w-[3px] animate-pulse bg-[#ff9a3c] align-baseline" />
+      </span>
+    </span>
+    <span className="mt-2.5 block h-[3px] w-[70px] rounded-sm bg-[#ff9a3c]" />
+  </span>
+</h1>
   /* ---------- booking bar ---------- */
   const [tab, setTab] = useState<ServiceKey>("safari");
   const service = services[tab];
@@ -190,10 +167,10 @@ useEffect(() => {
             </p>
 
             {/* mobile only: fixed heading, no typing */}
-               <h1 className="font-bebas text-[clamp(40px,14vw,56px)] leading-[1.02] text-[#F7F3E9] md:hidden">
+               <h1 className="font-bebas text-[64px] leading-[1.02] text-[#F7F3E9] md:hidden">
                        Beyond the Ordinary,
                   <span className="relative block text-[#ff9a3c]">
-                    <span className="invisible">{MOBILE_LONGEST}</span>
+                    <span className="invisible">{WILD}</span>
                     <span className="absolute left-0 top-0 whitespace-nowrap">{wild}</span>
                   </span>
                  <span className="mt-2.5 block h-[3px] w-[70px] rounded-sm bg-[#ff9a3c]" />
