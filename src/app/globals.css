@@ -325,11 +325,12 @@ body {
   background:linear-gradient(to top,rgba(20,12,6,.65),transparent 50%);
 }
 .who-label{
-  position:absolute;left:10px;bottom:9px;z-index:2;
+  position:absolute;left:10px;bottom:46px;z-index:2;
   display:flex;align-items:center;gap:8px;
   font-family:var(--font-bebas),sans-serif;
   color:#fff;font-size:15px;letter-spacing:.22em;text-transform:uppercase;line-height:1;
+  white-space:nowrap;
 }
 .who-label::before{
-  content:"";display:block;width:22px;height:2px;background:#D9822B;
+  content:"";display:block;width:3px;height:18px;background:#D9822B;border-radius:2px;
 }
