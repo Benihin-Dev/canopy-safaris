@@ -612,7 +612,7 @@ export default function SafariPackages() {
                     tabIndex={pos === "center" ? 0 : -1}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    View more
+                    View details
                     <FaArrowRight aria-hidden="true" />
                   </Link>
                 </div>
