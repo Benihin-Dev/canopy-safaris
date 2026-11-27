@@ -17,10 +17,12 @@ export default function RentalBookingCard({
   title,
   price,
   slug,
+  priceUnit = "day",
 }: {
   title: string;
   price: string; // "$12"
   slug: string;
+  priceUnit?: "day" | "trip";
 }) {
   const router = useRouter();
   const [days, setDays] = useState(slug === LONG_SLUG ? LONG_FROM : 3);
@@ -28,6 +30,7 @@ export default function RentalBookingCard({
 
   const isScooter = slug === SHORT_SLUG || slug === LONG_SLUG;
   const unit = Number(price.replace(/[^0-9.]/g, "")) || 0;
+  const perTrip = priceUnit === "trip"; // one flat price, no days
 
   // arrived from the other stay page: keep the days the visitor picked
   useEffect(() => {
@@ -61,10 +64,12 @@ export default function RentalBookingCard({
     };
   }, []);
 
-  const total = unit * days;
+    const total = perTrip ? unit : unit * days;
   const lkr = Math.round((total * rate) / 100) * 100; // nearest 100 rupees
   const dayWord = days === 1 ? "day" : "days";
-  const msg = `Hi! I would like to enquire about renting the ${title} for ${days} ${dayWord} (about $${total}).`;
+    const msg = perTrip
+    ? `Hi! I would like to enquire about the ${title} (about $${total} per trip, pick-up and drop).`
+    : `Hi! I would like to enquire about renting the ${title} for ${days} ${dayWord} (about $${total}).`;
   const href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 
   return (
@@ -75,7 +80,7 @@ export default function RentalBookingCard({
       <p className="font-bebas text-5xl tracking-wide text-[#2b1d10]">
         {price}{" "}
         <span className="font-inter text-xs normal-case tracking-normal text-[#7a6550]">
-          / day
+          / {perTrip ? "trip" : "day"}
         </span>
       </p>
       {isScooter && (
@@ -86,28 +91,38 @@ export default function RentalBookingCard({
         </p>
       )}
 
-      <p className="font-inter mt-5 text-xs text-[#7a6550]">How many days?</p>
-      <div className="mt-1.5 flex items-center justify-between rounded-xl border border-[#d9c7a8] bg-white px-2 py-1.5">
-        <button
-          type="button"
-          onClick={() => changeDays(days - 1)}
-          aria-label="Fewer days"
-          className="grid size-8 place-items-center rounded-full border border-[#c9a36a] bg-[#fffaf2] text-lg leading-none text-[#a15f21] transition hover:bg-[#f0eee5]"
-        >
-          &minus;
-        </button>
-        <span className="font-inter text-sm font-medium text-[#2b1d10]">
-          {days} {dayWord}
-        </span>
-        <button
-          type="button"
-          onClick={() => changeDays(days + 1)}
-          aria-label="More days"
-          className="grid size-8 place-items-center rounded-full border border-[#c9a36a] bg-[#fffaf2] text-lg leading-none text-[#a15f21] transition hover:bg-[#f0eee5]"
-        >
-          +
-        </button>
-      </div>
+      {perTrip ? (
+        <p className="font-inter mt-5 text-xs text-[#7a6550]">
+          One trip, pick-up and drop included.
+        </p>
+      ) : (
+        <>
+          <p className="font-inter mt-5 text-xs text-[#7a6550]">
+            How many days?
+          </p>
+          <div className="mt-1.5 flex items-center justify-between rounded-xl border border-[#d9c7a8] bg-white px-2 py-1.5">
+            <button
+              type="button"
+              onClick={() => changeDays(days - 1)}
+              aria-label="Fewer days"
+              className="grid size-8 place-items-center rounded-full border border-[#c9a36a] bg-[#fffaf2] text-lg leading-none text-[#a15f21] transition hover:bg-[#f0eee5]"
+            >
+              &minus;
+            </button>
+            <span className="font-inter text-sm font-medium text-[#2b1d10]">
+              {days} {dayWord}
+            </span>
+            <button
+              type="button"
+              onClick={() => changeDays(days + 1)}
+              aria-label="More days"
+              className="grid size-8 place-items-center rounded-full border border-[#c9a36a] bg-[#fffaf2] text-lg leading-none text-[#a15f21] transition hover:bg-[#f0eee5]"
+            >
+              +
+            </button>
+          </div>
+        </>
+      )}
 
       <div className="mt-4 flex items-baseline justify-between border-t border-[#c9a36a]/50 pt-3">
         <span className="font-inter text-sm text-[#5b4733]">Total</span>
