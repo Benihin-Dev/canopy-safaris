@@ -80,23 +80,40 @@ export default function Hero() {
     return () => clearTimeout(timer);
   }, []);
 
-{/* mobile only: "Into the Wild" types by itself */}
-<h1 className="font-bebas text-[clamp(48px,17vw,68px)] leading-[.9] text-[#F7F3E9] md:hidden">
-  <span className="sr-only">Beyond the Ordinary, Into the Wild</span>
-  <span aria-hidden="true">
-    Beyond the
-    <br />
-    Ordinary,
-    <span className="relative mt-5 block text-[#ff9a3c]">
-      <span className="invisible">{WILD}</span>
-      <span className="absolute left-0 top-0 whitespace-nowrap">
-        {wild}
-        <span className="ml-1 inline-block h-[.75em] w-[3px] animate-pulse bg-[#ff9a3c] align-baseline" />
-      </span>
-    </span>
-    <span className="mt-2.5 block h-[3px] w-[70px] rounded-sm bg-[#ff9a3c]" />
-  </span>
-</h1>
+  /* mobile only: types "Into the Wild", waits 3s, erases, repeats */
+  const [wild, setWild] = useState(WILD);
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 768px)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let i = 0;
+    let erasing = false;
+    let timer: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      if (!erasing) {
+        i++;
+        setWild(WILD.slice(0, i));
+        if (i === WILD.length) {
+          erasing = true;
+          timer = setTimeout(tick, 3000);
+          return;
+        }
+        timer = setTimeout(tick, 110);
+      } else {
+        i--;
+        setWild(WILD.slice(0, i));
+        if (i === 0) {
+          erasing = false;
+          timer = setTimeout(tick, 500);
+          return;
+        }
+        timer = setTimeout(tick, 50);
+      }
+    };
+    setWild("");
+    timer = setTimeout(tick, 400);
+    return () => clearTimeout(timer);
+  }, []);
+   
   /* ---------- booking bar ---------- */
   const [tab, setTab] = useState<ServiceKey>("safari");
   const service = services[tab];
