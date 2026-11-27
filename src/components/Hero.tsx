@@ -233,7 +233,6 @@ export default function Hero() {
                 <label htmlFor="hero-date" className={label}>
                   {service.dateLabel}
                 </label>
-                <input
                 <div className="relative">
                   {/* mobile only: phones leave an empty date input blank,
                       so this line shows dd/mm/yyyy instead */}
