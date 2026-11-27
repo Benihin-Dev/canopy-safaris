@@ -148,9 +148,8 @@ export default function Hero() {
               Exclusive adventures in Kumana
             </p>
 
-            {/* main heading */}
             {/* mobile only: fixed heading, no typing */}
-               <h1 className="font-bebas text-[54px] leading-[1.12] text-[#F7F3E9] md:hidden">
+               <h1 className="font-bebas text-[64px] leading-[1.02] text-[#F7F3E9] md:hidden">
                        Beyond the Ordinary,
                     <span className="block text-[#ff9a3c]">Into the Wild</span>
                  <span className="mt-2.5 block h-[3px] w-[70px] rounded-sm bg-[#ff9a3c]" />
