@@ -406,21 +406,21 @@ export default function About() {
                         National Park
                       </span>
                     </span>
-<span className="absolute bottom-2.5 right-2.5 flex size-[34px] items-center justify-center rounded-full border border-white/45 text-white transition group-hover:border-[#e77b2a] group-hover:bg-[#e77b2a] group-hover:text-[#2b1d10] md:size-[22px]">
-  <svg
-    className="size-[17px] md:size-[11px]"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M7 17L17 7M17 7H8M17 7V16" />
-  </svg>
-</span>
-                  </Link>
+                  <span className="absolute bottom-2.5 right-2.5 flex size-[34px] items-center justify-center rounded-full border border-white/45 text-white transition group-hover:border-[#e77b2a] group-hover:bg-[#e77b2a] group-hover:text-[#2b1d10] md:size-[22px]">
+                    <svg
+                      className="size-[17px] md:size-[11px]"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      >
+                      <path d="M7 17L17 7M17 7H8M17 7V16" />
+                    </svg>
+                  </span>
+                </Link>
                 ))}
               </div>
             </div>
