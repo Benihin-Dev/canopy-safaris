@@ -4,7 +4,7 @@ export default function PageHero({
   eyebrow,
   title,
   sub,
-  img = "/images/safari/hero.jpg",
+  img = "/images/SafariPackages/safarihero.jpg",
 }: {
   eyebrow: string;
   title: string;
