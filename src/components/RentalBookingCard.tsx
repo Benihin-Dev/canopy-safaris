@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { rentals } from "@/data/rentals";
+import { useRouter } from "next/navigation";
 
 /* WhatsApp number: country code + number, no + or spaces */
 const WHATSAPP = "94754540123";
@@ -22,21 +22,30 @@ export default function RentalBookingCard({
   price: string; // "$12"
   slug: string;
 }) {
+  const router = useRouter();
   const [days, setDays] = useState(slug === LONG_SLUG ? LONG_FROM : 3);
   const [rate, setRate] = useState(FALLBACK_RATE);
 
-  // scooters shift between Short Stay and Long Stay by number of days
   const isScooter = slug === SHORT_SLUG || slug === LONG_SLUG;
-  const stay = isScooter
-    ? rentals.find(
-        (r) => r.slug === (days >= LONG_FROM ? LONG_SLUG : SHORT_SLUG),
-      )
-    : undefined;
-  const curTitle = stay?.title ?? title;
-  const curPrice = stay?.price ?? price;
-  const curSlug = stay?.slug ?? slug;
+  const unit = Number(price.replace(/[^0-9.]/g, "")) || 0;
 
-  const unit = Number(curPrice.replace(/[^0-9.]/g, "")) || 0;
+  // arrived from the other stay page: keep the days the visitor picked
+  useEffect(() => {
+    const m = window.location.hash.match(/days=(\d+)/);
+    const n = m ? Number(m[1]) : 0;
+    if (n >= 1 && n <= MAX_DAYS) setDays(n);
+  }, [slug]);
+
+  // scooters: 3 days or less = Short Stay page, 4 days or more = Long Stay page
+  const changeDays = (next: number) => {
+    const d = Math.min(MAX_DAYS, Math.max(1, next));
+    setDays(d);
+    if (!isScooter) return;
+    const target = d >= LONG_FROM ? LONG_SLUG : SHORT_SLUG;
+    if (target !== slug) {
+      router.replace(`/rentals/${target}#days=${d}`, { scroll: false });
+    }
+  };
 
   // today's rate (cached on the server, see src/app/api/rate/route.ts)
   useEffect(() => {
@@ -55,7 +64,7 @@ export default function RentalBookingCard({
   const total = unit * days;
   const lkr = Math.round((total * rate) / 100) * 100; // nearest 100 rupees
   const dayWord = days === 1 ? "day" : "days";
-  const msg = `Hi! I would like to enquire about renting the ${curTitle} for ${days} ${dayWord} (about $${total}).`;
+  const msg = `Hi! I would like to enquire about renting the ${title} for ${days} ${dayWord} (about $${total}).`;
   const href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 
   return (
@@ -64,15 +73,16 @@ export default function RentalBookingCard({
         Price
       </p>
       <p className="font-bebas text-5xl tracking-wide text-[#2b1d10]">
-        {curPrice}{" "}
+        {price}{" "}
         <span className="font-inter text-xs normal-case tracking-normal text-[#7a6550]">
           / day
         </span>
       </p>
-      {stay && (
+      {isScooter && (
         <p className="font-inter text-xs font-medium text-[#a15f21]">
-          {stay.badge} rate ·{" "}
-          {days >= LONG_FROM ? "4 days or more" : "up to 3 days"}
+          {slug === LONG_SLUG
+            ? "Long Stay rate · 4 days or more"
+            : "Short Stay rate · up to 3 days"}
         </p>
       )}
 
@@ -80,7 +90,7 @@ export default function RentalBookingCard({
       <div className="mt-1.5 flex items-center justify-between rounded-xl border border-[#d9c7a8] bg-white px-2 py-1.5">
         <button
           type="button"
-          onClick={() => setDays((d) => Math.max(1, d - 1))}
+          onClick={() => changeDays(days - 1)}
           aria-label="Fewer days"
           className="grid size-8 place-items-center rounded-full border border-[#c9a36a] bg-[#fffaf2] text-lg leading-none text-[#a15f21] transition hover:bg-[#f0eee5]"
         >
@@ -91,7 +101,7 @@ export default function RentalBookingCard({
         </span>
         <button
           type="button"
-          onClick={() => setDays((d) => Math.min(MAX_DAYS, d + 1))}
+          onClick={() => changeDays(days + 1)}
           aria-label="More days"
           className="grid size-8 place-items-center rounded-full border border-[#c9a36a] bg-[#fffaf2] text-lg leading-none text-[#a15f21] transition hover:bg-[#f0eee5]"
         >
@@ -110,7 +120,7 @@ export default function RentalBookingCard({
       </p>
 
       <Link
-        href={`/book?service=rental&type=${curSlug}`}
+        href={`/book?service=rental&type=${slug}`}
         className="font-inter mt-5 block rounded-full bg-[#a15f21] py-3.5 text-center text-sm font-semibold text-white transition hover:bg-[#7d4a19]"
       >
         Book this rental
