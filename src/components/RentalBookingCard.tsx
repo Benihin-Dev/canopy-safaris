@@ -36,6 +36,7 @@ export default function RentalBookingCard({
   const isScooter = slug === SHORT_SLUG || slug === LONG_SLUG;
   const unit = Number(price.replace(/[^0-9.]/g, "")) || 0;
   const perTrip = priceUnit === "trip"; // one flat price, no days
+  const onRequest = !price; // custom tour: no fixed price
   const hasUpDown = slug === UPDOWN_SLUG;
   const [upDown, setUpDown] = useState(false);
   const trips = hasUpDown && upDown ? 2 : 1;
@@ -81,7 +82,9 @@ export default function RentalBookingCard({
       ? priceLkr * trips // exact rupee price for trips
       : Math.round((total * rate) / 100) * 100; // nearest 100 rupees
   const dayWord = days === 1 ? "day" : "days";
-  const msg = hasUpDown
+  const msg = onRequest
+    ? `Hi! I would like to plan a ${title}. My preferred destinations and plans are: `
+    : hasUpDown
     ? `Hi! I would like to enquire about a tuk-tuk transfer (${upDown ? "up and down" : "one trip"}): pick-up from ${from}, going to ${to} (about $${total}).`
     : perTrip
       ? `Hi! I would like to enquire about the ${title} (about $${total} per trip, pick-up and drop).`
@@ -94,10 +97,16 @@ export default function RentalBookingCard({
         Price
       </p>
       <p className="font-bebas text-5xl tracking-wide text-[#2b1d10]">
-        {price}{" "}
-        <span className="font-inter text-xs normal-case tracking-normal text-[#7a6550]">
-          / {perTrip ? "trip" : "day"}
-        </span>
+        {onRequest ? (
+          "On request"
+        ) : (
+          <>
+            {price}{" "}
+            <span className="font-inter text-xs normal-case tracking-normal text-[#7a6550]">
+              / {perTrip ? "trip" : "day"}
+            </span>
+          </>
+        )}
       </p>
       {isScooter && (
         <p className="font-inter text-xs font-medium text-[#a15f21]">
@@ -107,7 +116,12 @@ export default function RentalBookingCard({
         </p>
       )}
 
-      {perTrip ? (
+      {onRequest ? (
+        <p className="font-inter mt-5 text-xs leading-relaxed text-[#7a6550]">
+          The price depends on your destinations and requirements. Send us
+          your plan and we will quote your tour.
+        </p>
+      ) : perTrip ? (
         hasUpDown ? (
           <>
             <p className="font-inter mt-5 text-xs text-[#7a6550]">
@@ -196,27 +210,37 @@ export default function RentalBookingCard({
         </>
       )}
 
-      <div className="mt-4 flex items-baseline justify-between border-t border-[#c9a36a]/50 pt-3">
-        <span className="font-inter text-sm text-[#5b4733]">Total</span>
-        <span className="font-inter text-lg font-medium text-[#2b1d10]">
-          ${total}
-        </span>
-      </div>
-      <p className="font-inter text-right text-xs text-[#7a6550]">
-        &asymp; Rs {lkr.toLocaleString("en-US")}
-      </p>
+      {!onRequest && (
+        <>
+          <div className="mt-4 flex items-baseline justify-between border-t border-[#c9a36a]/50 pt-3">
+            <span className="font-inter text-sm text-[#5b4733]">Total</span>
+            <span className="font-inter text-lg font-medium text-[#2b1d10]">
+              ${total}
+            </span>
+          </div>
+          <p className="font-inter text-right text-xs text-[#7a6550]">
+            &asymp; Rs {lkr.toLocaleString("en-US")}
+          </p>
+        </>
+      )}
 
-      <Link
-        href={`/book?service=rental&type=${slug}`}
-        className="font-inter mt-5 block rounded-full bg-[#a15f21] py-3.5 text-center text-sm font-semibold text-white transition hover:bg-[#7d4a19]"
-      >
-        Book this rental
-      </Link>
+      {!onRequest && (
+        <Link
+          href={`/book?service=rental&type=${slug}`}
+          className="font-inter mt-5 block rounded-full bg-[#a15f21] py-3.5 text-center text-sm font-semibold text-white transition hover:bg-[#7d4a19]"
+        >
+          Book this rental
+        </Link>
+      )}
       <a
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="font-inter mt-3 block rounded-full border border-[#c9a36a] py-3.5 text-center text-sm font-semibold text-[#5b4733] transition hover:bg-[#f0eee5]"
+        className={`font-inter block rounded-full py-3.5 text-center text-sm font-semibold transition ${
+          onRequest
+            ? "mt-5 bg-[#a15f21] text-white hover:bg-[#7d4a19]"
+            : "mt-3 border border-[#c9a36a] text-[#5b4733] hover:bg-[#f0eee5]"
+        }`}
       >
         WhatsApp inquiry
       </a>
@@ -227,7 +251,11 @@ export default function RentalBookingCard({
         Compare packages
       </Link>
 
-      <p className="font-inter mt-4 text-center text-[10.5px] text-[#9a8a77]">
+      <p
+        className={`font-inter mt-4 text-center text-[10.5px] text-[#9a8a77] ${
+          onRequest ? "hidden" : ""
+        }`}
+      >
         Rupee price is approximate.{" "}
         <a
           href="https://www.exchangerate-api.com"
