@@ -258,3 +258,64 @@ body {
 .spot:hover::before {
   opacity: 1;
 }
+
+/* ---------- Who we are: floating photo frames ---------- */
+.who-frame{
+  transform:rotate(var(--rot));
+  animation:who-float var(--float,8s) ease-in-out var(--delay,0s) infinite;
+  transition:filter .3s;
+}
+.who-frame:hover{animation-play-state:paused;filter:brightness(1.05);z-index:20!important}
+@keyframes who-float{
+  0%,100%{transform:translate(0,0) rotate(var(--rot))}
+  50%{transform:translate(6px,-12px) rotate(calc(var(--rot) + 2.5deg))}
+}
+
+/* portfolio luggage tag */
+.who-tag{
+  position:absolute;right:-28px;bottom:-12px;z-index:5;
+  background:#fff;color:#2b1d10;font-size:12px;font-weight:600;text-decoration:none;
+  padding:9px 16px 9px 26px;transform:rotate(6deg);
+  filter:drop-shadow(0 6px 8px rgba(0,0,0,.28));
+  clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);
+  transition:transform .3s,background .3s;
+}
+.who-tag::before{
+  content:"";position:absolute;left:9px;top:50%;width:6px;height:6px;margin-top:-3px;
+  border-radius:50%;background:#D9822B;
+}
+.who-tag:hover,.who-tag:focus-visible{transform:rotate(0) scale(1.07);background:#D9822B}
+
+/* start booking button */
+.who-book{
+  position:relative;display:inline-flex;align-items:center;gap:16px;
+  height:56px;padding:0 6px 0 28px;border-radius:999px;
+  background:#2B1D14;color:#F4EBDD;font-size:14px;font-weight:500;text-decoration:none;
+  overflow:hidden;box-shadow:0 10px 24px -8px rgba(43,29,20,.55);
+  transition:transform .3s,box-shadow .3s;
+}
+.who-book-label{position:relative;z-index:2;transition:color .4s}
+.who-book-circle{
+  position:relative;z-index:2;display:grid;place-items:center;
+  width:44px;height:44px;border-radius:50%;background:#D9822B;color:#2B1D14;
+  transition:transform .6s cubic-bezier(.2,.8,.2,1),background .4s;
+}
+.who-book-circle::before{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  animation:who-pulse 2.4s infinite;
+}
+.who-book::after{
+  content:"";position:absolute;right:6px;top:6px;width:44px;height:44px;border-radius:50%;
+  background:#D9822B;z-index:1;transition:transform .6s cubic-bezier(.2,.8,.2,1);
+}
+.who-book:hover{transform:translateY(-2px);box-shadow:0 14px 28px -8px rgba(217,130,43,.6)}
+.who-book:hover::after{transform:scale(9)}
+.who-book:hover .who-book-label{color:#2B1D14}
+.who-book:hover .who-book-circle{transform:translateX(2px) rotate(-45deg);background:transparent}
+@keyframes who-pulse{
+  0%{box-shadow:0 0 0 0 rgba(217,130,43,.6)}
+  70%,100%{box-shadow:0 0 0 12px rgba(217,130,43,0)}
+}
+@media (prefers-reduced-motion:reduce){
+  .who-frame,.who-book-circle::before{animation:none}
+}
