@@ -98,9 +98,7 @@ export default function WhoWeAre() {
                   {p.label && (
                     <>
                       <span aria-hidden="true" className="who-label-fade" />
-                      <span className={`${poppins.className} who-label`}>
-                        {p.label}
-                      </span>
+                      <span className="who-label">{p.label}</span>
                     </>
                   )}
                 </div>
