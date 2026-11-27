@@ -371,7 +371,7 @@ export default function PeekShowcase() {
                     tabIndex={isActive ? 0 : -1}
                     className="mt-3 flex items-center justify-center gap-1.5 font-poppins text-sm font-medium text-[#a15f21] underline underline-offset-4 transition hover:text-[#7d4a19]"
                   >
-                    View more
+                    View details
                     <IoArrowForward aria-hidden="true" className="size-3" />
                   </Link>
                 </div>
