@@ -10,6 +10,10 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600"] });
 /* ----- the 3 collage photos (put the files in /public/images/WhoWeAre/) -----
    left / top / w / h are in % of the collage box, rot = tilt in degrees.
    z = which photo sits on top. Change the src to use your own photos. */
+/* ----- portfolio link (shown as a luggage tag on one photo) ----- */
+const PORTFOLIO_URL = "https://your-portfolio-website.com"; // <- put your portfolio link here
+const PORTFOLIO_LABEL = "Our Portfolio";
+
 const photos = [
   {
     src: "/images/WhoWeAre/collage-1.jpg",
@@ -20,6 +24,8 @@ const photos = [
     h: 50.9,
     rot: -7,
     z: 1,
+    float: "7s",
+    delay: "0s",
   },
   {
     src: "/images/WhoWeAre/collage-2.jpg",
@@ -30,6 +36,8 @@ const photos = [
     h: 51.8,
     rot: 4,
     z: 2,
+    float: "8s",
+    delay: "-2s",
   },
   {
     src: "/images/WhoWeAre/collage-3.jpg",
@@ -40,6 +48,9 @@ const photos = [
     h: 38,
     rot: -3,
     z: 3,
+    float: "9s",
+    delay: "-4s",
+    link: true, // the portfolio tag sits on this photo
   },
 ];
 
@@ -61,23 +72,39 @@ export default function WhoWeAre() {
             {photos.map((p) => (
               <div
                 key={p.src}
-                className="absolute overflow-hidden border-[5px] border-white bg-[#d9c7a8] shadow-[0_8px_18px_rgba(0,0,0,0.2)]"
-                style={{
-                  left: `${p.left}%`,
-                  top: `${p.top}%`,
-                  width: `${p.w}%`,
-                  height: `${p.h}%`,
-                  transform: `rotate(${p.rot}deg)`,
-                  zIndex: p.z,
-                }}
+                className="who-frame absolute"
+                style={
+                  {
+                    left: `${p.left}%`,
+                    top: `${p.top}%`,
+                    width: `${p.w}%`,
+                    height: `${p.h}%`,
+                    zIndex: p.z,
+                    "--rot": `${p.rot}deg`,
+                    "--float": p.float,
+                    "--delay": p.delay,
+                  } as React.CSSProperties
+                }
               >
-                <Image
-                  src={p.src}
-                  alt={p.alt}
-                  fill
-                  sizes="(max-width: 1024px) 40vw, 200px"
-                  className="object-cover"
-                />
+                <div className="relative size-full overflow-hidden border-[5px] border-white bg-[#d9c7a8] shadow-[0_8px_18px_rgba(0,0,0,0.2)]">
+                  <Image
+                    src={p.src}
+                    alt={p.alt}
+                    fill
+                    sizes="(max-width: 1024px) 40vw, 200px"
+                    className="object-cover"
+                  />
+                </div>
+                {p.link && (
+                  <a
+                    href={PORTFOLIO_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${poppins.className} who-tag`}
+                  >
+                    {PORTFOLIO_LABEL} <span aria-hidden="true">↗</span>
+                  </a>
+                )}
               </div>
             ))}
           </div>
@@ -141,23 +168,15 @@ export default function WhoWeAre() {
             ))}
           </div>
 
-          {/* start booking button (same hover effect as before) */}
-                  <div className=" w-full mt-8">
-            <Link href="/book" className={`${poppins.className} px-8 h-12 w-fit text-center flex items-center justify-center cursor-pointer bg-[#D9822B] text-[#2B1D14] text-sm rounded-full relative group overflow-hidden`}>
-              <div
-                className=" relative z-20 translate-y-0 group-hover:-translate-y-30
-                 group-hover:transition-transform group-hover:duration-600"
-              >
-                Start Booking
-              </div>
-              <p
-                className="  absolute text-[#F4EBDD] group-hover:translate-y-0 translate-y-30
-                 group-hover:transition-transform group-hover:duration-500 z-20 ease-in-out delay-100"
-              >
-                Start Booking
-              </p>
-              <div className=" absolute w-full  aspect-square rounded-full group-hover:scale-120 bg-[#2B1D14] top-full group-hover:-translate-y-2/5 left-0  group-hover:transition-transform group-hover:duration-300 delay-100"></div>
-              <div className=" absolute -top-full left-0 w-full h-full bg-[#2B1D14] group-hover:translate-y-full duration-200 delay-300 rotate-180"></div>
+          {/* start booking button */}
+          <div className="mt-8 w-full">
+            <Link href="/book" className={`${poppins.className} who-book group`}>
+              <span className="who-book-label">Start Booking</span>
+              <span className="who-book-circle" aria-hidden="true">
+                <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </span>
             </Link>
           </div>
         </div>
