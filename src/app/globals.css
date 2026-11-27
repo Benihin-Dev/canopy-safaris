@@ -277,7 +277,6 @@ body {
   background:#fff;color:#2b1d10;font-size:12px;font-weight:600;text-decoration:none;
   white-space:nowrap;min-width:130px;
   padding:9px 22px 9px 26px;transform:rotate(6deg);border-radius:0 10px 10px 0;
-  filter:drop-shadow(0 6px 8px rgba(0,0,0,.28));
   clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);
   transition:transform .3s,background .3s;
 }
