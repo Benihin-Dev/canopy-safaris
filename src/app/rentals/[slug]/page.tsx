@@ -227,7 +227,9 @@ export default async function RentalPage({ params }: Props) {
                     {r.title}
                   </h3>
                   <p className="font-inter text-sm text-[#5b4733]">
-                    From {r.price} / {r.priceUnit ?? "day"}
+                  {r.price
+                      ? `From ${r.price} / ${r.priceUnit ?? "day"}`
+                      : "Price on request"}
                   </p>
                 </div>
               </Link>
