@@ -11,7 +11,7 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600"] });
    left / top / w / h are in % of the collage box, rot = tilt in degrees.
    z = which photo sits on top. Change the src to use your own photos. */
 /* ----- portfolio link (shown as a luggage tag on one photo) ----- */
-const PORTFOLIO_URL = "https://your-portfolio-website.com"; // <- put your portfolio link here
+const PORTFOLIO_URL = "astanric.vercel.app"; // portfolio link
 const PORTFOLIO_LABEL = "Our Portfolio";
 
 const photos = [
