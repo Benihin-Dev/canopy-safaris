@@ -137,7 +137,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[linear-gradient(#0b0805f2,#0b0805a0_50%,#0b0805ee)] md:hidden" />
       </div>
 
-      <div className="relative z-20 mx-auto w-full px-5 pb-20 pt-32 sm:w-11/12 sm:px-0 lg:max-w-350">
+      <div className="relative z-20 mx-auto w-full px-5 pb-20 pt-24 sm:w-11/12 sm:px-0 md:pt-32 lg:max-w-350">
         <div className="w-full md:relative md:-right-[1vw]">
           <div className="w-full text-left">
             {/* small top heading */}
@@ -150,7 +150,7 @@ export default function Hero() {
 
             {/* main heading */}
             {/* mobile only: fixed heading, no typing */}
-               <h1 className="font-bebas text-[54px] leading-[.92] text-[#F7F3E9] md:hidden">
+               <h1 className="font-bebas text-[54px] leading-[1.12] text-[#F7F3E9] md:hidden">
                        Beyond the Ordinary,
                     <span className="block text-[#ff9a3c]">Into the Wild</span>
                  <span className="mt-2.5 block h-[3px] w-[70px] rounded-sm bg-[#ff9a3c]" />
