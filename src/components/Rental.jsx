@@ -320,14 +320,18 @@ export default function PeekShowcase() {
                   <span className="absolute left-3 top-3 rounded-full bg-[#2b1d10] px-3 py-1 font-poppins text-[11px] font-medium text-white">
                     {r.badge}
                   </span>
-                  {r.price && (
-                    <span className="absolute -bottom-4 right-3 z-10 whitespace-nowrap rounded-full border-[3px] border-[#fffaf2] bg-[#a15f21] px-3.5 py-1.5 font-poppins text-sm font-medium text-white">
-                      {formatPrice(r.price, currency, rate)}{" "}
-                      <span className="text-[11px] font-normal opacity-90">
-                        / {r.priceUnit ?? "day"}
-                      </span>
-                    </span>
-                  )}
+                  <span className="absolute -bottom-4 right-3 z-10 whitespace-nowrap rounded-full border-[3px] border-[#fffaf2] bg-[#a15f21] px-3.5 py-1.5 font-poppins text-sm font-medium text-white">
+                    {r.price ? (
+                      <>
+                        {formatPrice(r.price, currency, rate)}{" "}
+                        <span className="text-[11px] font-normal opacity-90">
+                          / {r.priceUnit ?? "day"}
+                        </span>
+                      </>
+                    ) : (
+                      "Price on request"
+                    )}
+                  </span>
                 </div>
 
                 {/* details */}
@@ -358,14 +362,26 @@ export default function PeekShowcase() {
                   </ul>
                   <div className="border-t border-[#c9a36a]/50" />
 
-                  <Link
-                    href={`/book?service=rental&type=${r.slug}`}
-                    tabIndex={isActive ? 0 : -1}
-                    className="mt-3.5 flex items-center justify-center gap-2 rounded-[14px] bg-[#a15f21] py-3 font-poppins text-sm font-medium text-white transition hover:bg-[#7d4a19] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a15f21]"
-                  >
-                    <IoCalendarOutline aria-hidden="true" className="size-4" />
-                    Book now
-                  </Link>
+                  {r.priceLkr === null ? (
+                    <a
+                      href={wa(`Hi! I would like to enquire about the ${r.title}.`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      tabIndex={isActive ? 0 : -1}
+                      className="mt-3.5 flex items-center justify-center gap-2 rounded-[14px] bg-[#a15f21] py-3 font-poppins text-sm font-medium text-white transition hover:bg-[#7d4a19] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a15f21]"
+                    >
+                      WhatsApp inquiry
+                    </a>
+                  ) : (
+                    <Link
+                      href={`/book?service=rental&type=${r.slug}`}
+                      tabIndex={isActive ? 0 : -1}
+                      className="mt-3.5 flex items-center justify-center gap-2 rounded-[14px] bg-[#a15f21] py-3 font-poppins text-sm font-medium text-white transition hover:bg-[#7d4a19] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a15f21]"
+                    >
+                      <IoCalendarOutline aria-hidden="true" className="size-4" />
+                      Book now
+                    </Link>
+                  )}
                   <Link
                     href={`/rentals/${r.slug}`}
                     tabIndex={isActive ? 0 : -1}
