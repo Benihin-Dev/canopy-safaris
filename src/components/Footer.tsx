@@ -128,7 +128,7 @@ export default function Footer() {
         <div className="border-t border-white/30" />
 
         {/* Contact (left) /  (middle) / Social (right) */}
-        <div className="grid grid-cols-1 gap-4 py-4 text-sm font-semibold sm:grid-cols-3 sm:gap-0">
+        <div className="grid grid-cols-1 gap-4 py-4 text-sm font-semibold sm:grid-cols-3 sm:gap-0 sm:py-0">
           {/* Contact us */}
           <div className="flex flex-col justify-center gap-3 sm:pr-6">
             <h3 className="text-base">Contact us</h3>
@@ -160,7 +160,7 @@ export default function Footer() {
           </div>
 
           {/* : centered, white, no text */}
-          <div className="order-first flex items-center justify-center border-white/30 sm:order-0 sm:border-x">
+          <div className="order-first flex items-center justify-center border-b border-white/30 pb-4 sm:order-0 sm:border-x sm:border-b-0 sm:pb-0">
             <Link href="/" aria-label="Canopy Safaris home">
               <Image
                 className="size-28 object-contain brightness-0 invert sm:size-52"
