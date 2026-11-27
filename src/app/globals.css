@@ -273,7 +273,7 @@ body {
 
 /* portfolio luggage tag */
 .who-tag{
-  position:absolute;right:-28px;bottom:-12px;z-index:5;
+  position:absolute;left:128px;bottom:-2px;z-index:5;
   background:#fff;color:#2b1d10;font-size:12px;font-weight:600;text-decoration:none;
   padding:9px 16px 9px 26px;transform:rotate(6deg);
   filter:drop-shadow(0 6px 8px rgba(0,0,0,.28));
@@ -322,10 +322,10 @@ body {
 /* "Naturalist" label on the guide photo */
 .who-label-fade{
   position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(to top,rgba(20,12,6,.7),transparent 70%);
+  background:linear-gradient(to top,rgba(20,12,6,.7),transparent 50%);
 }
 .who-label{
-  position:absolute;left:10px;bottom:46px;z-index:2;
+  position:absolute;left:10px;bottom:4px;z-index:2;
   display:flex;align-items:center;gap:8px;
   font-family:var(--font-bebas),sans-serif;
   color:#fff;font-size:15px;letter-spacing:.22em;text-transform:uppercase;line-height:1;
