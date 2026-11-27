@@ -42,6 +42,7 @@ const PHRASES = [
   "Explore Without Limits.",
 ];
 const LONGEST = PHRASES.reduce((a, b) => (b.length > a.length ? b : a));
+const WILD = "Into the Wild";
 
 export default function Hero() {
   const router = useRouter();
@@ -77,7 +78,39 @@ export default function Hero() {
 
     timer = setTimeout(type, 700);
     return () => clearTimeout(timer);
-  }, []);
+/* mobile only: types "Into the Wild", waits 3s, erases, repeats */
+const [wild, setWild] = useState(WILD);
+useEffect(() => {
+  if (window.matchMedia("(min-width: 768px)").matches) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let i = 0;
+  let erasing = false;
+  let timer: ReturnType<typeof setTimeout>;
+  const tick = () => {
+    if (!erasing) {
+      i++;
+      setWild(WILD.slice(0, i));
+      if (i === WILD.length) {
+        erasing = true;
+        timer = setTimeout(tick, 3000);
+        return;
+      }
+      timer = setTimeout(tick, 110);
+    } else {
+      i--;
+      setWild(WILD.slice(0, i));
+      if (i === 0) {
+        erasing = false;
+        timer = setTimeout(tick, 500);
+        return;
+      }
+      timer = setTimeout(tick, 50);
+    }
+  };
+  setWild("");
+  timer = setTimeout(tick, 400);
+  return () => clearTimeout(timer);
+}, []);
 
   /* ---------- booking bar ---------- */
   const [tab, setTab] = useState<ServiceKey>("safari");
@@ -300,3 +333,4 @@ export default function Hero() {
     </section>
   );
 }
+            
