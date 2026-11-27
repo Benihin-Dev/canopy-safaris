@@ -12,7 +12,7 @@ import {
   Bebas_Neue,
   Inter,
 } from "next/font/google";
-import "./globals.css";
+import "./styles.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
