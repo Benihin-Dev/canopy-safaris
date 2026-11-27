@@ -326,6 +326,10 @@ body {
 }
 .who-label{
   position:absolute;left:10px;bottom:9px;z-index:2;
-  color:#fff;font-size:9px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;
-  padding-top:5px;border-top:2px solid #D9822B;
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-bebas),sans-serif;
+  color:#fff;font-size:15px;letter-spacing:.22em;text-transform:uppercase;line-height:1;
+}
+.who-label::before{
+  content:"";display:block;width:22px;height:2px;background:#D9822B;
 }
