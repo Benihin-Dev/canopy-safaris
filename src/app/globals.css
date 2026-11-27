@@ -322,7 +322,7 @@ body {
 /* "Naturalist" label on the guide photo */
 .who-label-fade{
   position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(to top,rgba(20,12,6,.65),transparent 50%);
+  background:linear-gradient(to top,rgba(20,12,6,.7),transparent 70%);
 }
 .who-label{
   position:absolute;left:10px;bottom:46px;z-index:2;
