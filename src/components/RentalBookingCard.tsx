@@ -13,16 +13,21 @@ const SHORT_SLUG = "scooter-one";
 const LONG_SLUG = "scooter-two";
 const LONG_FROM = 4;
 
+/* Whisky Point transfer: one trip or up and down (2 x the trip price) */
+const UPDOWN_SLUG = "tuktuk-three";
+
 export default function RentalBookingCard({
   title,
   price,
   slug,
   priceUnit = "day",
+  priceLkr,
 }: {
   title: string;
   price: string; // "$12"
   slug: string;
   priceUnit?: "day" | "trip";
+  priceLkr?: number;
 }) {
   const router = useRouter();
   const [days, setDays] = useState(slug === LONG_SLUG ? LONG_FROM : 3);
@@ -31,6 +36,9 @@ export default function RentalBookingCard({
   const isScooter = slug === SHORT_SLUG || slug === LONG_SLUG;
   const unit = Number(price.replace(/[^0-9.]/g, "")) || 0;
   const perTrip = priceUnit === "trip"; // one flat price, no days
+  const hasUpDown = slug === UPDOWN_SLUG;
+  const [upDown, setUpDown] = useState(false);
+  const trips = hasUpDown && upDown ? 2 : 1;
 
   // arrived from the other stay page: keep the days the visitor picked
   useEffect(() => {
@@ -64,11 +72,15 @@ export default function RentalBookingCard({
     };
   }, []);
 
-    const total = perTrip ? unit : unit * days;
-  const lkr = Math.round((total * rate) / 100) * 100; // nearest 100 rupees
+  const total = perTrip ? unit * trips : unit * days;
+  const lkr =
+    perTrip && priceLkr
+      ? priceLkr * trips // exact rupee price for trips
+      : Math.round((total * rate) / 100) * 100; // nearest 100 rupees
   const dayWord = days === 1 ? "day" : "days";
-    const msg = perTrip
-    ? `Hi! I would like to enquire about the ${title} (about $${total} per trip, pick-up and drop).`
+  const option = hasUpDown ? (upDown ? " (up and down)" : " (one trip)") : "";
+  const msg = perTrip
+    ? `Hi! I would like to enquire about the ${title}${option} (about $${total}, pick-up and drop).`
     : `Hi! I would like to enquire about renting the ${title} for ${days} ${dayWord} (about $${total}).`;
   const href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 
@@ -92,9 +104,43 @@ export default function RentalBookingCard({
       )}
 
       {perTrip ? (
-        <p className="font-inter mt-5 text-xs text-[#7a6550]">
-          One trip, pick-up and drop included.
-        </p>
+        hasUpDown ? (
+          <>
+            <p className="font-inter mt-5 text-xs text-[#7a6550]">
+              Choose your trip
+            </p>
+            <div className="mt-1.5 grid grid-cols-2 gap-2">
+              {[
+                { up: false, label: "One trip", amt: unit },
+                { up: true, label: "Up and down", amt: unit * 2 },
+              ].map((o) => (
+                <button
+                  key={o.label}
+                  type="button"
+                  onClick={() => setUpDown(o.up)}
+                  aria-pressed={upDown === o.up}
+                  className={`rounded-xl border px-2 py-2.5 text-center font-inter text-sm font-medium transition ${
+                    upDown === o.up
+                      ? "border-[#a15f21] bg-[#a15f21] text-white"
+                      : "border-[#c9a36a] bg-[#fffaf2] text-[#5b4733] hover:bg-[#f0eee5]"
+                  }`}
+                >
+                  {o.label}
+                  <span className="block text-xs font-normal opacity-90">
+                    ${o.amt}
+                  </span>
+                </button>
+              ))}
+            </div>
+            <p className="font-inter mt-2 text-xs text-[#7a6550]">
+              Pick-up and drop included.
+            </p>
+          </>
+        ) : (
+          <p className="font-inter mt-5 text-xs text-[#7a6550]">
+            One trip, pick-up and drop included.
+          </p>
+        )
       ) : (
         <>
           <p className="font-inter mt-5 text-xs text-[#7a6550]">
