@@ -195,6 +195,7 @@ export default async function RentalPage({ params }: Props) {
             price={rental.price}
             slug={rental.slug}
             priceUnit={rental.priceUnit}
+            priceLkr={rental.priceLkr ?? undefined}
           />
         </aside>
       </section>
