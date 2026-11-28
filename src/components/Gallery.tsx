@@ -1,9 +1,10 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import { Bebas_Neue } from "next/font/google";
+import { useScrollProgress } from "./useScrollProgress";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 
@@ -57,66 +58,6 @@ const DEPTH = 120;        // px, how far the centre sits back
 const PERSPECTIVE = 1300;
 const RATIO = 1.3;      // photo height / width
 
-/* ---------- heading letter effect ---------- */
-const LIGHT = [255, 255, 255];
-const SHADE = [91, 96, 93];   // gray shade
-const DIR = -1;               // -1 = shift left, 1 = shift right
-const SHIFT = 8;              // px, how far letters sit away
-const SPREAD = 0.85;          // higher = more strictly letter by letter
-
-function useScrollLetters(ref: React.RefObject<HTMLElement | null>) {
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const letters = Array.from(el.querySelectorAll<HTMLElement>("[data-letter]"));
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const mix = (s: number) =>
-      LIGHT.map((v, i) => Math.round(v + (SHADE[i] - v) * s)).join(",");
-
-    const update = () => {
-      const vh = window.innerHeight;
-      const top = el.getBoundingClientRect().top;
-      // 0 while the heading is low on the screen, 1 once it has come up
-      const p = Math.min(1, Math.max(0, (vh * 0.75 - top) / (vh * 0.4)));
-      const n = letters.length;
-      letters.forEach((l, i) => {
-        const start = (i / n) * SPREAD;
-        const t = Math.min(1, Math.max(0, (p - start) / (1 - SPREAD)));
-        l.style.color = `rgb(${mix(1 - t)})`;
-        if (!reduce) l.style.transform = `translateX(${DIR * (1 - t) * SHIFT}px)`;
-      });
-    };
-
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-    };
-  }, [ref]);
-}
-
-function Letters({ text }: { text: string }) {
-  const words = text.split(" ");
-  return (
-    <>
-      {words.map((w, wi) => (
-        <React.Fragment key={wi}>
-          <span className="inline-block whitespace-nowrap">
-            {[...w].map((c, i) => (
-              <span key={i} data-letter className="inline-block">
-                {c}
-              </span>
-            ))}
-          </span>
-          {wi < words.length - 1 && " "}
-        </React.Fragment>
-      ))}
-    </>
-  );
-}
-
 export default function Gallery() {
   const [itemW, setItemW] = useState(300);
 
@@ -125,9 +66,9 @@ export default function Gallery() {
   const offset = useRef(0);
   const paused = useRef(false);
 
-  /* heading letter effect (must be INSIDE the component) */
-  const headRef = useRef<HTMLHeadingElement | null>(null);
-  useScrollLetters(headRef);
+  /* scroll heading effect */
+  const headRef = useRef<HTMLDivElement | null>(null);
+  useScrollProgress(headRef);
 
   /* repeat the list so the loop never shows a gap */
   const items = [...images, ...images, ...images];
@@ -178,27 +119,30 @@ export default function Gallery() {
     <section id="gallery" className="scroll-mt-24 relative w-full overflow-hidden bg-[#1a1410] py-8">
       
       {/* header */}
-      <div className="mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-[1400px]">
-        <h2
-          ref={headRef}
-          className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-white sm:text-6xl xl:text-7xl`}
-        >
-          <span className="mr-4 inline-block -rotate-[8deg] rounded-full border border-[#f59e0b] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#f59e0b]">
-            Gallery
-          </span>
-          <span className="sm:whitespace-nowrap">
-            <Letters text="See our Safari" />
-          </span>
-          <br />
-          <Letters text="Photography" />
-        </h2>
+      <div
+        ref={headRef}
+        className="sh mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-[1400px]"
+      >
+        <div className="sh-clip">
+          <h2
+            aria-label="Gallery. See our Safari Photography"
+            className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-white sm:text-6xl xl:text-7xl`}
+          >
+            <span aria-hidden="true" className="sh-line sh-l1">
+              <span className="sh-badge">Gallery</span>
+              <span className="sh-fill">See our Safari</span>
+            </span>
+            <span aria-hidden="true" className="sh-line sh-l2">
+              <span className="sh-fill">Photography</span>
+            </span>
+          </h2>
+          <div className="sh-rule" aria-hidden="true" />
+        </div>
 
         <div className="flex items-center gap-3">
-          <span className={`${bebas.className} text-7xl leading-none text-[#f59e0b] xl:text-8xl`}>
-            10K<span className="text-5xl xl:text-6xl">+</span>
-          </span>
+          <span className={`${bebas.className} sh-num text-[110px] leading-[0.9]`}>4</span>
           <span className={`${bebas.className} text-xl uppercase leading-tight tracking-wide text-gray-400`}>
-            Successfully <br /> placed visited
+            National parks <br /> explored
           </span>
         </div>
       </div>
