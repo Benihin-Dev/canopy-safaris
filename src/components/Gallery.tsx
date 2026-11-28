@@ -139,7 +139,7 @@ export default function Gallery() {
           <div className="sh-rule" aria-hidden="true" />
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="hidden items-center gap-3 sm:flex">
           <span className={`${bebas.className} sh-num text-[110px] leading-[0.9]`}>4</span>
           <span className={`${bebas.className} text-xl uppercase leading-tight tracking-wide text-gray-400`}>
             National parks <br /> explored
