@@ -327,8 +327,12 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={goBook}
-                className="col-span-2 inline-flex min-h-13 cursor-pointer items-center justify-center rounded-2xl bg-linear-to-br from-[#ffb84d] to-[#f0702a] px-6.5 text-sm font-semibold text-[#1a1208] transition-all duration-300 hover:bg-none hover:bg-[#2b1d14] hover:text-[#f4ebdd] md:col-span-1"
+                className="group relative isolate col-span-2 inline-flex min-h-13 cursor-pointer items-center justify-center overflow-hidden rounded-2xl bg-linear-to-br from-[#ffb84d] to-[#f0702a] px-6.5 text-sm font-semibold text-[#1a1208] transition-colors duration-500 ease-in-out hover:text-[#f4ebdd] focus-visible:text-[#f4ebdd] md:col-span-1"
               >
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 -z-10 bg-[#2b1d14] opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100 group-focus-visible:opacity-100"
+                />
                 Check &amp; book
               </button>
             </div>
