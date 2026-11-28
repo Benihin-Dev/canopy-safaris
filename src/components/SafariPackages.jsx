@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import { packages } from "@/data/packages";
 import { Bebas_Neue, Poppins, Playfair_Display, Cinzel } from "next/font/google";
+import { useScrollProgress } from "./useScrollProgress";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500"] });
@@ -89,6 +90,12 @@ const css = `
   --sp-half:50px;
   --sp-after-switch:24px; /* SPACE BELOW THE SWITCH (desktop / tablet) */
 }
+/* "Choose your wild adventure": zoom down, scroll-linked */
+.sp-wild{--k:calc(var(--p,0)/100)}
+.sp-wild-row{display:flex;flex-wrap:wrap;justify-content:center;column-gap:.28em;padding:6px 0 10px;transform-origin:center;transform:scale(calc(1 + (1 - var(--k))*1.1));filter:blur(calc((1 - var(--k))*6px))}
+.sp-wild-half{display:inline-block;white-space:nowrap;opacity:calc(var(--k)*1.6)}
+.sp-wild-fill{display:inline-block;color:transparent;-webkit-text-stroke:1.5px #2b1d10;background:linear-gradient(90deg,#2b1d10 calc(var(--p,0)*1%),transparent calc(var(--p,0)*1% + .5%));-webkit-background-clip:text;background-clip:text;letter-spacing:calc(.16em - var(--p,0)*.0013em)}
+.sp-wild-fill.sp-wild-hl{-webkit-text-stroke-color:#a15f21;background-image:linear-gradient(90deg,#a15f21 calc(var(--p,0)*1%),transparent calc(var(--p,0)*1% + .5%))}
 @media (max-width:639px){.sp-root{--sp-after-switch:16px}} /* SPACE BELOW THE SWITCH (mobile) */
 .sp-stage{position:relative;width:100%;padding:var(--sp-after-switch) 0 70px;perspective:1000px;perspective-origin:50% 50%;display:grid;touch-action:pan-y;cursor:grab;user-select:none}
 .sp-stage.sp-dragging{cursor:grabbing}
@@ -204,6 +211,8 @@ const css = `
   .sp-ln>span{transform:none}
   .sp-pill,.sp-3d,.sp-sub{opacity:1}
   .sp-go .sp-ln>span,.sp-go .sp-pill,.sp-go .sp-3d,.sp-go .sp-sub{animation:none}
+  .sp-wild-row{transform:none;filter:none}
+  .sp-wild-half{opacity:1}
 }
 `;
 
@@ -224,6 +233,8 @@ export default function SafariPackages() {
   const rollBusy = useRef(false);
   const rollHover = useRef(false);
   const headRef = useRef(null);
+  const titleRef = useRef(null);
+  useScrollProgress(titleRef);
 
   const rollBox = () => {
     if (rollBusy.current) return;
@@ -391,11 +402,16 @@ export default function SafariPackages() {
 
           {/* big title */}
           <h2
-            className={`${bebas.className} mt-3 text-center text-5xl uppercase leading-[0.95] tracking-wide text-[#2b1d10] sm:text-6xl xl:text-7xl`}
+            ref={titleRef}
+            aria-label="Choose your wild adventure"
+            className={`sp-wild ${bebas.className} mt-3 text-center text-5xl uppercase leading-[0.95] tracking-wide text-[#2b1d10] sm:text-6xl xl:text-7xl`}
           >
-            <span className="sp-ln">
-              <span style={{ animationDelay: ".15s" }}>
-                Choose your wild adventure
+            <span className="sp-wild-row" aria-hidden="true">
+              <span className="sp-wild-half">
+                <span className="sp-wild-fill">Choose your</span>
+              </span>
+              <span className="sp-wild-half">
+                <span className="sp-wild-fill sp-wild-hl">wild adventure</span>
               </span>
             </span>
           </h2>
