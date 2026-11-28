@@ -8,6 +8,7 @@ import { FaStar, FaQuoteLeft, FaExternalLinkAlt } from "react-icons/fa";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { Bebas_Neue } from "next/font/google";
 import { useScrollProgress } from "./useScrollProgress";
+import { useFitHeading } from "./useFitHeading";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 
@@ -40,7 +41,9 @@ function initials(name: string) {
 export default function SliderForTestimonial() {
   const sliderRef = useRef<Slider>(null);
   const headRef = useRef<HTMLDivElement>(null);
+  const h2Ref = useRef<HTMLHeadingElement>(null);
   useScrollProgress(headRef);
+  useFitHeading(headRef, h2Ref);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -69,7 +72,8 @@ export default function SliderForTestimonial() {
         <div ref={headRef} className="sh min-w-0">
           {/* Heading: scroll-linked, always 2 lines */}
           <div className="sh-clip">
-            <h2
+           <h2
+              ref={h2Ref}
               aria-label="Testimonial. Real story from our organic clients"
               className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-white sm:text-6xl xl:text-7xl`}
             >
