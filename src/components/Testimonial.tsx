@@ -69,7 +69,7 @@ export default function SliderForTestimonial() {
     <div id="guestbook" className="scroll-mt-24 w-full bg-[#1a1410] px-6 pt-5 pb-16 md:px-12">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
         {/* ================= LEFT SIDE ================= */}
-        <div ref={headRef} className="sh min-w-0">
+        <div ref={headRef} className="sh sh-tight min-w-0">
           {/* Heading: scroll-linked, always 2 lines */}
           <div className="sh-clip">
            <h2
