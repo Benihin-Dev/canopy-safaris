@@ -29,7 +29,9 @@ import {
   hasType,
   isService,
   services,
+  type Service,
   type ServiceKey,
+  type TypeOption,
 } from "@/data/booking";
 import { buildQuote, hasQty, money, type Quote } from "@/lib/quote";
 
@@ -59,8 +61,10 @@ const primaryBtn =
   "inline-flex items-center justify-center gap-2 rounded-full bg-[#a15f21] px-7 py-3 font-inter text-sm font-semibold text-white transition-colors hover:bg-[#7d4a19] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a15f21] disabled:cursor-not-allowed disabled:opacity-60";
 const ghostBtn =
   "inline-flex items-center justify-center gap-2 rounded-full border border-[#c9a36a] px-6 py-3 font-inter text-sm font-semibold text-[#5b4733] transition-colors hover:bg-[#f0eee5]";
+const frame =
+  "overflow-hidden rounded-3xl border border-[#c9a36a] bg-[#fffaf2] shadow-[0_30px_60px_-30px_rgba(97,61,29,.55)]";
+const inputErr = "border-[#b42318]! bg-[#fff5f3]!";
 
-/* ------------------------------------------------------------------ */
 /* entry: reads ?service=&type= and restarts the form when they change */
 export default function BookingFlow() {
   const sp = useSearchParams();
@@ -145,6 +149,7 @@ function Flow({
   }, [step, status]);
 
   const svc = service ? services[service] : null;
+  const typeOpt = svc?.types.find((t) => t.slug === type);
   const lines = useMemo(
     () => (service && type ? getLines(service, type) : []),
     [service, type],
@@ -156,7 +161,8 @@ function Flow({
         : null,
     [service, type, guests, period, extras],
   );
-
+  const lkr = quote ? Math.round((quote.total * rate) / 100) * 100 : 0;
+   
   /* ---------------------------- handlers ---------------------------- */
   const pickService = (k: ServiceKey) => {
     setService(k);
@@ -216,7 +222,23 @@ function Flow({
     if (form.whatsapp.replace(/\D/g, "").length < 8)
       e.whatsapp = "Enter your WhatsApp number with the country code";
     setErrors(e);
-    if (Object.keys(e).length === 0) setStep(3);
+    if (Object.keys(e).length === 0) {
+      setStep(3);
+      return;
+    }
+    /* go to the first field that is empty or wrong */
+    const order = [
+      ["date", "b-date"],
+      ["name", "b-name"],
+      ["email", "b-email"],
+      ["whatsapp", "b-wa"],
+    ] as const;
+    const first = order.find(([k]) => e[k]);
+    if (first) {
+      const el = document.getElementById(first[1]);
+      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+      el?.focus({ preventScroll: true });
+    }
   };
 
   const send = async () => {
@@ -338,26 +360,54 @@ function Flow({
               <h3 className="font-bebas text-2xl uppercase tracking-wide text-[#2b1d10]">
                 {svc.typeTitle}
               </h3>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {svc.types.map((t) => (
-                  <button
-                    key={t.slug}
-                    type="button"
-                    onClick={() => {
-                      setType(t.slug);
-                      setExtras({});
-                      setPickError("");
-                    }}
-                    aria-pressed={type === t.slug}
-                    className={`cursor-pointer rounded-full border px-5 py-2 font-inter text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a15f21] ${
-                      type === t.slug
-                        ? "border-[#a15f21] bg-[#a15f21] text-white"
-                        : "border-[#c9a36a] text-[#5b4733] hover:bg-[#a15f21]/10"
-                    }`}
-                  >
-                    {t.label}
-                  </button>
-                ))}
+              <div className="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
+                {svc.types.map((t) => {
+                  const on = type === t.slug;
+                  return (
+                    <button
+                      key={t.slug}
+                      type="button"
+                      onClick={() => {
+                        setType(t.slug);
+                        setExtras({});
+                        setPickError("");
+                      }}
+                      aria-pressed={on}
+                      className={`group relative cursor-pointer overflow-hidden rounded-2xl border bg-white text-left transition hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a15f21] ${
+                        on
+                          ? "border-2 border-[#a15f21]"
+                          : "border-[#d9c7a8] hover:border-[#a15f21]"
+                      }`}
+                    >
+                      <div className="relative h-28 bg-[#e6d9bf]">
+                        {t.img && (
+                          <Image
+                            src={t.img}
+                            alt=""
+                            fill
+                            sizes="(max-width:1024px) 50vw, 240px"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        )}
+                        {on && (
+                          <span className="absolute right-2 top-2 grid size-6 place-items-center rounded-full bg-[#a15f21] text-white">
+                            <FaCheck className="size-3" aria-hidden="true" />
+                          </span>
+                        )}
+                      </div>
+                      <div className="p-3">
+                        <span className="block font-inter text-sm font-semibold text-[#2b1d10]">
+                          {t.label}
+                        </span>
+                        {t.tagline && (
+                          <span className="block font-inter text-xs text-[#7a6550]">
+                            {t.tagline}
+                          </span>
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -379,27 +429,19 @@ function Flow({
       {/* ------------------------ STEP 2: details ------------------------- */}
       {step === 2 && svc && quote && (
         <div className="grid items-start gap-8 lg:grid-cols-[1fr_380px]">
-          <div className={card}>
-            {/* what they chose */}
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded-full bg-[#2b1d10] px-3 py-1.5 font-inter text-[11px] font-semibold uppercase tracking-widest text-white">
-                  {svc.label}
-                </span>
-                <span className="rounded-full border border-[#c9a36a] px-3 py-1.5 font-inter text-xs font-semibold text-[#5b4733]">
-                  {quote.typeLabel}
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                className="cursor-pointer font-inter text-sm font-semibold text-[#a15f21] underline underline-offset-4 hover:text-[#7d4a19]"
-              >
-                Change
-              </button>
-            </div>
+          <div className={frame}>
+            <SelectionBanner
+              svc={svc}
+              typeOpt={typeOpt}
+              title={quote.typeLabel}
+              onChange={() => setStep(1)}
+            />
+            <div className="p-6">
+            <h2 className="font-bebas text-2xl uppercase tracking-wide text-[#2b1d10]">
+              Your details
+            </h2>
 
-            <div className="mt-6 grid gap-5 sm:grid-cols-2">
+            <div className="mt-4 grid gap-5 sm:grid-cols-2">
               <Field label={svc.dateLabel} error={errors.date} htmlFor="b-date">
                 <input
                   id="b-date"
@@ -584,6 +626,7 @@ function Flow({
                 Review booking
               </button>
             </div>
+            </div>
           </div>
 
           <aside className="lg:sticky lg:top-28">
@@ -592,27 +635,73 @@ function Flow({
         </div>
       )}
 
-      {/* ------------------------- STEP 3: review ------------------------- */}
+   {/* ------------------------- STEP 3: review ------------------------- */}
       {step === 3 && svc && quote && (
-        <div className="grid items-start gap-8 lg:grid-cols-[1fr_380px]">
-          <div className={card}>
-            <h2 className="font-bebas text-3xl uppercase tracking-wide text-[#2b1d10]">
-              Check your details
-            </h2>
+        <div className={frame}>
+          <SelectionBanner
+            svc={svc}
+            typeOpt={typeOpt}
+            title={quote.typeLabel}
+            onChange={() => setStep(1)}
+          />
 
-            <dl className="mt-4 divide-y divide-[#d9c7a8]/70 border-y border-[#d9c7a8]/70 font-inter text-sm">
-              <Row k="Booking" v={`${svc.label} - ${quote.typeLabel}`} />
-              <Row k={svc.dateLabel} v={form.date} />
-              {svc.hasGuests && <Row k="Guests" v={String(guests)} />}
-              {svc.periodLabel && <Row k={svc.periodLabel} v={String(period)} />}
-              <Row k="Name" v={form.name.trim()} />
-              <Row k="Email" v={form.email.trim()} />
-              <Row k="WhatsApp" v={form.whatsapp.trim()} />
-              {form.hotel.trim() && <Row k="Pickup" v={form.hotel.trim()} />}
-              {form.note.trim() && <Row k="Notes" v={form.note.trim()} />}
-            </dl>
+          <div className="grid lg:grid-cols-2">
+            <div className="p-6 lg:border-r lg:border-[#d9c7a8]/70">
+              <h2 className="font-bebas text-2xl uppercase tracking-wide text-[#2b1d10]">
+                Your details
+              </h2>
+              <dl className="mt-3 divide-y divide-[#d9c7a8]/70 border-y border-[#d9c7a8]/70 font-inter text-sm">
+                <Row k={svc.dateLabel} v={form.date} />
+                {svc.hasGuests && <Row k="Guests" v={String(guests)} />}
+                {svc.periodLabel && <Row k={svc.periodLabel} v={String(period)} />}
+                <Row k="Name" v={form.name.trim()} />
+                <Row k="Email" v={form.email.trim()} />
+                <Row k="WhatsApp" v={form.whatsapp.trim()} />
+                {form.hotel.trim() && <Row k="Pickup" v={form.hotel.trim()} />}
+                {form.note.trim() && <Row k="Notes" v={form.note.trim()} />}
+              </dl>
+            </div>
 
-            <h3 className="mt-8 font-bebas text-2xl uppercase tracking-wide text-[#2b1d10]">
+            <div className="border-t border-[#d9c7a8]/70 p-6 lg:border-t-0">
+              <h2 className="font-bebas text-2xl uppercase tracking-wide text-[#2b1d10]">
+                What you chose
+              </h2>
+              <ul className="mt-3 divide-y divide-[#d9c7a8]/70 border-y border-[#d9c7a8]/70">
+                {quote.lines.map((l) => (
+                  <li
+                    key={l.key}
+                    className={`flex justify-between gap-4 py-2.5 font-inter text-sm ${
+                      l.included ? "text-[#2b1d10]" : "text-[#9a8a77]"
+                    }`}
+                  >
+                    <span>
+                      {l.label}
+                      <span className="block text-xs text-[#7a6550]">{l.detail}</span>
+                    </span>
+                    <span className="font-semibold">
+                      {l.included ? (l.amount === 0 ? "Free" : money(l.amount)) : "-"}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-4 flex items-baseline justify-between">
+                <span className="font-inter text-sm font-semibold text-[#2b1d10]">Total</span>
+                <span className="font-bebas text-4xl tracking-wide text-[#2b1d10]">
+                  {money(quote.total)}
+                </span>
+              </div>
+              <p className="text-right font-inter text-xs text-[#7a6550]">
+                about Rs {lkr.toLocaleString("en-US")}
+              </p>
+              <p className="mt-4 font-inter text-[11px] leading-4 text-[#9a8a77]">
+                Every cost is listed above. There are no other charges. Rupee price is
+                approximate.
+              </p>
+            </div>
+          </div>
+
+          <div className="border-t border-[#d9c7a8]/70 p-6">
+            <h3 className="font-bebas text-2xl uppercase tracking-wide text-[#2b1d10]">
               What happens next
             </h3>
             <ol className="mt-2 list-decimal space-y-1 pl-5 font-inter text-sm text-[#5b4733]">
@@ -648,10 +737,6 @@ function Flow({
               </button>
             </div>
           </div>
-
-          <aside className="lg:sticky lg:top-28">
-            <PriceSummary quote={quote} rate={rate} />
-          </aside>
         </div>
       )}
     </div>
@@ -660,7 +745,61 @@ function Flow({
 
 /* ------------------------------------------------------------------ */
 /* small pieces */
+function SelectionBanner({
+  svc,
+  typeOpt,
+  title,
+  onChange,
+}: {
+  svc: Service;
+  typeOpt?: TypeOption;
+  title: string;
+  onChange: () => void;
+}) {
+  const facts = [
+    { k: "Section", v: svc.label },
+    { k: "Park", v: typeOpt?.park },
+    { k: "Type", v: typeOpt?.kind },
+  ].filter((f) => f.v);
 
+  return (
+    <div className="relative isolate overflow-hidden bg-[#7a5a36] px-6 pb-5 pt-6 text-[#fffaf2]">
+      {typeOpt?.img && (
+        <Image
+          src={typeOpt.img}
+          alt=""
+          fill
+          sizes="(max-width:1024px) 100vw, 800px"
+          className="-z-20 object-cover"
+        />
+      )}
+      <div className="absolute inset-0 -z-10 bg-[#2b1d10]/65" />
+
+      <div className="flex items-center justify-between gap-3">
+        <span className="font-caveat text-2xl text-[#f3d29c]">Your selection</span>
+        <button
+          type="button"
+          onClick={onChange}
+          className="cursor-pointer rounded-full border border-[#f3d29c] px-4 py-1.5 font-inter text-sm font-semibold text-white transition hover:bg-white/15"
+        >
+          Change
+        </button>
+      </div>
+      <h2 className="mt-1 font-bebas text-4xl uppercase leading-none tracking-wide sm:text-5xl">
+        {title}
+      </h2>
+      <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-2 border-t-2 border-dashed border-[#f3d29c]/60 pt-3 font-inter text-xs text-[#f4e6cf]">
+        {facts.map((f) => (
+          <div key={f.k}>
+            <dt>{f.k}</dt>
+            <dd className="text-base font-medium text-white">{f.v}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}
+       
 function Field({
   label,
   htmlFor,
