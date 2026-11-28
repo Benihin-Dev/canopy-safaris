@@ -80,7 +80,12 @@ const css = `
 @keyframes ab-lr{0%,100%{transform:translateX(0)}50%{transform:translateX(-14px)}}
 .ab-fl-a{animation:ab-ud 4s ease-in-out infinite}
 .ab-fl-b{animation:ab-lr 5s ease-in-out infinite}
-@media (prefers-reduced-motion:reduce){.ab-fl-a,.ab-fl-b{animation:none}.ab-card{transition:none}}
+.ab-arrow{transition:background-color .45s cubic-bezier(.22,1,.36,1),border-color .45s cubic-bezier(.22,1,.36,1),color .45s cubic-bezier(.22,1,.36,1)}
+.ab-arrow svg{transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.ab-card:hover .ab-arrow,.ab-card:focus-visible .ab-arrow{border-color:#e77b2a;background:#e77b2a;color:#2b1d10}
+.ab-card:hover .ab-arrow svg,.ab-card:focus-visible .ab-arrow svg{transform:translate(2px,-2px)}
+.ab-scooter:hover .ab-arrow,.ab-scooter:focus-visible .ab-arrow{border-color:#2b1d10;background:#2b1d10;color:#fff}
+@media (prefers-reduced-motion:reduce){.ab-fl-a,.ab-fl-b{animation:none}.ab-card,.ab-arrow,.ab-arrow svg{transition:none}}
 `;
 
 function JeepIcon() {
@@ -123,15 +128,9 @@ function ScooterIcon() {
   );
 }
 
-function ArrowButton({ tone = "orange" }: { tone?: "orange" | "dark" }) {
+function ArrowButton() {
   return (
-    <span
-      className={`absolute bottom-5 right-5 flex size-[38px] items-center justify-center rounded-full border border-white/45 transition-[background-color,border-color,color] duration-[450ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none ${
-        tone === "dark"
-          ? "group-hover:border-[#2b1d10] group-hover:bg-[#2b1d10] group-hover:text-white group-focus-visible:border-[#2b1d10] group-focus-visible:bg-[#2b1d10] group-focus-visible:text-white"
-          : "group-hover:border-[#e77b2a] group-hover:bg-[#e77b2a] group-hover:text-[#2b1d10] group-focus-visible:border-[#e77b2a] group-focus-visible:bg-[#e77b2a] group-focus-visible:text-[#2b1d10]"
-      }`}
-    >
+    <span className="ab-arrow absolute bottom-5 right-5 flex size-[38px] items-center justify-center rounded-full border border-white/45">
       <svg
         width="16"
         height="16"
@@ -142,7 +141,6 @@ function ArrowButton({ tone = "orange" }: { tone?: "orange" | "dark" }) {
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden="true"
-        className="transition-transform duration-[450ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transition-none"
       >
         <path d="M7 17L17 7M17 7H8M17 7V16" />
       </svg>
@@ -341,7 +339,7 @@ export default function About() {
                   Jeep tours, day &amp; night
                 </div>
               </div>
-              <ArrowButton tone="dark" />
+              <ArrowButton />
             </Link>
 
             {/* Scooter Rental */}
@@ -369,7 +367,7 @@ export default function About() {
                   Arugam Bay region
                 </div>
               </div>
-              <ArrowButton tone="dark" />
+              <ArrowButton />
             </Link>
 
             {/* Also safaris in */}
