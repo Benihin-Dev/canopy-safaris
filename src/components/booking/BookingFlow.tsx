@@ -889,7 +889,7 @@ function PriceSummary({ quote, rate }: { quote: Quote; rate: number }) {
   const lkr = Math.round((quote.total * rate) / 100) * 100;
   const svc = services[quote.service];
   return (
-    <div className={card}>
+    <div className={whiteCard}>
       <h2 className="font-bebas text-3xl uppercase tracking-wide text-[#2b1d10]">
         Your price
       </h2>
