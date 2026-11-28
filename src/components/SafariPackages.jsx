@@ -90,12 +90,14 @@ const css = `
   --sp-half:50px;
   --sp-after-switch:24px; /* SPACE BELOW THE SWITCH (desktop / tablet) */
 }
-/* "Choose your wild adventure": zoom down, scroll-linked */
+/* "Choose your wild adventure": pile in the middle, then spread (scroll-linked) */
 .sp-wild{--k:calc(var(--p,0)/100)}
-.sp-wild-row{display:flex;flex-wrap:wrap;justify-content:center;column-gap:.28em;padding:6px 0 10px;transform-origin:center;transform:scale(calc(1 + (1 - var(--k))*1.1));filter:blur(calc((1 - var(--k))*6px))}
+.sp-wild-row{display:flex;flex-wrap:wrap;justify-content:center;column-gap:.28em;padding:6px 0 10px}
 .sp-wild-half{display:inline-block;white-space:nowrap;opacity:calc(var(--k)*1.6)}
+.sp-wild-half:first-child{transform:translateX(calc((1 - var(--k))*55%)) scale(calc(1 + (1 - var(--k))*.9))}
+.sp-wild-half:last-child{transform:translateX(calc((1 - var(--k))*-55%)) scale(calc(1 + (1 - var(--k))*.9))}
 .sp-wild-fill{display:inline-block;color:transparent;-webkit-text-stroke:1.5px #2b1d10;background:linear-gradient(90deg,#2b1d10 calc(var(--p,0)*1%),transparent calc(var(--p,0)*1% + .5%));-webkit-background-clip:text;background-clip:text;letter-spacing:calc(.16em - var(--p,0)*.0013em)}
-.sp-wild-fill.sp-wild-hl{-webkit-text-stroke-color:#a15f21;background-image:linear-gradient(90deg,#a15f21 calc(var(--p,0)*1%),transparent calc(var(--p,0)*1% + .5%))}
+.sp-wild-fill.sp-wild-hl{-webkit-text-stroke-color:#a15f21;background-image:linear-gradient(270deg,#a15f21 calc(var(--p,0)*1%),transparent calc(var(--p,0)*1% + .5%))}
 @media (max-width:639px){.sp-root{--sp-after-switch:16px}} /* SPACE BELOW THE SWITCH (mobile) */
 .sp-stage{position:relative;width:100%;padding:var(--sp-after-switch) 0 70px;perspective:1000px;perspective-origin:50% 50%;display:grid;touch-action:pan-y;cursor:grab;user-select:none}
 .sp-stage.sp-dragging{cursor:grabbing}
@@ -211,8 +213,7 @@ const css = `
   .sp-ln>span{transform:none}
   .sp-pill,.sp-3d,.sp-sub{opacity:1}
   .sp-go .sp-ln>span,.sp-go .sp-pill,.sp-go .sp-3d,.sp-go .sp-sub{animation:none}
-  .sp-wild-row{transform:none;filter:none}
-  .sp-wild-half{opacity:1}
+  .sp-wild-half:first-child,.sp-wild-half:last-child{opacity:1;transform:none}
 }
 `;
 
