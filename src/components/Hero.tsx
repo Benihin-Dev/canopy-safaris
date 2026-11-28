@@ -233,7 +233,7 @@ export default function Hero() {
                   role="tab"
                   aria-selected={tab === key}
                   onClick={() => changeTab(key)}
-                  className={`cursor-pointer rounded-full px-5 py-2.5 text-[13px] font-semibold transition-all ${
+                  className={`cursor-pointer rounded-full px-5 py-2.5 text-[13px] font-semibold transition-all duration-300 hover:scale-110 ${
                     tab === key
                       ? "bg-linear-to-br from-[#ffb84d] to-[#f0702a] text-[#1a1208] shadow-[0_4px_14px_-4px_rgba(240,112,42,.8)]"
                       : "text-white hover:text-[#f1c46b]"
