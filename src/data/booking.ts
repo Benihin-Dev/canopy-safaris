@@ -6,6 +6,7 @@
 
 import { packages } from "@/data/packages";
 import { rentals } from "@/data/rentals";
+import { camping } from "@/data/camping";
 
 export type ServiceKey = "safari" | "rental" | "camping";
 
@@ -25,7 +26,26 @@ export type Line = {
   required?: boolean; // always included, guest cannot untick it
 };
 
-export type TypeOption = { slug: string; label: string };
+export type TypeOption = {
+  slug: string;
+  label: string;
+  img?: string; // photo on the choose card and in the banner
+  tagline?: string; // small line on the choose card
+  park?: string; // shown in the banner (leave out to hide)
+  kind?: string; // shown in the banner as "Type"
+};
+
+/* edit these two lists to change what the banner shows */
+const PARKS: Record<string, string> = {
+  "kumana-safari": "Kumana",
+  "wilpattu-safari": "Wilpattu",
+  "yala-safari": "Yala",
+  "udawalawe-safari": "Udawalawe",
+};
+const KINDS: Record<string, string> = {
+  "night-safari": "Night drive",
+  "adventure-safari": "Adventure tour",
+};
 
 export type Service = {
   key: ServiceKey;
@@ -52,7 +72,14 @@ export const services: Record<ServiceKey, Service> = {
     dateLabel: "Safari date",
     hasGuests: true,
     periodLabel: null,
-    types: packages.map((p) => ({ slug: p.slug, label: p.title })),
+    types: packages.map((p) => ({
+      slug: p.slug,
+      label: p.title,
+      img: p.img,
+      tagline: p.tagline,
+      park: PARKS[p.slug],
+      kind: KINDS[p.slug] ?? "Jeep safari",
+    })),
     lines: [
       {
         key: "park",
@@ -127,7 +154,13 @@ export const services: Record<ServiceKey, Service> = {
     periodLabel: "Days",
     types: rentals
       .filter((r) => r.priceLkr !== null)
-      .map((r) => ({ slug: r.slug, label: r.title })),
+      .map((r) => ({
+        slug: r.slug,
+        label: r.title,
+        img: r.img,
+        tagline: r.sub,
+        kind: r.badge,
+      })),
     lines: [
       {
         key: "vehicle",
@@ -170,7 +203,16 @@ export const services: Record<ServiceKey, Service> = {
     dateLabel: "Check-in date",
     hasGuests: true,
     periodLabel: "Nights",
-    types: [{ slug: "tent-stay", label: "Tent stay" }],
+    types: [
+      {
+        slug: "tent-stay",
+        label: "Tent stay",
+        img: camping.img,
+        tagline: camping.tagline,
+        park: "Kumana",
+        kind: "Tent stay",
+      },
+    ],
     lines: [
       {
         key: "tent",
