@@ -7,6 +7,7 @@ import Image from "next/image";
 import { FaStar, FaQuoteLeft, FaExternalLinkAlt } from "react-icons/fa";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { Bebas_Neue } from "next/font/google";
+import { useScrollProgress } from "./useScrollProgress";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 
@@ -38,6 +39,8 @@ function initials(name: string) {
 
 export default function SliderForTestimonial() {
   const sliderRef = useRef<Slider>(null);
+  const headRef = useRef<HTMLDivElement>(null);
+  useScrollProgress(headRef);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -63,16 +66,24 @@ export default function SliderForTestimonial() {
     <div id="guestbook" className="scroll-mt-24 w-full bg-[#1a1410] px-6 pt-5 pb-16 md:px-12">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
         {/* ================= LEFT SIDE ================= */}
-        <div>
-          {/* Heading: badge on line 1, line 2 starts at the left edge */}
-          <h2 className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-white sm:text-6xl xl:text-7xl`}>
-            <span className="mr-4 inline-block -rotate-[8deg] rounded-full border border-[#f59e0b] px-6 py-2.5 align-middle text-lg italic leading-none tracking-wider text-[#f59e0b]">
-              Testimonial
-            </span>
-            <span className="sm:whitespace-nowrap">Real story from</span>
-            <br />
-            our organic clients
-          </h2>
+        <div ref={headRef} className="sh min-w-0">
+          {/* Heading: scroll-linked, always 2 lines */}
+          <div className="sh-clip">
+            <h2
+              aria-label="Testimonial. Real story from our organic clients"
+              className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-white sm:text-6xl xl:text-7xl`}
+            >
+              <span aria-hidden="true" className="sh-line sh-l1">
+                <span className="sh-badge">Testimonial</span>
+                <span className="sh-fill">Real story from</span>
+              </span>
+              <span aria-hidden="true" className="sh-line sh-l2">
+                <span className="sh-fill">our</span>{" "}
+                <span className="sh-fill sh-hl">organic</span>{" "}
+                <span className="sh-fill">clients</span>
+              </span>
+            </h2>
+          </div>
 
           <div className="mt-10 border-y border-white/10 py-8">
             <div className="grid gap-x-10 gap-y-6 sm:grid-cols-2">
