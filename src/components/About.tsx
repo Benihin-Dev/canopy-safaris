@@ -341,7 +341,7 @@ export default function About() {
                   Jeep tours, day &amp; night
                 </div>
               </div>
-              <ArrowButton />
+              <ArrowButton tone="dark" />
             </Link>
 
             {/* Scooter Rental */}
@@ -369,7 +369,7 @@ export default function About() {
                   Arugam Bay region
                 </div>
               </div>
-              <ArrowButton />
+              <ArrowButton tone="dark" />
             </Link>
 
             {/* Also safaris in */}
@@ -413,9 +413,9 @@ export default function About() {
                         National Park
                       </span>
                     </span>
-                  <span className="absolute bottom-2.5 right-2.5 flex size-[34px] items-center justify-center rounded-full border border-white/45 text-white transition group-hover:border-[#e77b2a] group-hover:bg-[#e77b2a] group-hover:text-[#2b1d10] md:size-[22px]">
+                  <span className="absolute bottom-2.5 right-2.5 flex size-[34px] items-center justify-center rounded-full border border-white/45 text-white transition-[background-color,border-color,color] duration-[450ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none group-hover:border-[#e77b2a] group-hover:bg-[#e77b2a] group-hover:text-[#2b1d10] group-focus-visible:border-[#e77b2a] group-focus-visible:bg-[#e77b2a] group-focus-visible:text-[#2b1d10] md:size-[22px]">
                     <svg
-                      className="size-[17px] md:size-[11px]"
+                      className="size-[17px] transition-transform duration-[450ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-px group-hover:translate-x-px motion-reduce:transition-none md:size-[11px]"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
