@@ -418,3 +418,15 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .sh { --p: 100; }
 }
+
+/* Testimonial heading, phones only: smaller badge, bigger gap between the 2 lines */
+@media (max-width: 639px) {
+  .sh-tight .sh-badge {
+    font-size: 0.875rem;      /* badge text size (was 1.125rem = 18px) */
+    padding: 0.4rem 1rem;     /* space inside the badge */
+    margin-right: 0.625rem;   /* space between the badge and "Real story from" */
+  }
+  .sh-tight .sh-l2 {
+    margin-top: 10px;         /* gap between line 1 and line 2 */
+  }
+}
