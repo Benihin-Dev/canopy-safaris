@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import { Bebas_Neue } from "next/font/google";
 import { useScrollProgress } from "./useScrollProgress";
+import { useFitHeading } from "./useFitHeading";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 
@@ -68,7 +69,9 @@ export default function Gallery() {
 
   /* scroll heading effect */
   const headRef = useRef<HTMLDivElement | null>(null);
+  const h2Ref = useRef<HTMLHeadingElement | null>(null);
   useScrollProgress(headRef);
+  useFitHeading(headRef, h2Ref);
 
   /* repeat the list so the loop never shows a gap */
   const items = [...images, ...images, ...images];
@@ -121,10 +124,11 @@ export default function Gallery() {
       {/* header */}
       <div
         ref={headRef}
-        className="sh mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-[1400px]"
+        className="sh sh-tight mx-auto mb-12 flex w-full flex-col gap-6 px-5 sm:w-11/12 sm:px-0 md:flex-row md:items-start md:justify-between lg:max-w-[1400px]"
       >
         <div className="sh-clip">
           <h2
+            ref={h2Ref}
             aria-label="Gallery. See our Safari Photography"
             className={`${bebas.className} text-5xl uppercase leading-[0.95] tracking-wide text-white sm:text-6xl xl:text-7xl`}
           >
