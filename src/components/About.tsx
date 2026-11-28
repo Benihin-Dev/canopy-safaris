@@ -123,9 +123,15 @@ function ScooterIcon() {
   );
 }
 
-function ArrowButton() {
+function ArrowButton({ tone = "orange" }: { tone?: "orange" | "dark" }) {
   return (
-    <span className="absolute bottom-5 right-5 flex size-[38px] items-center justify-center rounded-full border border-white/45">
+    <span
+      className={`absolute bottom-5 right-5 flex size-[38px] items-center justify-center rounded-full border border-white/45 transition-[background-color,border-color,color] duration-[450ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none ${
+        tone === "dark"
+          ? "group-hover:border-[#2b1d10] group-hover:bg-[#2b1d10] group-hover:text-white group-focus-visible:border-[#2b1d10] group-focus-visible:bg-[#2b1d10] group-focus-visible:text-white"
+          : "group-hover:border-[#e77b2a] group-hover:bg-[#e77b2a] group-hover:text-[#2b1d10] group-focus-visible:border-[#e77b2a] group-focus-visible:bg-[#e77b2a] group-focus-visible:text-[#2b1d10]"
+      }`}
+    >
       <svg
         width="16"
         height="16"
@@ -136,6 +142,7 @@ function ArrowButton() {
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden="true"
+        className="transition-transform duration-[450ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transition-none"
       >
         <path d="M7 17L17 7M17 7H8M17 7V16" />
       </svg>
@@ -309,7 +316,7 @@ export default function About() {
             {/* Kumana Safari */}
             <Link
               href="/packages/kumana-safari"
-              className="ab-card relative flex min-h-[176px] flex-col justify-between overflow-hidden rounded-[26px] p-[22px] text-white"
+              className="group ab-card relative flex min-h-[176px] flex-col justify-between overflow-hidden rounded-[26px] p-[22px] text-white"
               style={{
                 background: "linear-gradient(150deg, #4a3320, #2b1d10)",
                 boxShadow: "0 26px 40px -26px rgba(43,29,16,.8)",
@@ -340,7 +347,7 @@ export default function About() {
             {/* Scooter Rental */}
             <Link
               href="/rentals"
-              className="ab-card relative flex min-h-[176px] flex-col justify-between overflow-hidden rounded-[26px] p-[22px] text-white"
+              className="group ab-card relative flex min-h-[176px] flex-col justify-between overflow-hidden rounded-[26px] p-[22px] text-white"
               style={{
                 background: "linear-gradient(150deg, #c27a33, #a15f21)",
                 boxShadow: "0 26px 40px -26px rgba(161,95,33,.9)",
