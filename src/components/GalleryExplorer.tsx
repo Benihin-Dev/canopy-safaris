@@ -9,6 +9,7 @@ import {
   IoClose,
   IoExpandOutline,
 } from "react-icons/io5";
+
 import {
   categoryLabels,
   categoryOrder,
@@ -16,6 +17,7 @@ import {
   parks,
   type Category,
   type GalleryItem,
+  type ParkSlug,
 } from "@/data/gallery";
 
 /* how many photos each section shows before "View all" */
@@ -32,7 +34,9 @@ export default function GalleryExplorer() {
     [],
   );
 
-  const [parkSlug, setParkSlug] = useState(liveParks[0]?.slug ?? "");
+  const [parkSlug, setParkSlug] = useState<ParkSlug | undefined>(
+    liveParks[0]?.slug,
+  );
   const [filter, setFilter] = useState<Filter>("All");
   const [open, setOpen] = useState<number | null>(null);
 
@@ -74,7 +78,7 @@ export default function GalleryExplorer() {
     [shownGroups, activeFilter],
   );
 
-  const pickPark = (slug: string) => {
+  const pickPark = (slug: ParkSlug) => {
     setParkSlug(slug);
     setFilter("All");
     setOpen(null);
@@ -87,7 +91,9 @@ export default function GalleryExplorer() {
   );
   const prev = useCallback(
     () =>
-      setOpen((i) => (i === null ? i : (i - 1 + visible.length) % visible.length)),
+      setOpen((i) =>
+        i === null ? i : (i - 1 + visible.length) % visible.length,
+      ),
     [visible.length],
   );
 
@@ -118,7 +124,11 @@ export default function GalleryExplorer() {
 
   const current = open !== null ? visible[open] : null;
 
-  const tile = (item: GalleryItem, className = "", style?: React.CSSProperties) => (
+  const tile = (
+    item: GalleryItem,
+    className = "",
+    style?: React.CSSProperties,
+  ) => (
     <button
       key={item.src}
       type="button"
@@ -187,7 +197,9 @@ export default function GalleryExplorer() {
                   }}
                   className="cursor-pointer outline-none"
                 >
-                  {on && <circle cx={x} cy={y} r="30" fill="#f59e0b" opacity=".35" />}
+                  {on && (
+                    <circle cx={x} cy={y} r="30" fill="#f59e0b" opacity=".35" />
+                  )}
                   {/* bigger invisible circle = easier to tap on a phone */}
                   <circle cx={x} cy={y} r="30" fill="transparent" />
                   <circle
@@ -217,7 +229,7 @@ export default function GalleryExplorer() {
               );
             })}
           </svg>
-            <p className="mt-2 text-center font-inter text-[10px] text-[#5b4733]/70">
+          <p className="mt-2 text-center font-inter text-[10px] text-[#5b4733]/70">
             Map: simplemaps.com
           </p>
         </div>
@@ -268,24 +280,26 @@ export default function GalleryExplorer() {
 
           {/* category chips: only categories that have photos */}
           <div className="mt-6 flex flex-wrap gap-2">
-            {(["All", ...groups.map((g) => g.category)] as Filter[]).map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => setFilter(c)}
-                aria-pressed={activeFilter === c}
-                className={`${chip} ${
-                  activeFilter === c
-                    ? "border-[#a15f21] bg-[#a15f21] text-white"
-                    : "border-[#c9a36a] text-[#5b4733] hover:bg-[#a15f21]/10"
-                }`}
-              >
-                {c === "All" ? "All" : categoryLabels[c]}{" "}
-                {c === "All"
-                  ? parkItems.length
-                  : groups.find((g) => g.category === c)?.items.length}
-              </button>
-            ))}
+            {(["All", ...groups.map((g) => g.category)] as Filter[]).map(
+              (c) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => setFilter(c)}
+                  aria-pressed={activeFilter === c}
+                  className={`${chip} ${
+                    activeFilter === c
+                      ? "border-[#a15f21] bg-[#a15f21] text-white"
+                      : "border-[#c9a36a] text-[#5b4733] hover:bg-[#a15f21]/10"
+                  }`}
+                >
+                  {c === "All" ? "All" : categoryLabels[c]}{" "}
+                  {c === "All"
+                    ? parkItems.length
+                    : groups.find((g) => g.category === c)?.items.length}
+                </button>
+              ),
+            )}
           </div>
 
           {/* sections */}
