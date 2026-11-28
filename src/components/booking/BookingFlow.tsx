@@ -63,6 +63,8 @@ const ghostBtn =
   "inline-flex items-center justify-center gap-2 rounded-full border border-[#c9a36a] px-6 py-3 font-inter text-sm font-semibold text-[#5b4733] transition-colors hover:bg-[#f0eee5]";
 const frame =
   "overflow-hidden rounded-3xl border border-[#c9a36a] bg-white shadow-[0_30px_60px_-30px_rgba(97,61,29,.55)]";
+const whiteCard =
+  "rounded-3xl border border-[#c9a36a] bg-white p-6 shadow-[0_30px_60px_-30px_rgba(97,61,29,.55)]";
 const inputErr = "border-[#b42318]! bg-[#fff5f3]!";
 
 /* entry: reads ?service=&type= and restarts the form when they change */
